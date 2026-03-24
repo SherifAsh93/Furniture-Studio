@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Furniture Studio | VENDOR HUB</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;500;700;800&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary-fixed-variant": "#474746",
+                        "background": "#fcf9f4",
+                        "on-background": "#1c1c19",
+                        "primary-fixed": "#e5e2e1",
+                        "primary-container": "#1c1b1b",
+                        "tertiary-fixed-dim": "#e9c176",
+                        "on-secondary-fixed-variant": "#574500",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#ebe8e3",
+                        "surface-container-highest": "#e5e2dd",
+                        "tertiary": "#000000",
+                        "on-secondary-container": "#745c00",
+                        "primary": "#000000",
+                        "on-surface-variant": "#444748",
+                        "error": "#ba1a1a",
+                        "secondary": "#735c00",
+                        "tertiary-fixed": "#ffdea5",
+                        "surface-bright": "#fcf9f4",
+                        "on-tertiary-fixed-variant": "#5d4201",
+                        "tertiary-container": "#261900",
+                        "on-tertiary-fixed": "#261900",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "inverse-on-surface": "#f3f0eb",
+                        "surface-container": "#f0ede8",
+                        "surface": "#fcf9f4",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#dcdad5",
+                        "surface-container-low": "#f6f3ee",
+                        "error-container": "#ffdad6",
+                        "outline": "#747878",
+                        "surface-variant": "#e5e2dd",
+                        "on-tertiary-container": "#a17f3b",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#241a00",
+                        "outline-variant": "#c4c7c7",
+                        "on-primary-fixed": "#1c1b1b",
+                        "secondary-container": "#fed65b",
+                        "secondary-fixed": "#ffe088",
+                        "on-surface": "#1c1c19",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#858383",
+                        "inverse-surface": "#31302d",
+                        "surface-tint": "#5f5e5e",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#e9c349",
+                        "inverse-primary": "#c8c6c5"
+                    },
+                    fontFamily: {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #fcf9f4;
+            color: #1c1c19;
+        }
+        .serif-headline {
+            font-family: 'Noto Serif', serif;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        #auth-modal {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .modal-overlay {
+            background-color: rgba(28, 28, 25, 0.4);
+            backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex">
+<!-- Sidebar / NavigationDrawer (Desktop) -->
+<aside class="hidden md:flex flex-col h-screen w-64 bg-[#f6f3ee] py-8 px-4 fixed left-0 top-0 z-40 border-r border-outline-variant/10">
+<div class="px-4 flex items-center gap-3 group cursor-pointer mb-8">
+<div class="flex items-center gap-3">
+<img alt="Furniture Studio Logo" class="h-6 w-6 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYzwpRTmQxUU1zbZR1afOETDBbBv0B_OTy3uSZi1M-zr3D4OJhAdZ0rdtuJJVMreSJlhnXVbub7ICKPYtOIzIlBG9k9G0KaWgp5bzWDrziAUAXbS75sIc3Sa16PXvXkieA209VMEJWQLh75Mx7kidMOOdwBqHjOv2WfUJmMX9ythFYjuEt9oemiO96XkY7XFbPGpzOadEvAVB0kaJ83HKjGXKjarlpsAFZuyYWNGqW9BTJorDxFA9LYqQLpix6hr6C5-ehOtP7Soa7"/>
+<div class="flex flex-col">
+<span class="text-xl font-extrabold tracking-tight text-black font-['Noto_Serif'] leading-[0.9] uppercase">FURNITURE</span>
+<span class="text-xl font-light tracking-tighter text-black/60 font-['Noto_Serif'] leading-[0.9] uppercase">STUDIO</span>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 bg-white text-[#735c00] font-bold transition-transform translate-x-1" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-['Manrope'] text-xs tracking-wide">DASHBOARD</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-black/70 hover:bg-white/50 transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">chair</span>
+<span class="font-['Manrope'] text-xs tracking-wide">PRODUCTS</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-black/70 hover:bg-white/50 transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">handshake</span>
+<span class="font-['Manrope'] text-xs tracking-wide">NEGOTIATIONS</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-black/70 hover:bg-white/50 transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span class="font-['Manrope'] text-xs tracking-wide">SUBSCRIPTION</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-black/70 hover:bg-white/50 transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-['Manrope'] text-xs tracking-wide">SYSTEM SETTINGS</span>
+</a>
+</nav>
+<div class="mt-auto px-4 py-6 border-t border-outline-variant/10">
+<div class="flex items-center gap-3 cursor-pointer" onclick="document.getElementById('auth-modal').classList.remove('hidden')">
+<div class="w-10 h-10 bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm">person</span>
+</div>
+<div>
+<p class="text-xs font-bold font-['Manrope']">ALEXANDER V.</p>
+<p class="text-[10px] text-on-surface-variant">Lead Curator</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Top Navigation (Mobile) - Standardized Header -->
+<header class="md:hidden fixed top-0 w-full z-50 bg-[#fcf9f4]/80 backdrop-blur-xl border-b border-black/5 flex justify-between items-center px-6 py-4 max-w-full transition-colors duration-300">
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-[#1c1c19] cursor-pointer text-xl">menu</span>
+<div class="flex items-center gap-3">
+<img alt="Furniture Studio Logo" class="h-6 w-6 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYzwpRTmQxUU1zbZR1afOETDBbBv0B_OTy3uSZi1M-zr3D4OJhAdZ0rdtuJJVMreSJlhnXVbub7ICKPYtOIzIlBG9k9G0KaWgp5bzWDrziAUAXbS75sIc3Sa16PXvXkieA209VMEJWQLh75Mx7kidMOOdwBqHjOv2WfUJmMX9ythFYjuEt9oemiO96XkY7XFbPGpzOadEvAVB0kaJ83HKjGXKjarlpsAFZuyYWNGqW9BTJorDxFA9LYqQLpix6hr6C5-ehOtP7Soa7"/>
+<div class="flex flex-col">
+<span class="text-xl font-extrabold tracking-tight text-black font-['Noto_Serif'] leading-[0.9] uppercase">FURNITURE</span>
+<span class="text-xl font-light tracking-tighter text-black/60 font-['Noto_Serif'] leading-[0.9] uppercase">STUDIO</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="font-['Manrope'] text-[9px] font-bold tracking-[0.2em] cursor-pointer uppercase text-black/60" onclick="document.getElementById('auth-modal').classList.remove('hidden')">LOGIN</span>
+</div>
+</header>
+<!-- Authentication Modal -->
+<div class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4" id="auth-modal">
+<div class="modal-overlay absolute inset-0" onclick="document.getElementById('auth-modal').classList.add('hidden')"></div>
+<div class="bg-background w-full max-w-md relative z-10 shadow-2xl border border-outline-variant/20">
+<div class="p-8 md:p-12">
+<div class="flex flex-col items-center text-center mb-10">
+<div class="bg-white overflow-hidden w-16 h-16 rounded-xl flex items-center justify-center border border-outline-variant/30 mb-6 shadow-sm">
+<img alt="Furniture Studio Logo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYzwpRTmQxUU1zbZR1afOETDBbBv0B_OTy3uSZi1M-zr3D4OJhAdZ0rdtuJJVMreSJlhnXVbub7ICKPYtOIzIlBG9k9G0KaWgp5bzWDrziAUAXbS75sIc3Sa16PXvXkieA209VMEJWQLh75Mx7kidMOOdwBqHjOv2WfUJmMX9ythFYjuEt9oemiO96XkY7XFbPGpzOadEvAVB0kaJ83HKjGXKjarlpsAFZuyYWNGqW9BTJorDxFA9LYqQLpix6hr6C5-ehOtP7Soa7"/>
+</div>
+<div class="flex flex-col leading-none mb-4">
+<span class="font-headline text-2xl tracking-tight font-extrabold text-black uppercase leading-[0.9]">FURNITURE</span>
+<span class="font-headline text-2xl tracking-tighter font-light text-black/60 uppercase leading-[0.9]">STUDIO</span>
+</div>
+<p class="font-['Manrope'] text-[10px] font-bold tracking-[0.2em] text-on-surface-variant uppercase">Management Portal</p>
+</div>
+<form class="space-y-6">
+<div>
+<label class="block text-[10px] font-bold text-secondary uppercase tracking-widest mb-2" for="email">Email Address</label>
+<input class="w-full bg-surface-container-low border-0 px-4 py-4 text-sm font-['Manrope'] focus:ring-1 focus:ring-secondary transition-all" id="email" placeholder="curator@studiodartistes.eu" type="email"/>
+</div>
+<div>
+<label class="block text-[10px] font-bold text-secondary uppercase tracking-widest mb-2" for="password">Password</label>
+<input class="w-full bg-surface-container-low border-0 px-4 py-4 text-sm font-['Manrope'] focus:ring-1 focus:ring-secondary transition-all" id="password" placeholder="••••••••" type="password"/>
+</div>
+<div class="pt-2">
+<button class="w-full bg-primary text-white py-5 font-['Manrope'] text-[10px] font-bold tracking-[0.2em] hover:opacity-90 transition-opacity uppercase">
+                            Login to Workspace
+                        </button>
+</div>
+</form>
+<div class="mt-10 pt-8 border-t border-outline-variant/10 text-center">
+<p class="text-[10px] font-bold text-on-surface-variant tracking-widest mb-4 uppercase">New to the platform?</p>
+<button class="text-secondary font-['Manrope'] text-[11px] font-extrabold tracking-[0.15em] uppercase hover:underline">
+                        Join as Vendor
+                    </button>
+</div>
+</div>
+<button class="absolute top-4 right-4 text-on-surface-variant hover:text-primary transition-colors" onclick="document.getElementById('auth-modal').classList.add('hidden')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</div>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 p-6 md:p-12 mt-16 md:mt-0">
+<!-- Header & Identity Section -->
+<header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<span class="font-['Manrope'] text-[10px] font-bold tracking-[0.2em] text-secondary uppercase">Management Portal</span>
+<h2 class="serif-headline text-4xl font-bold mt-2 tracking-tight">Vendor Workspace</h2>
+</div>
+<div class="flex gap-4">
+<div class="px-6 py-3 bg-surface-container-low flex flex-col justify-center border-l-2 border-secondary">
+<p class="text-[10px] font-bold text-on-surface-variant tracking-widest uppercase">System Status</p>
+<p class="text-sm font-bold flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-green-600"></span>
+                        OPERATIONAL
+                    </p>
+</div>
+</div>
+</header>
+<!-- Top Row: Profile & Subscription Bento -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+<!-- Vendor Profile Card -->
+<section class="lg:col-span-1 bg-surface-container-lowest p-8 flex flex-col justify-between relative overflow-hidden group">
+<div class="relative z-10">
+<h3 class="font-['Manrope'] text-[11px] font-extrabold tracking-[0.2em] text-on-surface-variant uppercase mb-6">Profile Information</h3>
+<div class="space-y-6">
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase tracking-widest mb-1">Company Name</p>
+<p class="text-lg font-['Noto_Serif'] font-medium">Studio d'Artistes Ltd.</p>
+</div>
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase tracking-widest mb-1">Point of Contact</p>
+<p class="text-sm font-semibold">Alexander Van der Berg</p>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-lg">mail</span>
+<span>curator@studiodartistes.eu</span>
+</div>
+<div class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-lg">call</span>
+<span>+31 20 555 0192</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-8">
+<button class="w-full bg-primary text-white py-4 font-['Manrope'] text-[10px] font-bold tracking-[0.15em] hover:opacity-90 transition-opacity">
+                        EDIT PROFILE
+                    </button>
+</div>
+</section>
+<!-- Subscription Status Card -->
+<section class="lg:col-span-2 bg-primary-container text-white p-8 relative overflow-hidden">
+<div class="absolute right-[-20px] top-[-20px] opacity-10">
+<span class="material-symbols-outlined text-[200px]">payments</span>
+</div>
+<div class="relative z-10 h-full flex flex-col">
+<div class="flex justify-between items-start mb-12">
+<div>
+<h3 class="font-['Manrope'] text-[11px] font-extrabold tracking-[0.2em] text-on-primary-container uppercase mb-2">Membership Plan</h3>
+<div class="flex items-center gap-4">
+<p class="text-3xl serif-headline font-bold">Elite Curator Tier</p>
+<span class="px-3 py-1 bg-secondary text-[10px] font-bold tracking-widest uppercase">Active</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-bold text-on-primary-container tracking-widest uppercase mb-1">Monthly Cost</p>
+<p class="text-2xl serif-headline font-medium">€ 10,000.00</p>
+</div>
+</div>
+<div class="mt-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+<div class="flex flex-col">
+<p class="text-[10px] font-bold text-on-primary-container tracking-widest uppercase mb-4">Next Billing Cycle</p>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">calendar_today</span>
+<p class="text-lg font-['Manrope'] font-medium">October 14, 2023</p>
+</div>
+</div>
+<div class="flex flex-col justify-end gap-3">
+<button class="border border-outline-variant/30 py-4 font-['Manrope'] text-[10px] font-bold tracking-[0.15em] hover:bg-white/5 transition-colors">
+                                VIEW BILLING HISTORY
+                            </button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Middle Row: Product Manager & Negotiations -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Negotiation Inbox Section -->
+<section class="lg:col-span-5 bg-surface-container-low p-8">
+<div class="flex justify-between items-center mb-10">
+<h3 class="font-['Manrope'] text-[11px] font-extrabold tracking-[0.2em] uppercase">Negotiation Inbox</h3>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-[10px] font-bold tracking-widest">3 NEW REQUESTS</span>
+</div>
+</div>
+<div class="space-y-px bg-outline-variant/10">
+<div class="bg-surface-container-lowest p-6 hover:bg-surface-bright transition-colors cursor-pointer group">
+<div class="flex justify-between mb-3">
+<span class="text-[10px] font-bold text-secondary tracking-widest uppercase">Master Bedroom</span>
+<span class="text-[10px] font-bold text-on-surface-variant">2h ago</span>
+</div>
+<h4 class="serif-headline font-bold text-lg mb-1 group-hover:text-secondary transition-colors">Obsidian Oak Bedstead</h4>
+<p class="text-sm text-on-surface-variant line-clamp-1 mb-4">Request for custom width (220cm) and velvet upholstery.</p>
+<div class="flex items-center gap-4">
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full bg-surface-container border border-surface-container-lowest flex items-center justify-center text-[10px] font-bold">JD</div>
+</div>
+<span class="text-[11px] font-bold tracking-tight">Johnathan D.</span>
+<span class="ml-auto material-symbols-outlined text-lg">chevron_right</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 hover:bg-surface-bright transition-colors cursor-pointer group">
+<div class="flex justify-between mb-3">
+<span class="text-[10px] font-bold text-secondary tracking-widest uppercase">Dressing Room</span>
+<span class="text-[10px] font-bold text-on-surface-variant">5h ago</span>
+</div>
+<h4 class="serif-headline font-bold text-lg mb-1 group-hover:text-secondary transition-colors">Carrara Marble Vanity</h4>
+<p class="text-sm text-on-surface-variant line-clamp-1 mb-4">Quoting for multi-unit installation in boutique hotel project.</p>
+<div class="flex items-center gap-4">
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full bg-secondary text-white flex items-center justify-center text-[10px] font-bold">MK</div>
+</div>
+<span class="text-[11px] font-bold tracking-tight">M. K. Interiors</span>
+<span class="ml-auto material-symbols-outlined text-lg">chevron_right</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 hover:bg-surface-bright transition-colors cursor-pointer group">
+<div class="flex justify-between mb-3">
+<span class="text-[10px] font-bold text-secondary tracking-widest uppercase">Living Gallery</span>
+<span class="text-[10px] font-bold text-on-surface-variant">Yesterday</span>
+</div>
+<h4 class="serif-headline font-bold text-lg mb-1 group-hover:text-secondary transition-colors">Sovereign Lounge Chair</h4>
+<p class="text-sm text-on-surface-variant line-clamp-1 mb-4">Trade discount inquiry for recurrent client.</p>
+<div class="flex items-center gap-4">
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full bg-surface-container border border-surface-container-lowest flex items-center justify-center text-[10px] font-bold">ES</div>
+</div>
+<span class="text-[11px] font-bold tracking-tight">Elena S.</span>
+<span class="ml-auto material-symbols-outlined text-lg">chevron_right</span>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-4 text-[10px] font-bold tracking-[0.2em] border border-outline-variant/20 hover:bg-white transition-colors uppercase">
+                    View All Conversations
+                </button>
+</section>
+<!-- Product Manager Section -->
+<section class="lg:col-span-7">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h3 class="font-['Manrope'] text-[11px] font-extrabold tracking-[0.2em] uppercase mb-1">Product Inventory</h3>
+<p class="text-sm text-on-surface-variant">Manage your curated collection of 14 items.</p>
+</div>
+<button class="bg-primary text-white px-8 py-3 font-['Manrope'] text-[10px] font-bold tracking-[0.15em] flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+                        NEW PRODUCT
+                    </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-outline-variant/10">
+<div class="bg-surface-container-lowest p-6 group">
+<div class="aspect-[4/5] bg-surface-container mb-6 overflow-hidden text-center">
+<img alt="Nordic Spine Chair" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFcPgLqDsW7aRmEjI276UgO03VbS9KGyTi3RPJ_f4Q27HuZEXX-uY1ann2CQukzGzWsX447fRLb9PKGECF0GiXPlpyTfjimylKGQWmAnXD9OeE5Umz9PwAAKoWtO1mYuX8WviRRvT_ARGQ2GssDwzHSXQTFX3DFRTgLdoM90mSR1Ob43jmOPwcn0gB0I5RctSBfcW3pKR8lwjb659_qwMyvtLqGAc8QZVkHsuzqI6PUhS15oxPG9pdQRR4MfkdMwvFmYPt5SPK0CoZ"/>
+</div>
+<div class="flex justify-between items-start mb-2">
+<h4 class="serif-headline font-bold text-xl">The Nordic Spine Chair</h4>
+<p class="text-sm font-bold font-['Manrope']">€2,450</p>
+</div>
+<p class="text-[10px] font-bold text-on-surface-variant tracking-widest uppercase mb-6">In Stock: 8 Units</p>
+<div class="flex gap-2">
+<button class="flex-1 py-3 text-[9px] font-bold tracking-widest border border-outline-variant/30 hover:bg-surface-container transition-colors uppercase">Update</button>
+<button class="px-4 py-3 text-error border border-error/20 hover:bg-error/5 transition-colors">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 group">
+<div class="aspect-[4/5] bg-surface-container mb-6 overflow-hidden text-center">
+<img alt="Venera Marble Table" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDI-NRmZPNvKCcMM1DCSK8uz56DBqPXY6DFn1mZB-Y7C7ekx2Arh-PbdIW1lG4mOjK0EwxSMArrQh2B69BBOGhRKFrNrTwPN_RuYFXPkmZyESbHaFmTMnptgC6cR106fAZ8knHUZZp5bnebr-EsN1VSWXTL4qQOu9ooVCmZNBRn4ezp0E7SCJlMAgtyI2dgZ2o8kwgZJCQwSNtqvKqu9KrYl_71YeJ3mslQNHv0FdB-UrzTqZ8BULrmox_R0XX0MozZsAehUaF073P"/>
+</div>
+<div class="flex justify-between items-start mb-2">
+<h4 class="serif-headline font-bold text-xl">Venera Marble Table</h4>
+<p class="text-sm font-bold font-['Manrope']">€4,100</p>
+</div>
+<p class="text-[10px] font-bold text-on-surface-variant tracking-widest uppercase mb-6">In Stock: 2 Units</p>
+<div class="flex gap-2">
+<button class="flex-1 py-3 text-[9px] font-bold tracking-widest border border-outline-variant/30 hover:bg-surface-container transition-colors uppercase">Update</button>
+<button class="px-4 py-3 text-error border border-error/20 hover:bg-error/5 transition-colors">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+</div>
+</div>
+<div class="mt-8 flex justify-center">
+<button class="flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] text-secondary group uppercase">
+                        Load Complete Inventory
+                        <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</section>
+</div>
+<!-- Statistics -->
+<section class="mt-20 py-16 border-t border-outline-variant/10">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
+<div>
+<p class="text-[10px] font-bold text-on-surface-variant tracking-[0.2em] uppercase mb-2">Monthly Traffic</p>
+<p class="text-3xl serif-headline font-bold">12.4K</p>
+</div>
+<div>
+<p class="text-[10px] font-bold text-on-surface-variant tracking-[0.2em] uppercase mb-2">Conversion</p>
+<p class="text-3xl serif-headline font-bold">4.2%</p>
+</div>
+<div>
+<p class="text-[10px] font-bold text-on-surface-variant tracking-[0.2em] uppercase mb-2">Quote Requests</p>
+<p class="text-3xl serif-headline font-bold">88</p>
+</div>
+<div>
+<p class="text-[10px] font-bold text-on-surface-variant tracking-[0.2em] uppercase mb-2">Avg. Response</p>
+<p class="text-3xl serif-headline font-bold">4h</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar for Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-safe bg-[#fcf9f4] border-t border-[#c4c7c7]/15 z-50 h-16">
+<a class="flex flex-col items-center justify-center text-black/40 pt-2 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-[0.1em] font-bold">HOME</span>
+</a>
+<a class="flex flex-col items-center justify-center text-black/40 pt-2 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-[0.1em] font-bold">COLLECTIONS</span>
+</a>
+<a class="flex flex-col items-center justify-center text-black/40 pt-2 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-[0.1em] font-bold">CUSTOM</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#735c00] border-t-2 border-[#735c00] pt-2 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-[0.1em] font-bold">PROFILE</span>
+</a>
+</nav>
+</body></html>

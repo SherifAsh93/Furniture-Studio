@@ -1,0 +1,76 @@
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  darkMode: "class",
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        "on-primary-fixed-variant": "#474746",
+        "background": "#fcf9f4",
+        "on-background": "#1c1c19",
+        "primary-fixed": "#e5e2e1",
+        "primary-container": "#1c1b1b",
+        "tertiary-fixed-dim": "#e9c176",
+        "on-secondary-fixed-variant": "#574500",
+        "surface-container-lowest": "#ffffff",
+        "surface-container-high": "#ebe8e3",
+        "surface-container-highest": "#e5e2dd",
+        "tertiary": "#000000",
+        "on-secondary-container": "#745c00",
+        "primary": "#000000",
+        "on-surface-variant": "#444748",
+        "error": "#ba1a1a",
+        "secondary": "#735c00",
+        "tertiary-fixed": "#ffdea5",
+        "surface-bright": "#fcf9f4",
+        "on-tertiary-fixed-variant": "#5d4201",
+        "tertiary-container": "#261900",
+        "on-tertiary-fixed": "#261900",
+        "primary-fixed-dim": "#c8c6c5",
+        "inverse-on-surface": "#f3f0eb",
+        "surface-container": "#f0ede8",
+        "surface": "#fcf9f4",
+        "on-primary": "#ffffff",
+        "surface-dim": "#dcdad5",
+        "surface-container-low": "#f6f3ee",
+        "error-container": "#ffdad6",
+        "outline": "#747878",
+        "surface-variant": "#e5e2dd",
+        "on-tertiary-container": "#a17f3b",
+        "on-secondary": "#ffffff",
+        "on-error": "#ffffff",
+        "on-secondary-fixed": "#241a00",
+        "outline-variant": "#c4c7c7",
+        "on-primary-fixed": "#1c1b1b",
+        "secondary-container": "#fed65b",
+        "secondary-fixed": "#ffe088",
+        "on-surface": "#1c1c19",
+        "on-tertiary": "#ffffff",
+        "on-primary-container": "#858383",
+        "inverse-surface": "#31302d",
+        "surface-tint": "#5f5e5e",
+        "on-error-container": "#93000a",
+        "secondary-fixed-dim": "#e9c349",
+        "inverse-primary": "#c8c6c5"
+      },
+      fontFamily: {
+        "headline": ["Noto Serif", "serif"],
+        "body": ["Manrope", "sans-serif"],
+        "label": ["Manrope", "sans-serif"]
+      },
+      borderRadius: {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "full": "9999px"
+      },
+    },
+  },
+  plugins: [],
+};
+export default config;
