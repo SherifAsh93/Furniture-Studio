@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;500;700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed-variant": "#474746",
+              "background": "#fcf9f4",
+              "on-background": "#1c1c19",
+              "primary-fixed": "#e5e2e1",
+              "primary-container": "#1c1b1b",
+              "tertiary-fixed-dim": "#e9c176",
+              "on-secondary-fixed-variant": "#574500",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-high": "#ebe8e3",
+              "surface-container-highest": "#e5e2dd",
+              "tertiary": "#000000",
+              "on-secondary-container": "#745c00",
+              "primary": "#000000",
+              "on-surface-variant": "#444748",
+              "error": "#ba1a1a",
+              "secondary": "#735c00",
+              "tertiary-fixed": "#ffdea5",
+              "surface-bright": "#fcf9f4",
+              "on-tertiary-fixed-variant": "#5d4201",
+              "tertiary-container": "#261900",
+              "on-tertiary-fixed": "#261900",
+              "primary-fixed-dim": "#c8c6c5",
+              "inverse-on-surface": "#f3f0eb",
+              "surface-container": "#f0ede8",
+              "surface": "#fcf9f4",
+              "on-primary": "#ffffff",
+              "surface-dim": "#dcdad5",
+              "surface-container-low": "#f6f3ee",
+              "error-container": "#ffdad6",
+              "outline": "#747878",
+              "surface-variant": "#e5e2dd",
+              "on-tertiary-container": "#a17f3b",
+              "on-secondary": "#ffffff",
+              "on-error": "#ffffff",
+              "on-secondary-fixed": "#241a00",
+              "outline-variant": "#c4c7c7",
+              "on-primary-fixed": "#1c1b1b",
+              "secondary-container": "#fed65b",
+              "secondary-fixed": "#ffe088",
+              "on-surface": "#1c1c19",
+              "on-tertiary": "#ffffff",
+              "on-primary-container": "#858383",
+              "inverse-surface": "#31302d",
+              "surface-tint": "#5f5e5e",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#e9c349",
+              "inverse-primary": "#c8c6c5"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-shadow {
+            box-shadow: 0px 20px 40px rgba(28, 28, 25, 0.04);
+        }
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 48px;
+            height: 48px;
+            padding: 0;
+            border-radius: 50%;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+        input[type="color"]::-webkit-color-swatch {
+            border: none;
+            border-radius: 50%;
+        }
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body pb-20 md:pb-0">
+<!-- Standardized TopAppBar matching Hub 2/3 -->
+<header class="fixed top-0 w-full h-14 grid grid-cols-3 items-center px-4 bg-background/80 backdrop-blur-md z-50 border-b border-outline-variant/10">
+<!-- Leading: Menu Icon -->
+<div class="flex justify-start">
+<span class="material-symbols-outlined text-on-background cursor-pointer hover:opacity-70 transition-opacity" data-icon="menu">menu</span>
+</div>
+<!-- Center: Logo + Title (Standardized) -->
+<div class="flex items-center justify-center gap-2">
+<div class="w-5 h-5 flex items-center justify-center">
+<img alt="Furniture Studio Logo" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYzwpRTmQxUU1zbZR1afOETDBbBv0B_OTy3uSZi1M-zr3D4OJhAdZ0rdtuJJVMreSJlhnXVbub7ICKPYtOIzIlBG9k9G0KaWgp5bzWDrziAUAXbS75sIc3Sa16PXvXkieA209VMEJWQLh75Mx7kidMOOdwBqHjOv2WfUJmMX9ythFYjuEt9oemiO96XkY7XFbPGpzOadEvAVB0kaJ83HKjGXKjarlpsAFZuyYWNGqW9BTJorDxFA9LYqQLpix6hr6C5-ehOtP7Soa7"/>
+</div>
+<span class="font-headline text-base font-bold tracking-tight text-on-background uppercase whitespace-nowrap">FURNITURE STUDIO</span>
+</div>
+<!-- Trailing: Search & Shopping Bag -->
+<div class="flex justify-end items-center gap-4">
+<span class="material-symbols-outlined text-on-background/80 cursor-pointer hover:text-on-background transition-colors" data-icon="search">search</span>
+<span class="material-symbols-outlined text-on-background/80 cursor-pointer hover:text-on-background transition-colors" data-icon="shopping_bag">shopping_bag</span>
+</div>
+</header>
+<main class="pt-14">
+<!-- Hero Section: Living Art -->
+<section class="relative w-full h-[795px] flex items-center overflow-hidden bg-primary-container">
+<div class="absolute inset-0 opacity-70">
+<img alt="Luxury interior design living room" class="w-full h-full object-cover" data-alt="Modern sculptural minimalist sofa in high-end living room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDQsqo9B-bOepx60Xvf1-U161YyF1S2O4_wgrJ3m-Y9J6sxce8E3vhOz1hVVkXbMKIYXf_peVdFqnd4b99ekSHv2CyBQe7bDRoUyeSrkR4syyj2VP_hMMvVmQUcdd4Ojdd40VRjvj3LCeZEWdA3uiN_hpH9AdmgHh8jXxRIHCZg5cnXXpkFtf0gm7XxECGvWtUQ5I5r47bHN7e17XUmyvCVYZxd8Rdd4y-gGuDP-kZNq7CYnJGRK94R_NaH_IHgRXy7PlzT_fRfAzI"/>
+</div>
+<div class="container mx-auto px-6 relative z-10 flex flex-col items-start max-w-4xl">
+<span class="font-label text-xs uppercase tracking-[0.3em] text-on-primary mb-4">THE CURATED GALLERY</span>
+<h1 class="font-headline text-[3.5rem] md:text-[5rem] leading-[1.1] text-on-primary font-bold tracking-tight mb-8">
+                    Living <br/><span class="italic font-normal">Art</span>
+</h1>
+<p class="font-body text-lg text-on-primary/80 max-w-lg mb-12 leading-relaxed">
+                    Functional masterpieces curated for the modern intellectual. Our furniture transcends utility, becoming the definitive punctuation of your architecture.
+                </p>
+<div class="flex gap-4">
+<button class="bg-primary text-on-primary px-10 py-5 font-label text-xs tracking-widest uppercase transition-all active:scale-95">
+                        EXPLORE THE SERIES
+                    </button>
+<button class="border border-white/20 text-on-primary px-10 py-5 font-label text-xs tracking-widest uppercase hover:bg-white/10 transition-all">
+                        VIEW SPACES
+                    </button>
+</div>
+</div>
+<div class="absolute bottom-10 right-10 hidden md:block">
+<div class="flex flex-col gap-2 font-label text-[10px] text-on-primary/40 tracking-widest">
+<span>SCROLL TO CURATE</span>
+<div class="w-px h-20 bg-on-primary/20 mx-auto"></div>
+</div>
+</div>
+</section>
+<!-- Custom Product Request Section -->
+<section class="py-24 bg-surface-container-low" id="custom-request">
+<div class="container mx-auto px-6">
+<div class="max-w-4xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+<div class="space-y-8">
+<div class="flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined text-sm" data-icon="edit_note">edit_note</span>
+<span class="font-label text-[10px] tracking-[0.3em] uppercase font-bold">Bespoke Design</span>
+</div>
+<h2 class="font-headline text-4xl font-bold tracking-tight">Custom Product Request</h2>
+<p class="font-body text-on-surface-variant leading-relaxed">
+                                Cannot find the exact piece for your vision? Our master artisans are available for individual commissions. Specify your requirements below for a curated quote.
+                            </p>
+<div class="hidden md:block rounded-xl overflow-hidden aspect-[4/3] editorial-shadow">
+<img alt="Artisan Work" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiw-mo-wWot32v4fzNGgLlYWGwRI6XgHSZcpIe8a5JWh_HrVe1ExRN58S3U2fsmOo-TCm5Vdw1DGgtBtpeSLLmDLzT8VecM25KMpToP__c00t-jiUDXQ2kxKaEIWL4MHAZT4IYPNGNEqXunEMLqyxL-COjbzZvhZUyX-4PNQ1tGPIcHEKJIPoujZahUNpw1ExI81VP9nwOJoi3P9gdwucrkbm7Xmwp59ZhGvOSja1IIt_w2XNqljzW8_F8HL3ydCLPJABdrj2WGD6J"/>
+</div>
+</div>
+<div class="bg-white p-8 md:p-10 rounded-xl editorial-shadow">
+<form class="space-y-6">
+<div>
+<label class="block font-label text-[10px] tracking-widest uppercase mb-2 text-on-surface-variant">Select Category</label>
+<select class="w-full border-none bg-surface-container-low px-4 py-3 font-body text-sm focus:ring-1 focus:ring-secondary transition-all">
+<option>Dressing room</option>
+<option>Master bedroom</option>
+<option>Kids room</option>
+<option>Sofas tables</option>
+<option>Sofas</option>
+<option>Dining room (Buffet + 6 chairs)</option>
+<option>Dining room (Buffet + 8 chairs)</option>
+<option>Side tables</option>
+<option>Doors</option>
+<option>Cladding</option>
+</select>
+</div>
+<div class="grid grid-cols-3 gap-4">
+<div>
+<label class="block font-label text-[10px] tracking-widest uppercase mb-2 text-on-surface-variant">Length (cm)</label>
+<input class="w-full border-none bg-surface-container-low px-4 py-3 font-body text-sm focus:ring-1 focus:ring-secondary" placeholder="00" type="number"/>
+</div>
+<div>
+<label class="block font-label text-[10px] tracking-widest uppercase mb-2 text-on-surface-variant">Width (cm)</label>
+<input class="w-full border-none bg-surface-container-low px-4 py-3 font-body text-sm focus:ring-1 focus:ring-secondary" placeholder="00" type="number"/>
+</div>
+<div>
+<label class="block font-label text-[10px] tracking-widest uppercase mb-2 text-on-surface-variant">Height (cm)</label>
+<input class="w-full border-none bg-surface-container-low px-4 py-3 font-body text-sm focus:ring-1 focus:ring-secondary" placeholder="00" type="number"/>
+</div>
+</div>
+<div>
+<label class="block font-label text-[10px] tracking-widest uppercase mb-4 text-on-surface-variant">Material &amp; Finish Color</label>
+<div class="flex items-center gap-6">
+<input class="shrink-0" id="color-picker" type="color" value="#735c00"/>
+<div class="flex-1">
+<p class="font-body text-[10px] text-on-surface-variant/60 italic uppercase tracking-wider">Tap to select custom lacquer or timber stain</p>
+</div>
+</div>
+</div>
+<div class="pt-4">
+<button class="w-full bg-primary text-on-primary py-5 font-label text-xs tracking-[0.2em] uppercase transition-all hover:bg-secondary active:scale-95" type="submit">
+                                        Send Request
+                                    </button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Category Horizontal Scroll/Grid -->
+<section class="py-24 bg-surface">
+<div class="container mx-auto px-6">
+<div class="flex justify-between items-end mb-16">
+<div>
+<h2 class="font-headline text-3xl font-bold tracking-tight mb-4">THE DIRECTORY</h2>
+<p class="font-body text-sm text-on-surface-variant max-w-sm">Browse by architectural intent and room typology.</p>
+</div>
+<a class="text-secondary font-label text-[10px] uppercase tracking-widest border-b border-secondary/20 pb-1" href="#">VIEW ALL DEPTS</a>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-0">
+<div class="aspect-square relative group overflow-hidden bg-white">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" data-alt="Minimalist modern walk-in dressing room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc2HCj08jTdfsM1eBKjNmCJ81JmeVMt_9vR_C2zxpvDi7FanJszegoLY56YSF5WkYmBG4yigRg4F4c613zywKVSleZWDw1O-pwK-1PVn_WLBJ3xAR9L9who4XH8Jh9k_7Ay5zWR1bC5c7BavIQufHEAJiQgMXMXgTlsfaq4ll42ilpnIQ4H1dWgRsK98kuJbKDxMgsRSpadbmYLqU6nNyIfES6027YnMIYVwN-8PXWbq-MM3ZRZCnr3v9hkSsB1exQ1SA8CR-QpWtT"/>
+<div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors"></div>
+<div class="absolute bottom-6 left-6">
+<h3 class="font-label text-[10px] tracking-[0.2em] text-white uppercase bg-black/40 px-3 py-1 backdrop-blur-sm">Dressing room</h3>
+</div>
+</div>
+<div class="aspect-square relative group overflow-hidden bg-white">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" data-alt="Elegant master bedroom suite" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZgqGcd0xmQxYFKa-E3zr0XlT_zm7Q4PLNKoH1SuikR03PWRHK3hEPsBrFEK4zm11zpVAImlvyeAWFjV8rGTrV7KTMBQBSaQHWyoT-i9Lg54R5F966Eq6d9I5E-A4eX4r7npZuRm8oN6osvORZupwpr8gceJ5zTo9XZnh3BQb4bW54eSqU2dWaaOhmJEvatca3NKRCfXNiPpdJBdIiaA9GJZvPGJvSbPbnjXvar36QoS-v6gQJFJNGvs58OImngkzRY3UDBglsNjwJ"/>
+<div class="absolute bottom-6 left-6">
+<h3 class="font-label text-[10px] tracking-[0.2em] text-white uppercase bg-black/40 px-3 py-1 backdrop-blur-sm">Master bedroom</h3>
+</div>
+</div>
+<div class="aspect-square relative group overflow-hidden bg-white">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" data-alt="Playful yet sophisticated kids room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBft2VI1LvnJAc7KhTkOk_sb6f-eqwKZRe830Uk6dkKENOSis2LHPhWfCZg1bu0P21GxgxfR_am-9lw5YsOpaH2mzzWZ19qmzpT0Y835DBow12WMj9FP9mbmUtzv-X8wzHZEmpohLCtmS_aor9_x4T9FP8Pw64YE6_j13kGujByVXEFH7lQvzyMd5I198z0ZzWVcx9GSlWAChnUThGAOquEPBHy0O5BG7eyUDeWX3ZQMrdi8KebdaJjKkfoWCED5YNO_gkjFUGUT2tp"/>
+<div class="absolute bottom-6 left-6">
+<h3 class="font-label text-[10px] tracking-[0.2em] text-white uppercase bg-black/40 px-3 py-1 backdrop-blur-sm">Kids room</h3>
+</div>
+</div>
+<div class="aspect-square relative group overflow-hidden bg-white">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" data-alt="Designer sofas and marble tables" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPBfGUTPksSq2a4nsrCx-PTmDklfJFeNLgtNmO-5U0mBMVA0A1vl9D9QfHn8SkDiP3G-FJWMDrSfJv3JVAVJlqfnj7QlnAz6yVyv5kwPaoeQyTn3lXkvVOjtlyD4dLjVNlsXk3Kw2itFKE1W8K5A_2x631uKWmtsFF-kRK6IFrvHWUr5Ca12nJiDpt0Lq6gzxFfGVz1JPDBEb1c7hfY-g7qG1fwnfeOb-8iBnMUpVD_DwsNZb-ojfYigSSQHauOH_TAC6gn3dpRYB1"/>
+<div class="absolute bottom-6 left-6">
+<h3 class="font-label text-[10px] tracking-[0.2em] text-white uppercase bg-black/40 px-3 py-1 backdrop-blur-sm">Sofas tables</h3>
+</div>
+</div>
+<div class="aspect-square relative group overflow-hidden bg-white">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" data-alt="Large sectional sofa" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUFRBWdGabsSSbhRlsGqPYZHgAyFuev1AqtmAVg1J0o0yVeTBIxf5jRQ76qyHlGGxJh1KpTib68dk184LvDD1yOLFtvFTxGSJOlqTi__6K0mkW4wki8EWA0DCivBwPGc7VrKm0PY62TuIbOScOaa1gS7Y8R74o6JHwwG0h3IYBNrrsCx7Gi1YkMI41wp0UuzLxATaMnADq3I3lJiZqeZQUdRpivXVxq3Cs4quZWBx4nnsJgp76drZdYfVwQPzRzI5Xi1Flq3qMgmtN"/>
+<div class="absolute bottom-6 left-6">
+<h3 class="font-label text-[10px] tracking-[0.2em] text-white uppercase bg-black/40 px-3 py-1 backdrop-blur-sm">Sofas</h3>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Product Highlight (Asymmetric Grid) -->
+<section class="py-32 bg-surface-container-low overflow-hidden">
+<div class="container mx-auto px-6">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-16 items-center">
+<div class="md:col-span-7 relative">
+<div class="relative z-10 w-full aspect-[4/5] overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Editorial shot of a master bedroom armchair" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCMCD4HQETm-yZhc4DNlNG3kNEn0-2J8InfsYZWRvT81qcpRJe_Q6Dp1BgMCSDO7zA08NCLmeD1LylNg-HHrXmYXoYZodKjDlhcjyGqYG4w9M3_6zm_evTplXFFLYqWkI08vDiGLyzDiFU_ZUaHdJ_lti21J-9wEr-TKU2vd33w0x46JFk-JVqIFRkfCaceE-aIGnuEF-099c1-iNjlaRY6-p7h0Z5CwARKbGmIu-pEdEUKjveyjfBywRaoN9aSWvj_ywzdZejyhp"/>
+</div>
+<div class="absolute -bottom-12 -left-12 w-2/3 aspect-square bg-surface-container -z-0"></div>
+</div>
+<div class="md:col-span-5">
+<span class="text-secondary font-label text-[10px] tracking-widest uppercase mb-4 block">NEW ARRIVALS</span>
+<h2 class="font-headline text-4xl font-bold mb-8 leading-tight">The Obsidian <br/>Dressing Suite</h2>
+<p class="font-body text-on-surface-variant leading-loose mb-10 italic">
+                            "A meditation on shadow and surface. The Obsidian series utilizes hand-charred timber and antique brass hardware to create a presence that is felt before it is seen."
+                        </p>
+<ul class="space-y-6 mb-12">
+<li class="flex justify-between items-center border-b border-outline-variant/15 pb-4">
+<span class="font-body text-sm font-medium">Master Suite No. 04</span>
+<span class="font-label text-xs">$12,400.00</span>
+</li>
+<li class="flex justify-between items-center border-b border-outline-variant/15 pb-4">
+<span class="font-body text-sm font-medium">Obsidian Side Mirror</span>
+<span class="font-label text-xs">$2,100.00</span>
+</li>
+</ul>
+<button class="w-full bg-primary text-on-primary py-5 font-label text-xs tracking-widest uppercase transition-transform active:scale-95">
+                            BUY NOW
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Collections (Bento Style) -->
+<section class="py-32 bg-surface-container">
+<div class="container mx-auto px-6">
+<div class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 h-[800px]">
+<div class="md:col-span-2 md:row-span-2 relative group overflow-hidden">
+<img class="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105" data-alt="Modern sculptural dining table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwRof9ZZAxaEcYlN3dMISLNGfAQk9Usxo64tw1EOVF5LoKfiIos1JSskqyLrsRIjHmEfwpJX5tRIl8DNqaWKlEfGYevZPPY1xuKQhilKJJI205c7CGOF6qoGYIiRx0lgFr07Uhh1Go9BdAaF4b2ctcCE4zutk4LfVaUpm2xX4y3IzUqtcGMcKw5LIcHfcGCpbK7X62FRHx-c9TB_iglYZLEWUDSlkdIQOQ_i_hvEbuvsQl7btH1XPi6w4VGjJ1fIf5Q0E0I7YXIhK0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent p-10 flex flex-col justify-end">
+<h3 class="text-white font-headline text-2xl mb-2">The Banquet Set</h3>
+<p class="text-white/70 text-sm mb-6 max-w-xs">Buffet + 8 Chairs in brushed limestone and walnut.</p>
+<button class="w-fit text-white font-label text-[10px] tracking-widest uppercase border-b border-white pb-1">BUY NOW</button>
+</div>
+</div>
+<div class="md:col-span-2 md:row-span-1 relative group overflow-hidden">
+<img class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" data-alt="Premium lounge chair close up" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiw-mo-wWot32v4fzNGgLlYWGwRI6XgHSZcpIe8a5JWh_HrVe1ExRN58S3U2fsmOo-TCm5Vdw1DGgtBtpeSLLmDLzT8VecM25KMpToP__c00t-jiUDXQ2kxKaEIWL4MHAZT4IYPNGNEqXunEMLqyxL-COjbzZvhZUyX-4PNQ1tGPIcHEKJIPoujZahUNpw1ExI81VP9nwOJoi3P9gdwucrkbm7Xmwp59ZhGvOSja1IIt_w2XNqljzW8_F8HL3ydCLPJABdrj2WGD6J"/>
+<div class="absolute top-6 right-6">
+<span class="bg-secondary text-on-secondary px-3 py-1 font-label text-[8px] uppercase tracking-widest">Limited</span>
+</div>
+<div class="absolute inset-0 bg-black/20 p-8 flex flex-col justify-end">
+<h3 class="text-white font-headline text-xl mb-4">Sculptural Seating</h3>
+<button class="w-fit text-white font-label text-[10px] tracking-widest uppercase border-b border-white pb-1">BUY NOW</button>
+</div>
+</div>
+<div class="md:col-span-1 md:row-span-1 relative group overflow-hidden">
+<img class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" data-alt="Designer wall cladding detail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnpfRia0eCt9R1QAeuOuOts6yhOEcODJtZA6EkZZcY1Q95x01D79mTAtgFiGTwijlpDeV8fYuFXUEQQpTEy0CPSNWuwad7PU2HlOg0jNUD9MXDYCjEmElIuxGN1D9M6jqNsxynsKhajeUlLdRPD2td00i11aMu0UrADoGyZl0yYEqQwgurj2JnRA5jdZ9vdJHpLMFDb8XkNFXQwZr0TSgpuTKOGwsoVPMF32_VD66b9amh9X4c002Cn_kK8VujwP6vWdmA_Gp246J6"/>
+<div class="absolute inset-0 bg-black/40 p-6 flex flex-col justify-end text-center">
+<h3 class="text-white font-label text-[10px] tracking-[0.2em] mb-4">ARCHITECTURAL CLADDING</h3>
+<button class="mx-auto w-fit text-white font-label text-[8px] tracking-widest uppercase border-b border-white pb-1">SHOP</button>
+</div>
+</div>
+<div class="md:col-span-1 md:row-span-1 relative group overflow-hidden">
+<img class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" data-alt="Minimalist luxury door design" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnRqRAzhhpGkUjzMHgHJoYFi_Fc6HPEFl3IKl0MzI3eFXYvGCBO48MubaZMJ13uLWN53pMVQ48p5-URKSW0va4P3epAGylh8MjM7mcGkklod61iEsyOsqUD6GpdojZ4qSysyJd_WFIc6DPebIgECUaHsHtFHh17JPkqtxzFpmn9R_Und1GHlzOAuxy_eck9wq0lr_xQ0jKawnidKaDgY9EI-rst80GPDuFdAOHSgMX83pG9TRJogUTKW9OhhtJzmJNg4szwalZ8PZV"/>
+<div class="absolute inset-0 bg-white/20 p-6 flex flex-col justify-end text-center">
+<h3 class="text-on-background font-label text-[10px] tracking-[0.2em] mb-4 bg-white/90 py-2">ENTRY DOORS</h3>
+<button class="mx-auto w-fit text-on-background font-label text-[8px] tracking-widest uppercase border-b border-on-background pb-1">VIEW SERIES</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Subscription / Vendor Section -->
+<section class="py-32 bg-primary-container text-on-primary">
+<div class="container mx-auto px-6">
+<div class="max-w-4xl mx-auto text-center">
+<span class="text-secondary font-label text-xs tracking-[0.4em] uppercase mb-8 block">THE FURNITURE STUDIO PARTNERSHIP</span>
+<h2 class="font-headline text-4xl md:text-6xl font-bold mb-10 leading-tight">Showcase Your Craft to the World's Most <span class="italic font-normal">Discerning Eyes.</span></h2>
+<p class="font-body text-lg text-on-primary/60 mb-16 max-w-2xl mx-auto leading-relaxed">
+                        Join an elite circle of artisans and manufacturers. Gain access to our global distribution network and premium customer base.
+                    </p>
+<div class="bg-surface-container-low p-12 md:p-20 text-on-background relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<span class="material-symbols-outlined text-on-surface-variant/20 text-8xl" data-icon="handshake">handshake</span>
+</div>
+<div class="relative z-10 text-left">
+<h3 class="font-headline text-3xl mb-4">Join the Studio</h3>
+<div class="flex items-baseline gap-2 mb-8">
+<span class="font-headline text-5xl font-bold">$10,000</span>
+<span class="font-label text-sm text-on-surface-variant uppercase tracking-widest">/ MONTHLY SUBSCRIPTION</span>
+</div>
+<ul class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 font-body text-sm text-on-surface-variant">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="check_circle">check_circle</span>
+                                    Global Logistics &amp; Fulfillment Integration
+                                </li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="check_circle">check_circle</span>
+                                    Exclusive "Editorial Spotlight" Features
+                                </li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="check_circle">check_circle</span>
+                                    Direct High-Net-Worth Lead Generation
+                                </li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="check_circle">check_circle</span>
+                                    Digital Showroom Architecture
+                                </li>
+</ul>
+<button class="bg-primary text-on-primary px-12 py-6 font-label text-xs tracking-[0.2em] uppercase transition-all hover:bg-secondary">
+                                APPLY FOR VENDOR ACCESS
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Journal Section -->
+<section class="py-32 bg-background">
+<div class="container mx-auto px-6">
+<div class="flex items-center gap-4 mb-20">
+<div class="h-px flex-1 bg-outline-variant/30"></div>
+<h2 class="font-label text-xs tracking-[0.5em] uppercase text-on-surface-variant">THE JOURNAL</h2>
+<div class="h-px flex-1 bg-outline-variant/30"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<div class="group cursor-pointer">
+<div class="aspect-[16/9] overflow-hidden mb-6">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Aesthetic workspace with books and lamp" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOLHrQHpP15CHRIIQXaEQP-HEnQyEyxMUzlukgGVPzHvc1kgUSOs0WrkhlYWD_Z0M9iEwqF_3nZ_mh6sQdbQ3qJkSER3zzqH2_VzrFO_8xH5xNYstuxxfrnd4lw4lIMgbFiz03C-18RQS96JZhgafZQ5h16U_qTc0wYVUk3Sf67JVne39tzgI-19WdqrSi6rHA5GhXyC5GDso42i0SaLL67oMuH336PxvThk4uGvGgpwVPgoHYPfPbDmyEQNTxNb__DWwG4vZeuVMl"/>
+</div>
+<span class="font-label text-[10px] tracking-widest text-secondary uppercase mb-3 block">ESSAY</span>
+<h4 class="font-headline text-xl font-bold mb-4 group-hover:text-secondary transition-colors">The Weight of Silence: Minimalism in 2024</h4>
+<p class="font-body text-sm text-on-surface-variant leading-relaxed">Exploring why high-end residential spaces are moving toward monolithic forms...</p>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-[16/9] overflow-hidden mb-6">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Abstract shadow on a minimalist wall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfZMhs4icujLnFuggbQBVMGdZkeOH05TWHc2aeuNOLC84jyLEOsInwLTjnTm-_6qs32yJg66Bh9GYJW2YTX5aiq_DNWUNcW5wkWLGp5HhLsbBUh6eGeORLdEb08Z7b19WIBeeLR2M71_q6ViHm6bW9K2vqP4n2bsbnEVX4JuWC_RX28Oo7EkNKPiCBAqPwlU_FABtuFOH3LGL0XuM4M5RdecgN_QP-p_HkDCi1ieNGkbmYwwDwTxaDxy7oZDH_22IPHoO7i0rsfTBA"/>
+</div>
+<span class="font-label text-[10px] tracking-widest text-secondary uppercase mb-3 block">CRAFT</span>
+<h4 class="font-headline text-xl font-bold mb-4 group-hover:text-secondary transition-colors">The Alchemy of Hand-Charred Oak</h4>
+<p class="font-body text-sm text-on-surface-variant leading-relaxed">A look into the ancient techniques used in the Obsidian collection...</p>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-[16/9] overflow-hidden mb-6">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Detail of high-end furniture upholstery" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTS2WvWXL1c76QlfWJLrIrTRc2SaaVSFKUC1HQ1TsfBEt54ZtLxyprF5KZH1shlnPc1DuBcuFnK85KfViAHDBW0LJJKKOiGRu0_qpzWRDBnwOK7nYkVT7yvkBNVB_F1167VGLCR3RzSlAw7BOrUB30hDXaEjq8hyk9ZEZpwIeQSdzSMX5kAueynlW3A2A-lk5t_hLu510vshNAS4l8yLgvny2RTCNA4gxnnzGNWPDTCAssBIr7EHZAuYHseHy0XEgMkDBnzZjmF1T7"/>
+</div>
+<span class="font-label text-[10px] tracking-widest text-secondary uppercase mb-3 block">INTERIOR</span>
+<h4 class="font-headline text-xl font-bold mb-4 group-hover:text-secondary transition-colors">Curating the Master Suite</h4>
+<p class="font-body text-sm text-on-surface-variant leading-relaxed">Five principles for balancing luxury and intimacy in private spaces...</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-high py-24 text-on-surface border-t border-outline-variant/10">
+<div class="container mx-auto px-6">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
+<div class="md:col-span-2">
+<div class="flex items-center gap-3 mb-8">
+<div class="bg-white overflow-hidden w-6 h-6 rounded flex items-center justify-center border border-outline-variant/10">
+<img alt="Furniture Studio Logo" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYzwpRTmQxUU1zbZR1afOETDBbBv0B_OTy3uSZi1M-zr3D4OJhAdZ0rdtuJJVMreSJlhnXVbub7ICKPYtOIzIlBG9k9G0KaWgp5bzWDrziAUAXbS75sIc3Sa16PXvXkieA209VMEJWQLh75Mx7kidMOOdwBqHjOv2WfUJmMX9ythFYjuEt9oemiO96XkY7XFbPGpzOadEvAVB0kaJ83HKjGXKjarlpsAFZuyYWNGqW9BTJorDxFA9LYqQLpix6hr6C5-ehOtP7Soa7"/>
+</div>
+<span class="font-headline text-lg tracking-tight font-bold block uppercase">FURNITURE STUDIO</span>
+</div>
+<p class="font-body text-sm max-w-sm text-on-surface-variant leading-relaxed mb-8">
+                        The world's premier digital marketplace for architectural furniture and artisan-led interior masterpieces. Based in Milan, Shipping Globally.
+                    </p>
+<div class="flex gap-6">
+<a class="text-on-surface-variant hover:text-secondary" href="#"><span class="material-symbols-outlined" data-icon="public">public</span></a>
+<a class="text-on-surface-variant hover:text-secondary" href="#"><span class="material-symbols-outlined" data-icon="mail">mail</span></a>
+</div>
+</div>
+<div>
+<h5 class="font-label text-[10px] tracking-widest uppercase mb-8">COLLECTIONS</h5>
+<ul class="space-y-4 font-body text-sm text-on-surface-variant">
+<li><a class="hover:text-secondary" href="#">Dressing Room</a></li>
+<li><a class="hover:text-secondary" href="#">Master Suite</a></li>
+<li><a class="hover:text-secondary" href="#">Public Spaces</a></li>
+<li><a class="hover:text-secondary" href="#">Architectural Detail</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label text-[10px] tracking-widest uppercase mb-8">COMPANY</h5>
+<ul class="space-y-4 font-body text-sm text-on-surface-variant">
+<li><a class="hover:text-secondary" href="#">The Collective Vision</a></li>
+<li><a class="hover:text-secondary" href="#">Vendor Inquiries</a></li>
+<li><a class="hover:text-secondary" href="#">Press &amp; Media</a></li>
+<li><a class="hover:text-secondary" href="#">Privacy &amp; Terms</a></li>
+</ul>
+</div>
+</div>
+<div class="pt-8 border-t border-outline-variant/20 flex flex-col md:flex-row justify-between gap-4 font-label text-[9px] tracking-widest text-on-surface-variant/60 uppercase">
+<span>© 2024 FURNITURE STUDIO. ALL RIGHTS RESERVED.</span>
+<div class="flex gap-8">
+<span>GLOBAL CURATION COLLECTIVE</span>
+<span>ENGINEERED FOR EXCELLENCE</span>
+</div>
+</div>
+</div>
+</footer>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-safe bg-[#fcf9f4] z-50 border-t border-[#c4c7c7]/15 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center justify-center text-[#735c00] border-t-2 border-[#735c00] pt-2 pb-2" href="#">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-[0.1em] font-bold">HOME</span>
+</a>
+<a class="flex flex-col items-center justify-center text-black/40 pt-2 pb-2" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-[0.1em] font-bold">COLLECTIONS</span>
+</a>
+<a class="flex flex-col items-center justify-center text-black/40 pt-2 pb-2" href="#custom-request">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-[0.1em] font-bold">CUSTOM</span>
+</a>
+<a class="flex flex-col items-center justify-center text-black/40 pt-2 pb-2" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-[0.1em] font-bold">PROFILE</span>
+</a>
+</nav>
+</body></html>

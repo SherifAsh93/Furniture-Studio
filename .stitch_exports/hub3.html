@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FURNITURE STUDIO | ADMIN CONTROL</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container": "#f0ede8",
+              "on-secondary": "#ffffff",
+              "error": "#ba1a1a",
+              "on-primary-fixed-variant": "#474746",
+              "background": "#fcf9f4",
+              "surface-tint": "#5f5e5e",
+              "primary-container": "#1c1b1b",
+              "outline": "#747878",
+              "on-surface": "#1c1c19",
+              "error-container": "#ffdad6",
+              "on-primary-fixed": "#1c1b1b",
+              "primary-fixed-dim": "#c8c6c5",
+              "on-secondary-fixed": "#241a00",
+              "surface-container-high": "#ebe8e3",
+              "on-tertiary": "#ffffff",
+              "secondary": "#735c00",
+              "tertiary-container": "#261900",
+              "outline-variant": "#c4c7c7",
+              "inverse-primary": "#c8c6c5",
+              "on-secondary-container": "#745c00",
+              "surface-variant": "#e5e2dd",
+              "surface-container-highest": "#e5e2dd",
+              "surface-container-low": "#f6f3ee",
+              "inverse-on-surface": "#f3f0eb",
+              "secondary-fixed-dim": "#e9c349",
+              "tertiary-fixed": "#ffdea5",
+              "surface-container-lowest": "#ffffff",
+              "surface-bright": "#fcf9f4",
+              "on-error-container": "#93000a",
+              "on-primary-container": "#858383",
+              "on-tertiary-fixed-variant": "#5d4201",
+              "tertiary-fixed-dim": "#e9c176",
+              "secondary-fixed": "#ffe088",
+              "primary": "#000000",
+              "on-tertiary-container": "#a17f3b",
+              "on-secondary-fixed-variant": "#574500",
+              "on-primary": "#ffffff",
+              "on-error": "#ffffff",
+              "surface-dim": "#dcdad5",
+              "on-background": "#1c1c19",
+              "secondary-container": "#fed65b",
+              "on-tertiary-fixed": "#261900",
+              "on-surface-variant": "#444748",
+              "surface": "#fcf9f4",
+              "inverse-surface": "#31302d",
+              "tertiary": "#000000",
+              "primary-fixed": "#e5e2e1"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #fcf9f4;
+        }
+        h1, h2, h3 {
+            font-family: 'Noto Serif', serif;
+        }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#fcf9f4]/80 dark:bg-[#1c1b1b]/80 backdrop-blur-xl shadow-[0px_20px_40px_rgba(28,28,25,0.04)] flex justify-between items-center px-6 py-4 max-w-full transition-colors duration-300">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#1c1c19] dark:text-[#fcf9f4] cursor-pointer">menu</span>
+<div class="flex items-center gap-3 group cursor-pointer">
+<div class="bg-white overflow-hidden w-10 h-10 rounded-lg flex items-center justify-center border border-outline-variant/30">
+<img alt="Furniture Studio Logo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYzwpRTmQxUU1zbZR1afOETDBbBv0B_OTy3uSZi1M-zr3D4OJhAdZ0rdtuJJVMreSJlhnXVbub7ICKPYtOIzIlBG9k9G0KaWgp5bzWDrziAUAXbS75sIc3Sa16PXvXkieA209VMEJWQLh75Mx7kidMOOdwBqHjOv2WfUJmMX9ythFYjuEt9oemiO96XkY7XFbPGpzOadEvAVB0kaJ83HKjGXKjarlpsAFZuyYWNGqW9BTJorDxFA9LYqQLpix6hr6C5-ehOtP7Soa7"/>
+</div>
+<div class="flex flex-col leading-none">
+<span class="font-headline text-xl tracking-tight font-bold text-black dark:text-white uppercase">FURNITURE</span>
+<span class="font-headline text-xl tracking-tight font-light text-black/60 dark:text-white/60 uppercase -mt-0.5">STUDIO</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-black/60 dark:text-white/60 cursor-pointer hover:text-black transition-colors" data-icon="account_circle">account_circle</span>
+<span class="material-symbols-outlined text-black/60 dark:text-white/60 cursor-pointer hover:text-black transition-colors" data-icon="logout">logout</span>
+</div>
+</header>
+<div class="flex pt-16 min-h-screen">
+<!-- NavigationDrawer (Sidebar) -->
+<aside class="hidden md:flex h-[calc(100vh-64px)] w-80 bg-[#f6f3ee] dark:bg-[#1c1b1b] border-r border-[#c4c7c7]/15 flex-col p-8 gap-6 sticky top-16">
+<div class="mb-4">
+<p class="font-['Manrope'] uppercase tracking-[0.1em] text-[0.75rem] text-[#747878]">NAVIGATION</p>
+</div>
+<nav class="flex flex-col gap-4">
+<a class="flex items-center gap-3 py-2 text-[#747878] hover:bg-[#ffffff] transition-all px-2" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-['Manrope'] uppercase tracking-[0.1em] text-[0.75rem]">COLLECTIONS</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-[#747878] hover:bg-[#ffffff] transition-all px-2" href="#">
+<span class="material-symbols-outlined">brush</span>
+<span class="font-['Manrope'] uppercase tracking-[0.1em] text-[0.75rem]">ARTISANS</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-[#735c00] font-bold border-b border-[#735c00] px-2 bg-white/50" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-['Manrope'] uppercase tracking-[0.1em] text-[0.75rem]">DASHBOARD</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-[#747878] hover:bg-[#ffffff] transition-all px-2" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-['Manrope'] uppercase tracking-[0.1em] text-[0.75rem]">INVENTORY</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-[#747878] hover:bg-[#ffffff] transition-all px-2" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-['Manrope'] uppercase tracking-[0.1em] text-[0.75rem]">SETTINGS</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 p-8 md:p-12 max-w-7xl mx-auto w-full">
+<!-- Admin Authorization Header -->
+<div class="mb-12 border-b border-outline-variant/15 pb-8">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<span class="text-[0.75rem] font-['Manrope'] uppercase tracking-[0.2em] text-secondary font-bold">Terminal 01</span>
+<h1 class="text-4xl md:text-5xl font-['Noto_Serif'] font-bold tracking-tight text-primary mt-2">Admin Control Center</h1>
+</div>
+<div class="flex items-center gap-4 bg-surface-container-low px-6 py-4 border border-outline-variant/10">
+<span class="material-symbols-outlined text-outline">lock</span>
+<div class="flex flex-col">
+<label class="text-[0.6rem] font-bold tracking-widest uppercase text-outline">Security Code</label>
+<span class="text-sm font-mono tracking-widest text-primary">••••••91</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Metrics Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+<!-- Metric 1 -->
+<div class="md:col-span-2 bg-primary-container p-8 flex flex-col justify-between min-h-[220px]">
+<div class="flex justify-between items-start">
+<p class="text-[0.7rem] font-bold tracking-[0.2em] text-on-primary-container uppercase">Monthly Revenue</p>
+<span class="material-symbols-outlined text-secondary">payments</span>
+</div>
+<div>
+<h2 class="text-5xl font-['Noto_Serif'] text-on-primary italic">$248.5k</h2>
+<p class="text-secondary text-sm mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">arrow_upward</span>
+                            12.4% from last month
+                        </p>
+</div>
+</div>
+<!-- Metric 2 -->
+<div class="bg-surface-container-lowest p-8 flex flex-col justify-between border border-outline-variant/10 shadow-[0px_20px_40px_rgba(28,28,25,0.02)]">
+<div>
+<p class="text-[0.7rem] font-bold tracking-[0.2em] text-outline uppercase">Active Vendors</p>
+<h2 class="text-4xl font-['Noto_Serif'] text-primary mt-4">1,422</h2>
+</div>
+<div class="w-full bg-surface-container h-1 mt-6">
+<div class="bg-secondary h-full w-3/4"></div>
+</div>
+</div>
+<!-- Metric 3 -->
+<div class="bg-surface-container-low p-8 flex flex-col justify-between">
+<div>
+<p class="text-[0.7rem] font-bold tracking-[0.2em] text-outline uppercase">Database Health</p>
+<div class="flex items-center gap-3 mt-4">
+<span class="w-2 h-2 bg-[#2e7d32] rounded-full"></span>
+<h2 class="text-xl font-bold tracking-tight text-primary">OPTIMAL</h2>
+</div>
+</div>
+<p class="text-[0.65rem] text-outline mt-4">Latency: 24ms</p>
+</div>
+</div>
+<!-- Main Control Sections -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+<!-- Left: System Settings & Subscription -->
+<div class="lg:col-span-1 flex flex-col gap-12">
+<section>
+<h3 class="text-xl font-['Noto_Serif'] font-bold mb-6 flex items-center gap-2">
+                            Global Parameters
+                        </h3>
+<div class="space-y-8">
+<!-- Subscription Toggle -->
+<div class="bg-surface-container-low p-6">
+<label class="block text-[0.7rem] font-bold tracking-widest text-outline uppercase mb-4">Subscription Model</label>
+<div class="flex items-center justify-between mb-6">
+<span class="text-sm font-medium">Automatic Recurring Billing</span>
+<div class="w-12 h-6 bg-secondary flex items-center px-1">
+<div class="w-4 h-4 bg-white ml-auto"></div>
+</div>
+</div>
+<div class="relative">
+<label class="block text-[0.6rem] font-bold tracking-widest text-outline uppercase mb-1">Standard Vendor Fee</label>
+<div class="flex items-center border-b border-outline-variant/30 focus-within:border-secondary transition-colors">
+<span class="text-primary font-['Noto_Serif'] text-xl">$</span>
+<input class="w-full bg-transparent border-none focus:ring-0 text-xl font-['Noto_Serif'] text-primary py-2" type="text" value="10,000"/>
+</div>
+</div>
+<button class="mt-6 w-full py-4 bg-primary text-on-primary text-[0.75rem] font-bold tracking-widest uppercase hover:opacity-90 transition-opacity">Update Configuration</button>
+</div>
+<!-- System Status -->
+<div class="space-y-4">
+<div class="flex justify-between items-center py-3 border-b border-outline-variant/10">
+<span class="text-sm text-on-surface-variant">API Gateway</span>
+<span class="text-[0.6rem] font-bold bg-[#e8f5e9] text-[#2e7d32] px-2 py-0.5 tracking-tighter uppercase">Operational</span>
+</div>
+<div class="flex justify-between items-center py-3 border-b border-outline-variant/10">
+<span class="text-sm text-on-surface-variant">Auth Service</span>
+<span class="text-[0.6rem] font-bold bg-[#e8f5e9] text-[#2e7d32] px-2 py-0.5 tracking-tighter uppercase">Operational</span>
+</div>
+<div class="flex justify-between items-center py-3 border-b border-outline-variant/10">
+<span class="text-sm text-on-surface-variant">Image CDN</span>
+<span class="text-[0.6rem] font-bold bg-[#fff3e0] text-[#ef6c00] px-2 py-0.5 tracking-tighter uppercase">High Load</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right: Pending Approvals Table -->
+<div class="lg:col-span-2">
+<section>
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-2xl font-['Noto_Serif'] font-bold">Pending Vendor Approvals</h3>
+<span class="text-[0.7rem] font-bold text-secondary tracking-widest border border-secondary px-3 py-1">8 REQUESTS</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-primary/10">
+<th class="py-4 text-[0.7rem] font-bold tracking-widest text-outline uppercase">Vendor Identity</th>
+<th class="py-4 text-[0.7rem] font-bold tracking-widest text-outline uppercase">Category</th>
+<th class="py-4 text-[0.7rem] font-bold tracking-widest text-outline uppercase">Origin</th>
+<th class="py-4 text-right text-[0.7rem] font-bold tracking-widest text-outline uppercase">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Vendor Row 1 -->
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container overflow-hidden">
+<img alt="Close up of artisanal ceramic texture" class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_SHvOXm8YKCGRr8fnqdAQ8FQIX2etC1wh_ZNneA40AoP8lWsyRgvfXdBOCJynjjhbsFhKlxrlaB5yniUjN2Ck02mivUPEMC-no-GSwOY6sa1rGHczjdvsjLvEuBTNxQpFNMCusztktCZIMGL2NhTggcPeWYP61FMB1vQdKYwCMhpOiG9G8Tya2c0IW3j_wXFQezgno_MNDZEmALW8fNFepbCJSqZ3vWKo0-IbrNrxwFCbp9_jFemC9uZSnK9DbYzpOEHfDL3Csai0"/>
+</div>
+<div>
+<p class="font-bold text-primary text-sm uppercase tracking-tight">Atelier Nord</p>
+<p class="text-xs text-outline">joined 2h ago</p>
+</div>
+</div>
+</td>
+<td class="py-6 text-sm text-on-surface-variant">Furniture / Minimalist</td>
+<td class="py-6 text-sm text-on-surface-variant">Copenhagen, DK</td>
+<td class="py-6 text-right">
+<div class="flex justify-end gap-3">
+<button class="text-[0.65rem] font-bold tracking-widest uppercase text-primary hover:text-secondary transition-colors px-4 py-2 border border-outline-variant/30">Reject</button>
+<button class="text-[0.65rem] font-bold tracking-widest uppercase bg-primary text-on-primary px-4 py-2 hover:bg-secondary transition-colors">Approve</button>
+</div>
+</td>
+</tr>
+<!-- Vendor Row 2 -->
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container overflow-hidden">
+<img alt="Modern living room setup architectural shot" class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTYnzwXxvoIacpB-85JIlWUF6HmfNl3ylq9KncpFBneM15GOS9p4zH-V1rIJexWfyxfqg8e72CyfBV3pxxQ9zGqZDs_YQeA-Wp1z27G4mmkVOsxqq0iDab6UoeIHvXkEEGrpeSN927r6Y9p79561kCgr6yjwZZGWgOrBC5RLvjEk6f_0ZDUAL8GDo7wBK6vCeKzLV_JXBp_AH1367N6JpYvuDCbE2IZGWULMeMgAIt5bREmIWwnIsDMAvFlHmFNLnYxmXKMR6NOQ1n"/>
+</div>
+<div>
+<p class="font-bold text-primary text-sm uppercase tracking-tight">Studio Marmo</p>
+<p class="text-xs text-outline">joined 5h ago</p>
+</div>
+</div>
+</td>
+<td class="py-6 text-sm text-on-surface-variant">Lighting / Stone</td>
+<td class="py-6 text-sm text-on-surface-variant">Milan, IT</td>
+<td class="py-6 text-right">
+<div class="flex justify-end gap-3">
+<button class="text-[0.65rem] font-bold tracking-widest uppercase text-primary hover:text-secondary transition-colors px-4 py-2 border border-outline-variant/30">Reject</button>
+<button class="text-[0.65rem] font-bold tracking-widest uppercase bg-primary text-on-primary px-4 py-2 hover:bg-secondary transition-colors">Approve</button>
+</div>
+</td>
+</tr>
+<!-- Vendor Row 3 -->
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container overflow-hidden">
+<img alt="Artistic textile patterns in warm tones" class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6-5xIiQveYTSqRN7JiBY_lHLH8yTRxtMqENpTP95_cl9PGoehw6dixVvtOqpVY81DY3TM1TBz9VoBW7z4KucRFIXbwYm00lb1JQu_7T4XpqShj9GHKSumf19fg25O48OEz3AIf0MQuId0r5zZl48Wfr01YWoz4WnR8yVGv6O9w68b3NZI7Etb0lBMpbEpT-Rg2tOAYApkP_Tgtqph8pEbBTfTCH3KHkAlo14scWEemXyvoC2N-rXvCiHvPcIJ0onp3gz5UNq-2MTI"/>
+</div>
+<div>
+<p class="font-bold text-primary text-sm uppercase tracking-tight">Ember &amp; Ash</p>
+<p class="text-xs text-outline">joined yesterday</p>
+</div>
+</div>
+</td>
+<td class="py-6 text-sm text-on-surface-variant">Textiles / Hand-dyed</td>
+<td class="py-6 text-sm text-on-surface-variant">Portland, US</td>
+<td class="py-6 text-right">
+<div class="flex justify-end gap-3">
+<button class="text-[0.65rem] font-bold tracking-widest uppercase text-primary hover:text-secondary transition-colors px-4 py-2 border border-outline-variant/30">Reject</button>
+<button class="text-[0.65rem] font-bold tracking-widest uppercase bg-primary text-on-primary px-4 py-2 hover:bg-secondary transition-colors">Approve</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-8">
+<button class="text-[0.7rem] font-bold tracking-[0.2em] text-secondary uppercase border-b border-secondary pb-1">View All Requests (34)</button>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center py-4 bg-[#fcf9f4] dark:bg-[#1c1b1b] border-t border-[#c4c7c7]/10 z-50">
+<a class="flex flex-col items-center text-[#735c00]" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-['Manrope'] text-[10px] tracking-widest uppercase mt-1">HOME</span>
+</a>
+<a class="flex flex-col items-center text-[#747878]" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="font-['Manrope'] text-[10px] tracking-widest uppercase mt-1">SEARCH</span>
+</a>
+<a class="flex flex-col items-center text-[#747878]" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-['Manrope'] text-[10px] tracking-widest uppercase mt-1">WISHLIST</span>
+</a>
+<a class="flex flex-col items-center text-[#747878]" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Manrope'] text-[10px] tracking-widest uppercase mt-1">ACCOUNT</span>
+</a>
+</nav>
+<!-- Footer -->
+<footer class="bg-[#1c1b1b] text-[#fcf9f4] w-full py-16 px-8 flex flex-col md:flex-row justify-between items-center gap-8 border-t border-white/5">
+<div class="flex flex-col items-center md:items-start gap-4">
+<span class="font-['Noto_Serif'] text-[#fcf9f4] italic text-2xl tracking-tighter font-bold">THE EDITORIAL COLLECTIVE</span>
+<p class="font-['Manrope'] text-[0.7rem] tracking-widest uppercase text-[#c4c7c7]">© 2024 THE EDITORIAL COLLECTIVE. ALL RIGHTS RESERVED.</p>
+</div>
+<div class="flex gap-8">
+<a class="font-['Manrope'] text-[0.7rem] tracking-widest uppercase text-[#c4c7c7] hover:text-[#735c00] transition-colors" href="#">PRIVACY</a>
+<a class="font-['Manrope'] text-[0.7rem] tracking-widest uppercase text-[#c4c7c7] hover:text-[#735c00] transition-colors" href="#">TERMS</a>
+<a class="font-['Manrope'] text-[0.7rem] tracking-widest uppercase text-[#c4c7c7] hover:text-[#735c00] transition-colors" href="#">SHIPPING</a>
+<a class="font-['Manrope'] text-[0.7rem] tracking-widest uppercase text-[#c4c7c7] hover:text-[#735c00] transition-colors" href="#">CONTACT</a>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,953 @@
+'use client';
+
+import Link from 'next/link';
+import { useAuth } from '@/context/AuthContext';
+import { getVendorData, deleteProduct, createProduct, updateProduct, updateCustomRequestStatus, deleteOrderItem, deleteCustomRequest } from '@/app/actions/data';
+import { useEffect, useState, useRef } from 'react';
+import AuthModal from '@/components/AuthModal';
+
+// ─── Product Form Modal ───────────────────────────────────────────────────────
+function ProductFormModal({
+  vendorId,
+  product,
+  onClose,
+  onSaved,
+}: {
+  vendorId: string;
+  product?: any;
+  onClose: () => void;
+  onSaved: () => void;
+}) {
+  const [form, setForm] = useState({
+    title: product?.title ?? '',
+    description: product?.description ?? '',
+    price: product?.price ?? '',
+    stock: product?.stock ?? 1,
+    category: product?.category ?? '',
+    length: product?.length ?? '',
+    width: product?.width ?? '',
+    height: product?.height ?? '',
+    images: product?.images ?? [],
+  });
+  const [newImage, setNewImage] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.title || !form.price || !form.category) {
+      setError('Title, price, and category are required.');
+      return;
+    }
+    setSaving(true);
+    setError('');
+    try {
+      const payload = {
+        vendorId,
+        title: form.title,
+        description: form.description,
+        price: form.price,
+        stock: form.stock,
+        category: form.category,
+        length: form.length,
+        width: form.width,
+        height: form.height,
+        images: form.images,
+      };
+
+      if (product?.id) {
+        await updateProduct(product.id, payload);
+      } else {
+        await createProduct(payload);
+      }
+      onSaved();
+      onClose();
+    } catch (err: any) {
+      setError(err.message ?? 'Something went wrong');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const addImage = () => {
+    if (newImage && !form.images.includes(newImage)) {
+      setForm(f => ({ ...f, images: [...f.images, newImage] }));
+      setNewImage('');
+    }
+  };
+
+  const removeImage = (idx: number) => {
+    setForm(f => ({ ...f, images: f.images.filter((_: string, i: number) => i !== idx) }));
+  };
+
+  const categories = [
+    'Dressing room',
+    'Master bedroom',
+    'Kids room',
+    'Sofas tables',
+    'Sofas',
+    'Dining room (Buffet + 6 chairs)',
+    'Dining room (Buffet + 8 chairs)',
+    'Side tables',
+    'Doors',
+    'Cladding'
+  ];
+
+  return (
+    <div className="fixed inset-0 z-[100] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-[#fcf9f4] w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-outline-variant/20 shadow-2xl">
+        {/* Modal Header */}
+        <div className="flex items-center justify-between px-8 py-6 border-b border-outline-variant/15 bg-[#1c1b1b] text-[#fcf9f4]">
+          <h2 className="font-headline text-xl uppercase tracking-tight font-bold">
+            {product ? 'Edit Listing' : 'New Listing'}
+          </h2>
+          <button onClick={onClose} className="opacity-40 hover:opacity-100 transition-opacity">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="p-8 flex flex-col gap-6">
+          {/* Multiple Image Support */}
+          <div>
+            <label className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-2 block">Visual Assets (Cloudinary Links) *</label>
+            <div className="flex gap-2 mb-4">
+              <input
+                type="url"
+                value={newImage}
+                onChange={e => setNewImage(e.target.value)}
+                placeholder="Paste Cloudinary link..."
+                className="flex-1 border-b border-outline-variant/40 py-2 bg-transparent text-sm focus:border-primary transition-all outline-none"
+              />
+              <button
+                type="button"
+                onClick={addImage}
+                className="bg-[#1c1b1b] text-white px-4 py-2 text-[0.6rem] font-bold uppercase tracking-widest hover:bg-primary transition-all"
+              >
+                Add
+              </button>
+            </div>
+
+            <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide">
+              {form.images.map((img: string, idx: number) => (
+                <div key={idx} className="relative w-32 aspect-square shrink-0 bg-surface-container-low border border-outline-variant/30 group">
+                  <img src={img} alt={`Preview ${idx}`} className="w-full h-full object-cover" />
+                  <button
+                    type="button"
+                    onClick={() => removeImage(idx)}
+                    className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+              {form.images.length === 0 && (
+                <div className="w-full py-12 border-2 border-dashed border-outline-variant/20 flex items-center justify-center">
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.2em] opacity-30">No images added yet</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Title */}
+          <div>
+            <label className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-2 block">Product Name *</label>
+            <input
+              type="text"
+              value={form.title}
+              onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
+              placeholder="e.g. Walnut Dining Chair"
+              className="w-full border-b border-outline-variant/40 py-3 bg-transparent text-sm font-medium focus:border-primary focus:outline-none transition-all placeholder:opacity-30"
+            />
+          </div>
+
+          {/* Description */}
+          <div>
+            <label className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-2 block">Description</label>
+            <textarea
+              value={form.description}
+              onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
+              placeholder="Describe the materials, craftsmanship, dimensions…"
+              rows={3}
+              className="w-full border-b border-outline-variant/40 py-3 bg-transparent text-sm focus:border-primary focus:outline-none transition-all resize-none placeholder:opacity-30"
+            />
+          </div>
+
+          {/* Dimensions, Quantity, Price, Category */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+            <div>
+              <label className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-2 block">Price (USD) *</label>
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                value={form.price}
+                onChange={e => setForm(f => ({ ...f, price: e.target.value }))}
+                placeholder="0.00"
+                className="w-full border-b border-outline-variant/40 py-3 bg-transparent text-sm font-medium focus:border-primary focus:outline-none transition-all placeholder:opacity-30"
+              />
+            </div>
+            <div>
+              <label className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-2 block">Quantity / Stock</label>
+              <input
+                type="number"
+                min="0"
+                value={form.stock}
+                onChange={e => setForm(f => ({ ...f, stock: e.target.value }))}
+                className="w-full border-b border-outline-variant/40 py-3 bg-transparent text-sm font-medium focus:border-primary focus:outline-none transition-all"
+              />
+            </div>
+            <div>
+              <label className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-2 block">Category *</label>
+              <select
+                value={form.category}
+                onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
+                className="w-full border-b border-outline-variant/40 py-3 bg-transparent text-sm focus:border-primary focus:outline-none transition-all"
+              >
+                <option value="">Select…</option>
+                {categories.map(c => <option key={c} value={c}>{c}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-2 block">Length (cm)</label>
+              <input
+                type="number"
+                value={form.length}
+                onChange={e => setForm(f => ({ ...f, length: e.target.value }))}
+                placeholder="0"
+                className="w-full border-b border-outline-variant/40 py-3 bg-transparent text-sm focus:border-primary focus:outline-none transition-all placeholder:opacity-30"
+              />
+            </div>
+            <div>
+              <label className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-2 block">Width (cm)</label>
+              <input
+                type="number"
+                value={form.width}
+                onChange={e => setForm(f => ({ ...f, width: e.target.value }))}
+                placeholder="0"
+                className="w-full border-b border-outline-variant/40 py-3 bg-transparent text-sm focus:border-primary focus:outline-none transition-all placeholder:opacity-30"
+              />
+            </div>
+            <div>
+              <label className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-2 block">Height (cm)</label>
+              <input
+                type="number"
+                value={form.height}
+                onChange={e => setForm(f => ({ ...f, height: e.target.value }))}
+                placeholder="0"
+                className="w-full border-b border-outline-variant/40 py-3 bg-transparent text-sm focus:border-primary focus:outline-none transition-all placeholder:opacity-30"
+              />
+            </div>
+          </div>
+
+          {error && <p className="text-[0.65rem] font-bold uppercase tracking-widest text-red-500">{error}</p>}
+
+          {/* Actions */}
+          <div className="flex gap-4 pt-4 border-t border-outline-variant/15">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 py-4 border border-outline-variant/30 text-[0.7rem] font-bold uppercase tracking-widest hover:border-primary transition-all"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={saving}
+              className="flex-1 py-4 bg-primary text-on-primary text-[0.7rem] font-bold uppercase tracking-widest hover:bg-secondary transition-all disabled:opacity-40"
+            >
+              {saving ? 'Saving…' : product ? 'Update Listing' : 'Publish Listing'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+// ─── Request Detail Modal ───────────────────────────────────────────────────
+function RequestDetailModal({
+  request,
+  onClose,
+  onRefresh,
+}: {
+  request: any;
+  onClose: () => void;
+  onRefresh: () => void;
+}) {
+  const [loading, setLoading] = useState(false);
+
+  const handleStatusChange = async (newStatus: string) => {
+    setLoading(true);
+    const res = await updateCustomRequestStatus(request.id, newStatus);
+    if (res.success) {
+      onRefresh();
+      onClose();
+    }
+    setLoading(false);
+  };
+
+  const handleDeleteRequest = async () => {
+    if (!confirm('DANGER: This will permanently expunge this lead from the archive. Continue?')) return;
+    setLoading(true);
+    const res = await deleteCustomRequest(request.id);
+    if (res.success) {
+      onRefresh();
+      onClose();
+    }
+    setLoading(false);
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'PENDING': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'CONTACTED': return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'IN_PRODUCTION': return 'bg-purple-100 text-purple-800 border-purple-200';
+      case 'DELIVERED': return 'bg-indigo-100 text-indigo-800 border-indigo-200';
+      case 'COMPLETED': return 'bg-green-100 text-green-800 border-green-200';
+      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-[#fcf9f4] w-full max-w-2xl border border-outline-variant/20 shadow-2xl animate-in zoom-in-95 duration-200">
+        <div className="flex items-center justify-between px-8 py-6 border-b border-outline-variant/15 bg-[#1c1b1b] text-[#fcf9f4]">
+          <h2 className="font-headline text-lg uppercase tracking-widest font-bold">Request Intelligence</h2>
+          <button onClick={onClose} className="opacity-40 hover:opacity-100 transition-opacity p-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+          </button>
+        </div>
+
+        <div className="p-10 space-y-10">
+          <div className="flex justify-between items-start">
+             <div>
+                <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-1">Commission Category</p>
+                <h3 className="font-headline text-2xl text-primary font-bold uppercase leading-tight">{request.category}</h3>
+             </div>
+             <span className={`px-3 py-1 text-[10px] font-bold border uppercase tracking-widest ${getStatusColor(request.status)}`}>
+                {request.status}
+             </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="space-y-6">
+              <div>
+                <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-3">Client Profile</p>
+                <div className="space-y-2">
+                  <p className="font-headline text-xl text-primary font-bold uppercase">{request.customer.name}</p>
+                  <p className="text-sm font-medium text-primary/60">{request.customer.email}</p>
+                  <p className="text-sm font-bold text-primary tracking-widest">{request.customer.phone || "STATION 2 AUTH REQUIRED"}</p>
+                </div>
+              </div>
+              <div className="pt-4 border-t border-outline-variant/10">
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-3">Spatial Specifications</p>
+                  <div className="space-y-2 font-label text-sm font-bold">
+                    <p>L: {request.length}cm</p>
+                    <p>W: {request.width}cm</p>
+                    <p>H: {request.height}cm</p>
+                    <p className="text-[#a1824a]">MATERIAL: {request.material || 'STANDARD'}</p>
+                  </div>
+              </div>
+            </div>
+            <div className="space-y-6">
+               <div>
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-3">Project Narrative</p>
+                  <p className="text-xs font-medium leading-relaxed uppercase tracking-tight italic bg-primary/5 p-4 border border-primary/10">
+                    "{request.message || "No contextual intelligence provided by client."}"
+                  </p>
+               </div>
+            </div>
+          </div>
+
+          <div className="pt-6 grid grid-cols-2 lg:grid-cols-3 gap-3">
+            {request.status === 'PENDING' && (
+              <button disabled={loading} onClick={() => handleStatusChange('CONTACTED')} className="bg-[#1c1b1b] text-white py-4 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-black/80 transition-all disabled:opacity-50">Initiate Contact</button>
+            )}
+            {request.status === 'CONTACTED' && (
+              <button disabled={loading} onClick={() => handleStatusChange('IN_PRODUCTION')} className="bg-[#1c1b1b] text-white py-4 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-black/80 transition-all disabled:opacity-50">Move to Production</button>
+            )}
+            {request.status === 'IN_PRODUCTION' && (
+              <button disabled={loading} onClick={() => handleStatusChange('DELIVERED')} className="bg-[#1c1b1b] text-white py-4 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-black/80 transition-all disabled:opacity-50">Mark Delivered</button>
+            )}
+            {request.status === 'DELIVERED' && (
+              <button disabled={loading} onClick={() => handleStatusChange('COMPLETED')} className="bg-[#a1824a] text-white py-4 font-label text-[9px] font-bold tracking-widest uppercase transition-all disabled:opacity-50">Finalize Transaction</button>
+            )}
+            <button onClick={onClose} className="px-8 py-4 border border-outline-variant/30 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-black/5 transition-all text-center">Dismiss</button>
+            <button disabled={loading} onClick={handleDeleteRequest} className="px-8 py-4 border border-red-200 text-red-500 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-red-50 transition-all text-center lg:col-span-1">Scrap Request</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Order Detail Modal ───────────────────────────────────────────────────────
+function OrderDetailModal({
+  item,
+  onClose,
+  onRefresh,
+}: {
+  item: any;
+  onClose: () => void;
+  onRefresh: () => void;
+}) {
+  const [updating, setUpdating] = useState(false);
+
+  const handleStatusChange = async (newStatus: string) => {
+    setUpdating(true);
+    const res = await (await import('@/app/actions/data')).updateOrderStatus(item.orderId, newStatus);
+    if (res.success) {
+      onRefresh();
+      onClose();
+    }
+    setUpdating(false);
+  };
+
+  const handleDeleteOrder = async () => {
+    if (!confirm('DANGER: This will permanently remove this item from the order record. If it is the last item, the order will be expunged. Continue?')) return;
+    setUpdating(true);
+    const res = await (await import('@/app/actions/data')).deleteOrderItem(item.id);
+    if (res.success) {
+      onRefresh();
+      onClose();
+    }
+    setUpdating(false);
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'PENDING': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'PAID': return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'SHIPPED': return 'bg-purple-100 text-purple-800 border-purple-200';
+      case 'DELIVERED': return 'bg-green-100 text-green-800 border-green-200';
+      case 'CANCELLED': return 'bg-red-100 text-red-800 border-red-200';
+      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-[#fcf9f4] w-full max-w-2xl border border-outline-variant/20 shadow-2xl animate-in zoom-in-95 duration-200">
+        <div className="flex items-center justify-between px-8 py-6 border-b border-outline-variant/15 bg-[#1c1b1b] text-[#fcf9f4]">
+          <h2 className="font-headline text-lg uppercase tracking-widest font-bold">Acquisition Dossier</h2>
+          <button onClick={onClose} className="opacity-40 hover:opacity-100 transition-opacity p-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+          </button>
+        </div>
+
+        <div className="p-10 space-y-10">
+          <div className="flex gap-8 border-b border-outline-variant/10 pb-8">
+            <div className="w-32 h-32 bg-[#fcf9f4] shrink-0 border border-outline-variant/10 rounded-xl overflow-hidden">
+              <img src={item.product?.images?.[0] || 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=300'} alt={item.product?.title} className="w-full h-full object-cover" />
+            </div>
+            <div className="flex-1">
+              <div className="flex justify-between items-start mb-2">
+                <div>
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-1">Catalog Item</p>
+                  <h3 className="font-headline text-2xl text-primary font-bold uppercase leading-tight">{item.product?.title}</h3>
+                </div>
+                <span className={`px-3 py-1 text-[10px] font-bold border uppercase tracking-widest ${getStatusColor(item.order.status)}`}>
+                  {item.order.status}
+                </span>
+              </div>
+              <div className="flex gap-8 mt-4">
+                <div>
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-1">Quantity</p>
+                  <p className="font-label text-sm font-bold">0{item.quantity}</p>
+                </div>
+                <div>
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-1">Unit Value</p>
+                  <p className="font-label text-sm font-bold">${item.price.toLocaleString()}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="space-y-6">
+              <div>
+                <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-3">Client Intelligence</p>
+                <div className="space-y-2">
+                  <p className="font-headline text-xl text-primary font-bold uppercase">{item.order.customer.name}</p>
+                  <p className="text-sm font-medium text-primary/60">{item.order.customer.email}</p>
+                  <p className="text-sm font-bold text-primary tracking-widest">{item.order.customer.phone || "PHASE 2 AUTH REQUIRED"}</p>
+                </div>
+              </div>
+            </div>
+            <div className="space-y-6">
+               <div>
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-3">Dispatch Destination</p>
+                  <p className="text-xs font-medium leading-relaxed uppercase tracking-tight italic bg-primary/5 p-4 border border-primary/10">
+                    {item.order.customer.address || "Address Pending Verification"}
+                  </p>
+               </div>
+            </div>
+          </div>
+
+          <div className="pt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+            {item.order.status === 'PENDING' && (
+              <button disabled={updating} onClick={() => handleStatusChange('PAID')} className="bg-[#1c1b1b] text-white py-4 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-black/80 transition-all disabled:opacity-50">Confirm Payment</button>
+            )}
+            {(item.order.status === 'PAID' || item.order.status === 'PENDING') && (
+              <button disabled={updating} onClick={() => handleStatusChange('SHIPPED')} className="border border-black text-black py-4 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-black/5 transition-all disabled:opacity-50">Mark Shipped</button>
+            )}
+            {item.order.status === 'SHIPPED' && (
+              <button disabled={updating} onClick={() => handleStatusChange('DELIVERED')} className="bg-primary text-white py-4 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-black/80 transition-all disabled:opacity-50 md:col-span-1">Confirm Delivery</button>
+            )}
+            {item.order.status !== 'CANCELLED' && item.order.status !== 'DELIVERED' && (
+               <button disabled={updating} onClick={() => handleStatusChange('CANCELLED')} className="border border-red-200 text-red-600 py-4 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-red-50 transition-all disabled:opacity-50">Cancel Order</button>
+            )}
+            <button onClick={onClose} className="px-8 py-4 border border-outline-variant/30 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-black/5 transition-all md:col-span-1">Dismiss</button>
+            <button disabled={updating} onClick={handleDeleteOrder} className="px-8 py-4 border border-red-200 text-red-500 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-red-50 transition-all md:col-span-1">Scrap Line Item</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Main Vendor Dashboard ───────────────────────────────────────────────────
+export default function VendorDashboard() {
+  const { user, loading: authLoading, openModal } = useAuth();
+  const [vendorData, setVendorData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<'overview' | 'catalog' | 'inbox' | 'requests' | 'orders'>('overview');
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [isOrderDetailModalOpen, setIsOrderDetailModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [selectedRequest, setSelectedRequest] = useState<any>(null);
+  const [selectedOrder, setSelectedOrder] = useState<any>(null);
+
+  const loadData = async () => {
+    if (user?.id) {
+      const data = await getVendorData(user.id);
+      setVendorData(data);
+    }
+    setLoading(false); // always resolve loading, even when not logged in
+  };
+
+  useEffect(() => {
+    loadData();
+  }, [user, authLoading]);
+
+  const openCreate = () => { setSelectedProduct(null); setIsEditModalOpen(true); };
+  const openEdit = (prod: any) => {
+    setSelectedProduct(prod);
+    setIsEditModalOpen(true);
+  };
+
+  const openRequest = (req: any) => {
+    setSelectedRequest(req);
+    setIsDetailModalOpen(true);
+  };
+  const openOrder = (ord: any) => {
+    setSelectedOrder(ord);
+    setIsOrderDetailModalOpen(true);
+  };
+  const handleSaved = () => {
+    setIsEditModalOpen(false);
+    loadData();
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm('Delete this product?')) return;
+    await deleteProduct(id);
+    loadData();
+  };
+
+  if (authLoading || loading) {
+    return (
+      <div className="min-h-screen bg-surface flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  // Not logged in — show login prompt
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-[#1c1b1b] text-[#fcf9f4] flex flex-col items-center justify-center p-8 text-center">
+        <div className="mb-8 opacity-30">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+        </div>
+        <h1 className="font-headline text-3xl uppercase tracking-tight font-bold mb-4">Artisan Terminal</h1>
+        <p className="text-[0.7rem] font-bold tracking-widest uppercase text-white/40 mb-10">Sign in with your vendor account to access your dashboard</p>
+        <button
+          onClick={() => openModal('login')}
+          className="px-12 py-5 bg-[#fcf9f4] text-[#1c1b1b] text-[0.75rem] font-bold uppercase tracking-widest hover:bg-secondary transition-all"
+        >
+          Sign In
+        </button>
+        <Link href="/" className="mt-6 text-[0.65rem] font-bold uppercase tracking-widest opacity-30 hover:opacity-60 transition-opacity">
+          Return Home
+        </Link>
+      </div>
+    );
+  }
+
+  // Logged in but not a vendor
+  if (user.role !== 'VENDOR') {
+    return (
+      <div className="min-h-screen bg-surface flex flex-col items-center justify-center p-8 text-center uppercase tracking-widest font-bold">
+        <p className="mb-8 opacity-60">This area is restricted to authorized artisans only.</p>
+        <Link href="/" className="px-8 py-4 bg-primary text-on-primary">Return Home</Link>
+      </div>
+    );
+  }
+
+
+  return (
+    <div className="bg-surface text-on-surface font-body antialiased selection:bg-secondary selection:text-on-secondary min-h-screen flex flex-col">
+      {/* Order Detail Modal */}
+      {isOrderDetailModalOpen && (
+        <OrderDetailModal
+          item={selectedOrder}
+          onClose={() => setIsOrderDetailModalOpen(false)}
+          onRefresh={loadData}
+        />
+      )}
+
+      {/* Product Form Modal */}
+      {isEditModalOpen && (
+        <ProductFormModal
+          vendorId={user.id}
+          product={selectedProduct}
+          onClose={() => setIsEditModalOpen(false)}
+          onSaved={handleSaved}
+        />
+      )}
+
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-[#fcf9f4]/80 backdrop-blur-xl border-b border-outline-variant/15 px-6 py-4 flex items-center justify-between transition-colors duration-300">
+        <div className="flex items-center gap-4">
+          <Link href="/" className="flex items-center gap-3 group cursor-pointer">
+            <div className="bg-white overflow-hidden w-10 h-10 rounded-lg flex items-center justify-center border border-outline-variant/30">
+              <img alt="Furniture Studio Logo" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYzwpRTmQxUU1zbZR1afOETDBbBv0B_OTy3uSZi1M-zr3D4OJhAdZ0rdtuJJVMreSJlhnXVbub7ICKPYtOIzIlBG9k9G0KaWgp5bzWDrziAUAXbS75sIc3Sa16PXvXkieA209VMEJWQLh75Mx7kidMOOdwBqHjOv2WfUJmMX9ythFYjuEt9oemiO96XkY7XFbPGpzOadEvAVB0kaJ83HKjGXKjarlpsAFZuyYWNGqW9BTJorDxFA9LYqQLpix6hr6C5-ehOtP7Soa7" />
+            </div>
+            <div className="flex flex-col leading-none text-left">
+              <span className="font-headline text-xl tracking-tight font-bold text-black uppercase">FURNITURE</span>
+              <span className="font-headline text-xl tracking-tight font-light text-black/60 uppercase -mt-0.5">STUDIO</span>
+            </div>
+          </Link>
+        </div>
+        <nav className="flex items-center gap-8 overflow-x-auto scrollbar-hide px-4 md:px-0 md:absolute md:left-1/2 md:-translate-x-1/2 w-full md:w-auto pb-4 md:pb-0">
+          <button onClick={() => setActiveTab('overview')} className={`text-[0.7rem] font-bold tracking-widest uppercase transition-all pb-1 whitespace-nowrap ${activeTab === 'overview' ? 'text-primary border-b border-primary' : 'text-on-surface-variant hover:text-primary'}`}>Dashboard</button>
+          <button onClick={() => setActiveTab('catalog')} className={`text-[0.7rem] font-bold tracking-widest uppercase transition-all pb-1 whitespace-nowrap ${activeTab === 'catalog' ? 'text-primary border-b border-primary' : 'text-on-surface-variant hover:text-primary'}`}>Catalog</button>
+          <button onClick={() => setActiveTab('orders')} className={`text-[0.7rem] font-bold tracking-widest uppercase transition-all pb-1 whitespace-nowrap ${activeTab === 'orders' ? 'text-primary border-b border-primary' : 'text-on-surface-variant hover:text-primary'}`}>Orders</button>
+          <button onClick={() => setActiveTab('requests')} className={`text-[0.7rem] font-bold tracking-widest uppercase transition-all pb-1 whitespace-nowrap ${activeTab === 'requests' ? 'text-primary border-b border-primary' : 'text-on-surface-variant hover:text-primary'}`}>Requests</button>
+        </nav>
+        <div className="flex items-center gap-4">
+          <span className="text-[0.6rem] font-bold tracking-widest uppercase opacity-40">{user.email}</span>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col md:flex-row max-w-[1600px] w-full mx-auto">
+        {/* Sidebar */}
+        <aside className="hidden md:flex w-64 flex-col border-r border-outline-variant/15 p-6 gap-8 bg-surface-container-low/50">
+          <div className="flex flex-col gap-2">
+            <p className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-2">Vendor Tools</p>
+            <button onClick={() => setActiveTab('overview')} className={`flex items-center gap-3 py-2 transition-colors ${activeTab === 'overview' ? 'text-primary' : 'text-on-surface-variant hover:text-primary'}`}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
+              <span className="text-[0.75rem] font-bold tracking-widest uppercase">Overview</span>
+            </button>
+            <button onClick={() => setActiveTab('catalog')} className={`flex items-center gap-3 py-2 transition-colors ${activeTab === 'catalog' ? 'text-primary' : 'text-on-surface-variant hover:text-primary'}`}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></svg>
+              <span className="text-[0.75rem] font-bold tracking-widest uppercase">My Catalog</span>
+            </button>
+            <button onClick={() => setActiveTab('inbox')} className={`flex items-center gap-3 py-2 transition-colors ${activeTab === 'inbox' ? 'text-primary' : 'text-on-surface-variant hover:text-primary'}`}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
+              <span className="text-[0.75rem] font-bold tracking-widest uppercase">Inbox <span className="ml-auto bg-primary text-on-primary text-[10px] px-2 py-0.5">{vendorData?.negotiations?.length || 0}</span></span>
+            </button>
+            <button onClick={() => setActiveTab('orders')} className={`flex items-center gap-3 py-2 transition-colors ${activeTab === 'orders' ? 'text-primary' : 'text-on-surface-variant hover:text-primary'}`}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 0 1-8 0" /></svg>
+              <span className="text-[0.75rem] font-bold tracking-widest uppercase">Orders <span className="ml-1 opacity-40">{vendorData?.orders?.length || 0}</span></span>
+            </button>
+            <button onClick={() => setActiveTab('requests')} className={`flex items-center gap-3 py-2 transition-colors ${activeTab === 'requests' ? 'text-primary' : 'text-on-surface-variant hover:text-primary'}`}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /></svg>
+              <span className="text-[0.75rem] font-bold tracking-widest uppercase">Requests <span className="ml-1 opacity-40">{vendorData?.customRequests?.length || 0}</span></span>
+            </button>
+          </div>
+        </aside>
+
+        {/* Content Area */}
+        <div className="flex-1 p-6 md:p-10 lg:p-16 overflow-y-auto">
+
+          {/* ── OVERVIEW ── */}
+          {activeTab === 'overview' && (
+            <>
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+                <div>
+                  <h2 className="font-headline text-4xl md:text-5xl text-primary tracking-tight mb-2 uppercase">Artisan Terminal</h2>
+                  <p className="text-on-surface-variant text-lg">Welcome back, {vendorData?.user?.name || vendorData?.user?.companyName}. Manage your curated pieces.</p>
+                </div>
+                <button onClick={openCreate} className="bg-primary text-on-primary px-6 py-3 font-bold uppercase tracking-widest text-xs hover:bg-secondary transition-all self-start md:self-end">
+                  + New Listing
+                </button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                <div className="bg-surface-container-low p-8 border border-outline-variant/15">
+                  <p className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">Stock Value</p>
+                  <p className="font-headline text-3xl text-primary mb-2 uppercase">${vendorData?.products?.reduce((sum: number, p: any) => sum + (p.price * p.stock), 0).toLocaleString()}</p>
+                </div>
+                <div className="bg-surface-container-low p-8 border border-outline-variant/15">
+                  <p className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">Catalog Pieces</p>
+                  <p className="font-headline text-3xl text-primary mb-2 uppercase">{vendorData?.products?.length || 0}</p>
+                </div>
+                <div className="bg-surface-container-low p-8 border border-outline-variant/15">
+                  <p className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">Product Orders</p>
+                  <p className="font-headline text-3xl text-primary mb-2 uppercase">{vendorData?.orders?.length || 0}</p>
+                </div>
+                <div className="bg-surface-container-low p-8 border border-outline-variant/15">
+                  <p className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">Custom Requests</p>
+                  <p className="font-headline text-3xl text-primary mb-2 uppercase">{vendorData?.customRequests?.length || 0}</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                <div className="lg:col-span-2">
+                  <h3 className="font-headline text-2xl text-primary uppercase mb-8 border-b border-outline-variant/20 pb-4">Recent Negotiations</h3>
+                  <div className="flex flex-col gap-4">
+                    {vendorData?.negotiations?.slice(0, 3).map((neg: any) => (
+                      <div key={neg.id} className="bg-surface-container-lowest p-6 border border-outline-variant/15 flex flex-col sm:flex-row gap-6 items-start hover:bg-surface-container-low/50 transition-colors cursor-pointer group">
+                        <div className="w-24 h-24 bg-surface-variant shrink-0 relative overflow-hidden">
+                          <img alt={neg.product.title} className="w-full h-full object-cover transition-all" src={(neg.product.images && neg.product.images[0]) || 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=300'} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex justify-between items-start mb-2">
+                            <h4 className="font-headline text-lg text-primary truncate uppercase tracking-tight font-bold">{neg.product.title}</h4>
+                            <span className="text-[0.6rem] font-bold text-on-surface-variant uppercase tracking-widest ml-4">{new Date(neg.createdAt).toLocaleDateString()}</span>
+                          </div>
+                          <p className="text-sm text-on-surface-variant mb-3 line-clamp-2 leading-relaxed italic">"{neg.message}"</p>
+                          <div className="flex items-center justify-between">
+                            <span className="text-[0.6rem] font-bold uppercase tracking-widest text-primary border border-primary/20 px-2 py-1">{neg.status}</span>
+                            <span className="text-[0.6rem] font-bold text-on-surface-variant uppercase tracking-widest">Client: {neg.customer.name}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    {(!vendorData?.negotiations || vendorData.negotiations.length === 0) && (
+                      <p className="py-12 text-center text-outline uppercase tracking-widest font-bold opacity-30">No active conversations yet.</p>
+                    )}
+                  </div>
+                </div>
+                <div className="lg:col-span-1">
+                  <div className="bg-[#1c1b1b] p-8 border border-white/5 text-white">
+                    <h3 className="font-headline text-xl text-white mb-6 uppercase italic">Artisan Profile</h3>
+                    <div className="space-y-4">
+                      <div className="border-b border-white/10 pb-4">
+                        <p className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/40 mb-1">Company</p>
+                        <p className="text-sm font-bold uppercase">{vendorData?.user?.companyName || user.name || '—'}</p>
+                      </div>
+                      <div className="border-b border-white/10 pb-4">
+                        <p className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/40 mb-1">Location</p>
+                        <p className="text-sm font-bold uppercase">{vendorData?.user?.city || 'Not set'}</p>
+                      </div>
+                      <div>
+                        <p className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/40 mb-1">Status</p>
+                        <p className="text-sm font-bold uppercase text-secondary">{vendorData?.user?.status}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* ── CATALOG ── */}
+          {activeTab === 'catalog' && (
+            <div>
+              <div className="flex justify-between items-end mb-12">
+                <h2 className="font-headline text-4xl text-primary tracking-tight uppercase">Product Catalog</h2>
+                <button onClick={openCreate} className="bg-primary text-on-primary px-6 py-3 font-bold uppercase tracking-widest text-xs hover:bg-secondary transition-all">
+                  + Create Listing
+                </button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {vendorData?.products?.map((prod: any) => (
+                  <div key={prod.id} className="group border border-outline-variant/10 bg-surface-container-low transition-all">
+                    <div className="aspect-square relative overflow-hidden bg-surface-variant">
+                      <img
+                        alt={prod.title}
+                        className="w-full h-full object-cover transition-all duration-700"
+                        src={(prod.images && prod.images[0]) || 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=500'}
+                      />
+                      <div className="absolute top-4 left-4 bg-primary text-on-primary px-3 py-1 text-[0.6rem] font-bold uppercase tracking-widest">{prod.category}</div>
+                    </div>
+                    <div className="p-6">
+                      <div className="flex justify-between items-start mb-2">
+                        <h3 className="font-headline text-lg text-primary uppercase tracking-tight font-bold">{prod.title}</h3>
+                        <span className="font-bold text-primary">${prod.price}</span>
+                      </div>
+                      <p className="text-xs text-on-surface-variant mb-6 uppercase italic">Stock: {prod.stock}</p>
+                      <div className="flex gap-3">
+                        <button onClick={() => openEdit(prod)} className="flex-1 py-3 border border-outline-variant/30 text-[0.65rem] font-bold uppercase tracking-widest hover:border-primary transition-colors">Edit</button>
+                        <button onClick={() => handleDelete(prod.id)} className="flex-1 py-3 border border-outline-variant/30 text-[0.65rem] font-bold uppercase tracking-widest text-red-500 hover:border-red-400 transition-colors">Delete</button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                {(!vendorData?.products || vendorData.products.length === 0) && (
+                  <div className="col-span-full py-24 text-center border-2 border-dashed border-outline-variant/20">
+                    <p className="text-outline uppercase tracking-widest font-bold font-headline italic text-lg opacity-40 mb-6">Your catalog is empty.</p>
+                    <button onClick={openCreate} className="px-8 py-4 bg-primary text-on-primary text-[0.7rem] font-bold uppercase tracking-widest hover:bg-secondary transition-all">
+                      Create Your First Listing
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* ── ORDERS ── */}
+          {activeTab === 'orders' && (
+            <div>
+              <h2 className="font-headline text-4xl text-primary tracking-tight uppercase mb-12">Product Orders</h2>
+              <div className="space-y-6">
+                {vendorData?.orders?.map((item: any) => (
+                  <div key={item.id} className="bg-surface-container-low p-8 border border-outline-variant/15 flex flex-col md:flex-row justify-between gap-8 items-center group hover:border-primary/30 transition-all">
+                    <div className="flex gap-6 items-center flex-1">
+                      <div className="w-24 h-24 bg-surface-variant shrink-0 border border-outline-variant/10">
+                        <img src={item.product?.images?.[0] || 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=300'} alt={item.product?.title} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-4 mb-2">
+                          <span className="text-[0.65rem] font-bold text-outline tracking-tight uppercase">Order #{item.orderId.slice(-6)}</span>
+                          <span className="text-[10px] font-bold uppercase tracking-widest bg-yellow-100 text-yellow-800 px-2 py-0.5 border border-yellow-200">{item.order.status}</span>
+                        </div>
+                        <h3 className="font-headline text-2xl text-primary font-bold uppercase leading-none mb-2">{item.product?.title}</h3>
+                        <div className="flex gap-6">
+                          <div>
+                            <p className="text-[0.55rem] font-bold uppercase opacity-40 mb-1">Quantity</p>
+                            <p className="text-xs font-bold">{item.quantity}</p>
+                          </div>
+                          <div>
+                            <p className="text-[0.55rem] font-bold uppercase opacity-40 mb-1">Total</p>
+                            <p className="text-xs font-bold text-primary">${(item.price * item.quantity).toLocaleString()}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="w-full md:w-64 space-y-4 border-t md:border-t-0 md:border-l border-outline-variant/10 pt-6 md:pt-0 md:pl-8 flex flex-col justify-between">
+                      <div>
+                        <p className="text-[0.55rem] font-bold uppercase opacity-40 mb-2">Customer Profile</p>
+                        <div className="space-y-1">
+                          <p className="text-sm font-bold uppercase">{item.order.customer.name}</p>
+                          <p className="text-[10px] font-medium opacity-60">{item.order.customer.email}</p>
+                          <p className="text-[10px] font-bold tracking-tighter uppercase line-clamp-1">{item.order.customer.address || 'Address Pending'}</p>
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-2 mt-4">
+                        <button 
+                          onClick={() => openOrder(item)}
+                          className="w-full bg-black text-white py-3 text-[9px] font-bold uppercase tracking-widest hover:bg-primary transition-all font-bold"
+                        >
+                          View Details & Control
+                        </button>
+                        <button 
+                          onClick={async () => { if(confirm('Scrap this line item?')) { await deleteOrderItem(item.id); loadData(); } }}
+                          className="w-full border border-red-200 text-red-500 py-2 text-[9px] font-bold uppercase tracking-widest hover:bg-red-50 transition-all"
+                        >
+                          Scrap Item
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                {(!vendorData?.orders || vendorData.orders.length === 0) && (
+                  <div className="py-24 text-center border-2 border-dashed border-outline-variant/20">
+                    <p className="text-outline uppercase tracking-widest font-bold font-headline italic text-lg opacity-40">No listed product orders yet.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* ── REQUESTS ── */}
+          {activeTab === 'requests' && (
+            <div>
+              <h2 className="font-headline text-4xl text-primary tracking-tight uppercase mb-12">Client Requests</h2>
+              <div className="space-y-6">
+                {vendorData?.customRequests?.map((req: any) => (
+                  <div key={req.id} className="bg-surface-container-low p-8 border border-outline-variant/15 flex flex-col md:flex-row justify-between gap-8 items-start group hover:border-primary/30 transition-all">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-4 mb-4">
+                        <span className="bg-secondary text-on-secondary px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.2em]">{req.category}</span>
+                        <span className="text-[0.6rem] font-bold text-outline tracking-widest uppercase italic">Received {new Date(req.createdAt).toLocaleDateString()}</span>
+                      </div>
+                      <p className="text-xl font-headline text-primary font-bold uppercase mb-4 leading-tight">{req.material || 'Standard'} Custom {req.category}</p>
+                      <p className="text-sm text-on-surface-variant italic mb-6 leading-relaxed">"{req.message || 'No description provided.'}"</p>
+                      <div className="grid grid-cols-3 gap-6">
+                        <div>
+                          <p className="text-[0.55rem] font-bold uppercase tracking-widest text-outline mb-1">Dimensions</p>
+                          <p className="text-xs font-bold">{req.length}×{req.width}×{req.height} cm</p>
+                        </div>
+                        <div>
+                          <p className="text-[0.55rem] font-bold uppercase tracking-widest text-outline mb-1">Material</p>
+                          <p className="text-xs font-bold uppercase">{req.material || 'Standard'}</p>
+                        </div>
+                        <div>
+                          <p className="text-[0.55rem] font-bold uppercase tracking-widest text-outline mb-1">Client</p>
+                          <p className="text-xs font-bold">{req.customer.name}</p>
+                          <p className="text-[0.6rem] opacity-60">{req.customer.email}</p>
+                          {req.customer.phone && <p className="text-[0.6rem] opacity-60">{req.customer.phone}</p>}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="w-full md:w-auto flex flex-col gap-3 shrink-0">
+                      <button onClick={() => openRequest(req)} className="bg-primary text-on-primary px-8 py-4 text-[0.7rem] font-bold uppercase tracking-[0.2em] hover:bg-black/80 transition-all">VIEW DETAILS & CONTACT</button>
+                      <button 
+                        onClick={async () => { if(confirm('Scrap this request?')) { await deleteCustomRequest(req.id); loadData(); } }} 
+                        className="border border-red-200 text-red-500 px-8 py-2 text-[0.6rem] font-bold uppercase tracking-widest hover:bg-red-50 transition-all"
+                      >
+                        SCRAP
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                {(!vendorData?.customRequests || vendorData.customRequests.length === 0) && (
+                  <p className="py-24 text-center text-outline uppercase tracking-widest font-bold font-headline italic opacity-30">No client requests yet.</p>
+                )}
+              </div>
+            </div>
+          )}
+
+          {isDetailModalOpen && (
+            <RequestDetailModal
+              request={selectedRequest}
+              onClose={() => setIsDetailModalOpen(false)}
+              onRefresh={loadData}
+            />
+          )}
+
+          {isOrderDetailModalOpen && (
+            <OrderDetailModal
+              item={selectedOrder}
+              onClose={() => setIsOrderDetailModalOpen(false)}
+              onRefresh={loadData}
+            />
+          )}
+
+          {isEditModalOpen && (
+            <ProductFormModal
+              product={selectedProduct}
+              vendorId={user.id}
+              onClose={() => setIsEditModalOpen(false)}
+              onSaved={handleSaved}
+            />
+          )}
+
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-[#1c1b1b] text-[#fcf9f4] w-full py-16 px-8 flex justify-between items-center border-t border-white/5">
+        <div className="flex flex-col items-start gap-4">
+          <span className="font-headline text-[#fcf9f4] italic text-2xl tracking-tighter font-bold uppercase">THE EDITORIAL COLLECTIVE</span>
+          <p className="font-body text-[0.7rem] tracking-widest uppercase text-[#c4c7c7] font-bold">© 2024 THE EDITORIAL COLLECTIVE. ALL RIGHTS RESERVED.</p>
+        </div>
+      </footer>
+    </div>
+  );
+}

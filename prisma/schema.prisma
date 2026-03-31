@@ -1,0 +1,147 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  ADMIN
+  VENDOR
+  USER
+}
+
+enum Status {
+  PENDING
+  ACTIVE
+  REJECTED
+}
+
+model User {
+  id                     String          @id @default(cuid())
+  email                  String          @unique
+  password               String
+  name                   String?
+  role                   Role            @default(USER)
+  status                 Status          @default(PENDING)
+  companyName            String?
+  phone                  String?
+  address                String?
+  city                   String?
+  zipCode                String?
+  createdAt              DateTime        @default(now())
+  updatedAt              DateTime        @updatedAt
+  products               Product[]       // For Vendors
+  orders                 Order[]         // For Customers
+  customRequestsSent     CustomRequest[] @relation("SentCustomRequests")
+  customRequestsReceived CustomRequest[] @relation("ReceivedCustomRequests")
+  sentMessages           Negotiation[]   @relation("CustomerMessages")
+  receivedMessages       Negotiation[]   @relation("VendorMessages")
+  wishlist               Wishlist[]
+}
+
+model Product {
+  id           String        @id @default(cuid())
+  vendorId     String
+  title        String
+  description  String
+  price        Float
+  stock        Int           @default(1)
+  category     String
+  length       Float?
+  width        Float?
+  height       Float?
+  images       String[]      // Multiple Cloudinary URLs
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  vendor       User          @relation(fields: [vendorId], references: [id])
+  negotiations Negotiation[]
+  orderItems   OrderItem[]
+  wishlists    Wishlist[]
+}
+
+model Negotiation {
+  id         String   @id @default(cuid())
+  productId  String
+  customerId String
+  vendorId   String
+  message    String
+  status     String   @default("OPEN")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  product    Product  @relation(fields: [productId], references: [id])
+  customer   User     @relation("CustomerMessages", fields: [customerId], references: [id])
+  vendor     User     @relation("VendorMessages", fields: [vendorId], references: [id])
+}
+
+model Order {
+  id         String      @id @default(cuid())
+  customerId String
+  status     String      @default("PENDING")
+  total      Float
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  customer   User        @relation(fields: [customerId], references: [id])
+  items      OrderItem[]
+}
+
+model OrderItem {
+  id         String   @id @default(cuid())
+  orderId    String
+  productId  String
+  quantity   Int      @default(1)
+  price      Float
+  order      Order    @relation(fields: [orderId], references: [id])
+  product    Product  @relation(fields: [productId], references: [id])
+}
+
+model Wishlist {
+  id         String   @id @default(cuid())
+  customerId String
+  productId  String
+  createdAt  DateTime @default(now())
+  customer   User     @relation(fields: [customerId], references: [id])
+  product    Product  @relation(fields: [productId], references: [id])
+
+  @@unique([customerId, productId])
+}
+
+model CustomRequest {
+  id          String   @id @default(cuid())
+  customerId  String
+  vendorId    String
+  category    String
+  length      Float?
+  width       Float?
+  height      Float?
+  material    String?
+  quantity    Int      @default(1)
+  message     String?
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  customer    User     @relation("SentCustomRequests", fields: [customerId], references: [id])
+  vendor      User     @relation("ReceivedCustomRequests", fields: [vendorId], references: [id])
+}
+
+model JournalEntry {
+  id        String   @id @default(cuid())
+  title     String
+  category  String
+  content   String
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SiteSettings {
+  id              String   @id @default("singleton")
+  heroTitle       String?  @default("Living Art")
+  heroSubtitle    String?  @default("The Curated Gallery")
+  heroDescription String?  @default("Elevate your living narrative with pieces that define architectural intent.")
+  heroImage       String?  @default("https://lh3.googleusercontent.com/aida-public/AB6AXuBDQsqo9B-bOepx60Xvf1-U161YyF1S2O4_wgrJ3m-Y9J6sxce8E3vhOz1hVVkXbMKIYXf_peVdFqnd4b99ekSHv2CyBQe7bDRoUyeSrkR4syyj2VP_hMMvVmQUcdd4Ojdd40VRjvj3LCeZEWdA3uiN_hpH9AdmgHh8jXxRIHCZg5cnXXpkFtf0gm7XxECGvWtUQ5I5r47bHN7e17XUmyvCVYZxd8Rdd4y-gGuDP-kZNq7CYnJGRK94R_NaH_IHgRXy7PlzT_fRfAzI")
+  updatedAt       DateTime @updatedAt
+}

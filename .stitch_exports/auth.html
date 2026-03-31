@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@300;400;700;900&amp;family=Manrope:wght@300;400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-container-highest": "#e5e2dd",
+              "secondary-fixed": "#ffe088",
+              "outline": "#747878",
+              "secondary-fixed-dim": "#e9c349",
+              "surface-bright": "#fcf9f4",
+              "tertiary": "#000000",
+              "background": "#fcf9f4",
+              "on-tertiary-fixed": "#261900",
+              "on-primary-fixed": "#1c1b1b",
+              "surface-dim": "#dcdad5",
+              "on-primary-container": "#858383",
+              "tertiary-fixed-dim": "#e9c176",
+              "surface-tint": "#5f5e5e",
+              "on-secondary-fixed-variant": "#574500",
+              "primary": "#000000",
+              "surface": "#fcf9f4",
+              "surface-variant": "#e5e2dd",
+              "on-surface": "#1c1c19",
+              "secondary": "#735c00",
+              "tertiary-fixed": "#ffdea5",
+              "primary-fixed-dim": "#c8c6c5",
+              "on-primary": "#ffffff",
+              "on-secondary-fixed": "#241a00",
+              "error": "#ba1a1a",
+              "secondary-container": "#fed65b",
+              "outline-variant": "#c4c7c7",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-low": "#f6f3ee",
+              "on-tertiary-fixed-variant": "#5d4201",
+              "on-secondary-container": "#745c00",
+              "inverse-primary": "#c8c6c5",
+              "tertiary-container": "#261900",
+              "on-surface-variant": "#444748",
+              "on-secondary": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-error": "#ffffff",
+              "surface-container-high": "#ebe8e3",
+              "surface-container": "#f0ede8",
+              "primary-container": "#1c1b1b",
+              "on-primary-fixed-variant": "#474746",
+              "inverse-on-surface": "#f3f0eb",
+              "primary-fixed": "#e5e2e1",
+              "on-background": "#1c1c19",
+              "on-tertiary-container": "#a17f3b",
+              "inverse-surface": "#31302d"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-shadow {
+            box-shadow: 0px 20px 40px rgba(28, 28, 25, 0.04);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface antialiased overflow-hidden">
+<!-- Mock Background: The Editorial Marketplace -->
+<main class="min-h-screen w-full flex flex-col items-center justify-center relative p-8">
+<div class="absolute inset-0 z-0">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-[1400px] mx-auto pt-24 opacity-40">
+<div class="flex flex-col gap-4">
+<img class="w-full aspect-[4/5] object-cover bg-surface-container" data-alt="Minimalist architectural velvet green armchair" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6gAs_imr4UpY1v96UwiyL6WrqhP_Sfw6ewX7iwncFwj3cvdVyiYJg_2Hn5gdtyhFdlMr600gfUd37auPGPf-He9z0X7ZS_UX-2jokPbgjbocV1YMTeC2opNzoVECDBIXa-cddz3Mld0stnTQCHgMLAIqaRPzhoh15wlTbmBALsxy_2Znk7Kx9jwnCAbaMNHR52pFioj7Xr3zW0f_58rDceugeW4LjOsqdg1frfXLYzCHPh9LY9pJu-aGRMJRZuee4l1laeFyiJxln"/>
+<h3 class="font-headline text-lg italic">The Sculpted Lounge</h3>
+</div>
+<div class="flex flex-col gap-4 mt-12">
+<img class="w-full aspect-[4/5] object-cover bg-surface-container" data-alt="Modern organic oak dining table set" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNYFu3suphPkoisFcndK485sSkzgyAzYyWw0nelJuKjCYIpWeYmrN8FHg3EzuEIp2OHj0xx8PzGQq3O5Vmrn1dFOCk7ioG6gGF0SBWAVeM6pHLnZuKB78DHzgGAWCViYdNF90OjozTuadJEqR2sD48hdv34X0LbyabWCjB3ctwOfwjM8txPxJL65gn7pMaS3hfK4o_ZttP5rtg0jV5hurEecNHLgLWUzZvSeoid96k2ZLDfs53fVbPeMiKgZD1WmnDYttj1nKP8jv_"/>
+<h3 class="font-headline text-lg italic">Nordic Oak Collection</h3>
+</div>
+<div class="flex flex-col gap-4">
+<img class="w-full aspect-[4/5] object-cover bg-surface-container" data-alt="Matte black contemporary floor lamp" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAP-C3J4xuoDcjOWDM_2KheYuG25heoT5olfgcJXX5h1Ruu4Hr-b45gF2V10lbyYcbkYGhD-vro_q66K0c0Pl7MAktDHhz9hYjwXQyadlixkM6fElxH0ZFnl3Qr3IInVe_lnQsu5Ssjaxa9VdFBTtLdRn0iApuLZmALxSrT4iTn6RUYg5I5jyW3uUhcyOzb6XYg8cVKkDzhSpR65Go7sZgifUDsTH5SOkBBe4WxRKk28MTCGOSulzDPF_0M_NmYR6JYapoW1734YmzT"/>
+<h3 class="font-headline text-lg italic">Ambient Lines</h3>
+</div>
+</div>
+</div>
+<!-- Authentication Modal Overlay -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-primary/20 backdrop-blur-xl transition-opacity"></div>
+<!-- Modal Content -->
+<div class="relative w-full max-w-2xl bg-surface-container-lowest editorial-shadow flex flex-col md:flex-row overflow-hidden border border-outline-variant/10">
+<!-- Left Side: Editorial Image/Identity -->
+<div class="hidden md:block w-5/12 bg-primary-container relative">
+<img class="absolute inset-0 w-full h-full object-cover opacity-60" data-alt="High-end leather sofa in a concrete loft" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBH4NdqW3bCb7VslahwtLJwCGO02H4IpBI4oBGLpUaEFuIJIbEwjmUkBLSDFbiamkbEgUakA2D4AW4zzAeIVxvZEXs7RnsxndMJcV99mYgMUqk3gG4_W5CowMIVanjzit6XU-LuHJOh6kTgIOLK-RbyjmKkMs94pGWSV04fwZylvISGoX9XaUEI--TpZvFyenZVETh2MuDZLXjBKqDvISuwv6FTG2jpownitF6QoQDlYQ3T3qtr6GQ1JvNewCedykrPNPSbzK5BO7f6"/>
+<div class="absolute inset-0 flex flex-col justify-end p-8 bg-gradient-to-t from-primary to-transparent">
+<span class="font-label text-[10px] tracking-[0.2em] text-on-primary/60 uppercase mb-2">Curated Spaces</span>
+<h2 class="font-headline text-2xl text-on-primary leading-tight">Elevate your living narrative.</h2>
+</div>
+</div>
+<!-- Right Side: The Form -->
+<div class="flex-1 p-8 md:p-12 flex flex-col bg-surface-container-lowest">
+<!-- Branding Header -->
+<div class="flex flex-col items-center mb-10">
+<div class="text-primary font-headline text-2xl uppercase tracking-[0.3em] font-light mb-1">
+                            The Editorial Collective
+                        </div>
+<span class="font-label text-[10px] text-secondary tracking-[0.15em] uppercase font-bold">Furniture Studio</span>
+</div>
+<!-- Auth Toggle -->
+<div class="flex gap-8 mb-8 justify-center border-b border-outline-variant/10">
+<button class="pb-3 font-label text-[11px] tracking-[0.1em] text-secondary border-b-2 border-secondary font-bold">LOGIN</button>
+<button class="pb-3 font-label text-[11px] tracking-[0.1em] text-on-surface/40 hover:text-on-surface transition-colors font-bold">CREATE ACCOUNT</button>
+</div>
+<!-- Role Selection -->
+<div class="mb-8 flex gap-4">
+<label class="flex-1 cursor-pointer group">
+<input checked="" class="hidden peer" name="role" type="radio" value="customer"/>
+<div class="text-center p-3 border border-outline-variant/20 peer-checked:bg-surface-container-low peer-checked:border-primary transition-all duration-300">
+<span class="font-label text-[10px] tracking-[0.05em] uppercase text-on-surface/60 group-hover:text-primary">I am a Customer</span>
+</div>
+</label>
+<label class="flex-1 cursor-pointer group">
+<input class="hidden peer" name="role" type="radio" value="vendor"/>
+<div class="text-center p-3 border border-outline-variant/20 peer-checked:bg-surface-container-low peer-checked:border-primary transition-all duration-300">
+<span class="font-label text-[10px] tracking-[0.05em] uppercase text-on-surface/60 group-hover:text-primary">I am a Vendor</span>
+</div>
+</label>
+</div>
+<!-- Inputs -->
+<form class="space-y-6">
+<div class="group">
+<label class="font-label text-[10px] uppercase text-on-surface/60 tracking-widest mb-1 block">Email Address</label>
+<input class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-3 px-0 focus:ring-0 focus:border-secondary transition-colors text-on-surface placeholder:text-on-surface/20 font-body text-sm" placeholder="archive@collective.com" type="email"/>
+</div>
+<div class="group">
+<label class="font-label text-[10px] uppercase text-on-surface/60 tracking-widest mb-1 block">Security Key</label>
+<div class="relative">
+<input class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-3 px-0 focus:ring-0 focus:border-secondary transition-colors text-on-surface placeholder:text-on-surface/20 font-body text-sm" placeholder="••••••••" type="password"/>
+<button class="absolute right-0 top-1/2 -translate-y-1/2 text-on-surface/40 hover:text-secondary" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex justify-between items-center pt-2">
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 rounded-none border-outline-variant/40 text-primary focus:ring-0" type="checkbox"/>
+<span class="font-label text-[10px] text-on-surface/60 group-hover:text-on-surface uppercase tracking-tighter">Remember Session</span>
+</label>
+<a class="font-label text-[10px] text-secondary underline underline-offset-4 hover:opacity-70 transition-opacity" href="#">LOST ACCESS?</a>
+</div>
+<!-- CTA Button -->
+<button class="w-full bg-primary text-on-primary py-5 font-label text-[12px] font-bold tracking-[0.2em] uppercase hover:bg-primary-container transition-all active:scale-[0.98] duration-200 mt-8">
+                            SIGN IN TO THE COLLECTIVE
+                        </button>
+</form>
+<!-- Footer Options -->
+<div class="mt-10 flex flex-col items-center gap-4">
+<span class="font-label text-[9px] uppercase tracking-widest text-on-surface/30">Or Continue With</span>
+<div class="flex gap-6">
+<button class="text-on-surface/60 hover:text-primary transition-colors">
+<span class="font-label text-[10px] tracking-widest border-b border-transparent hover:border-primary">GOOGLE</span>
+</button>
+<button class="text-on-surface/60 hover:text-primary transition-colors">
+<span class="font-label text-[10px] tracking-widest border-b border-transparent hover:border-primary">APPLE ID</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Close Button -->
+<button class="absolute top-6 right-6 text-on-surface/40 hover:text-on-surface transition-colors p-2">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Header Shadow Reference to match Shared Components -->
+<header class="fixed top-0 w-full z-[60] bg-surface/80 backdrop-blur-md px-6 py-4 flex justify-between items-center transition-colors duration-300">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">menu</span>
+<span class="font-headline text-xl uppercase tracking-[0.2em] text-primary">THE COLLECTIVE</span>
+</div>
+<span class="material-symbols-outlined text-primary">shopping_bag</span>
+</header>
+</body></html>
