@@ -109,7 +109,7 @@ export default function OrdersPage() {
                       <div className="flex items-center gap-6">
                         <div className="text-right">
                            <span className="font-label text-[8px] uppercase text-black/40 block font-bold mb-1">INVESTMENT TOTAL</span>
-                           <span className="font-headline text-xl font-bold">${new Intl.NumberFormat().format(order.total)}</span>
+                           <span className="font-headline text-xl font-bold">EGP {new Intl.NumberFormat().format(order.total)}</span>
                         </div>
                         {order.status === 'PENDING' && (
                           <button 
@@ -143,7 +143,7 @@ export default function OrdersPage() {
                                  </div>
                                  <div className="border-l border-black/5 pl-8">
                                     <span className="font-label text-[8px] uppercase text-black/40 block font-bold mb-1">Unit Value</span>
-                                    <span className="font-label text-[10px] font-bold text-[#735c00]">${new Intl.NumberFormat().format(item.price)}</span>
+                                    <span className="font-label text-[10px] font-bold text-[#735c00]">EGP {new Intl.NumberFormat().format(item.price)}</span>
                                  </div>
                               </div>
                            </div>

@@ -262,7 +262,7 @@ export default function AdminControlCenter() {
                   </div>
                   <div className="p-6">
                     <h3 className="font-headline text-lg uppercase tracking-tight font-bold mb-1">{prod.title}</h3>
-                    <p className="text-[0.6rem] font-bold tracking-widest uppercase opacity-40 mb-6">${prod.price} — Stock: {prod.stock}</p>
+                    <p className="text-[0.6rem] font-bold tracking-widest uppercase opacity-40 mb-6">EGP {prod.price} — Stock: {prod.stock}</p>
                     <button onClick={() => handleDeleteProduct(prod.id)} className="w-full py-4 border border-error/20 text-error text-[0.65rem] font-bold uppercase tracking-widest hover:bg-error/5 transition-colors">DE-LIST PRODUCT</button>
                   </div>
                 </div>
@@ -290,7 +290,7 @@ export default function AdminControlCenter() {
                         <p className="opacity-40">{order.customer.email}</p>
                       </td>
                       <td className="py-6">{order.product.title}</td>
-                      <td className="py-6 text-right">${order.total}</td>
+                      <td className="py-6 text-right">EGP {order.total}</td>
                     </tr>
                   ))}
                 </tbody>

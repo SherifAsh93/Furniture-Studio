@@ -104,7 +104,7 @@ export default function EcommerceSidebar() {
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                         </button>
                       </div>
-                      <p className="font-label text-xs font-bold text-[#735c00]">${new Intl.NumberFormat().format(item.price)}</p>
+                      <p className="font-label text-xs font-bold text-[#735c00]">EGP {new Intl.NumberFormat().format(item.price)}</p>
                       <div className="pt-2 flex items-center gap-4">
                         <div className="flex items-center border border-black/5 rounded bg-[#fcf9f4]">
                           <button 
@@ -142,7 +142,7 @@ export default function EcommerceSidebar() {
                     </div>
                     <div className="flex-1">
                       <h4 className="font-headline font-bold text-sm uppercase">{item.product?.title}</h4>
-                      <p className="font-label text-xs font-bold text-[#735c00]">${new Intl.NumberFormat().format(item.product?.price)}</p>
+                      <p className="font-label text-xs font-bold text-[#735c00]">EGP {new Intl.NumberFormat().format(item.product?.price)}</p>
                     </div>
                     <div className="flex gap-2">
                        <button onClick={() => addToCart(item.product)} className="p-2 border border-black/5 hover:bg-black hover:text-white transition-all rounded">
@@ -164,7 +164,7 @@ export default function EcommerceSidebar() {
           <div className="p-8 border-t border-black/5 bg-[#fcf9f4] space-y-6">
             <div className="flex justify-between items-end">
               <span className="font-label text-[10px] tracking-widest uppercase font-bold text-on-surface-variant/40">Procurement Total</span>
-              <span className="font-headline text-3xl font-bold">${new Intl.NumberFormat().format(cartTotal)}</span>
+              <span className="font-headline text-3xl font-bold">EGP {new Intl.NumberFormat().format(cartTotal)}</span>
             </div>
             <button 
               onClick={handleCheckout}

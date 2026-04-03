@@ -13,6 +13,7 @@ export default function Home() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
   const handleAddToCart = (product: any) => {
     if (!user) {
@@ -313,7 +314,7 @@ export default function Home() {
                    <div className="mt-8 flex justify-between items-end">
                       <div className="flex flex-col">
                          <span className="font-label text-[10px] uppercase text-black/40 mb-1">Investment Value</span>
-                         <span className="font-headline text-2xl font-bold text-[#735c00]">${new Intl.NumberFormat().format(products[0].price)}</span>
+                         <span className="font-headline text-2xl font-bold text-[#735c00]">EGP {new Intl.NumberFormat().format(products[0].price)}</span>
                       </div>
                       <div className="flex gap-4">
                          <button 
@@ -329,7 +330,7 @@ export default function Home() {
                   onClick={() => handleAddToCart(products[0])}
                   className="w-full bg-black text-white py-6 font-label text-xs tracking-widest uppercase transition-all hover:bg-[#735c00] active:scale-[0.98] font-bold"
                 >
-                  ACQUIRE THIS DISCOVERY
+                  ADD TO CART
                 </button>
               </div>
             </div>
@@ -353,8 +354,8 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-12">
             {products.map((item: any, idx: number) => (
-              <div key={item.id} className="group cursor-pointer">
-                <div className="aspect-[3/4] overflow-hidden mb-6 bg-[#fcf9f4] relative">
+              <div key={item.id} className="group cursor-pointer bg-white p-5 rounded-3xl shadow-lg border border-black/5 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col" onClick={() => setSelectedProduct(item)}>
+                <div className="aspect-[4/5] overflow-hidden mb-6 bg-[#fcf9f4] rounded-2xl relative w-full">
                   <img 
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                     alt={item.title} 
@@ -362,12 +363,7 @@ export default function Home() {
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300"></div>
                    <div className="absolute top-4 right-4 flex flex-col gap-2 translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300">
-                    <button 
-                      onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }} 
-                      className="bg-white text-black p-4 rounded-full shadow-xl hover:bg-black hover:text-white transition-colors"
-                    >
-                       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                    </button>
+
                     <button 
                       onClick={(e) => { e.stopPropagation(); handleToggleWishlist(item); }} 
                       className={`p-4 rounded-full shadow-xl transition-all ${isInWishlist(item.id) ? 'bg-secondary text-white' : 'bg-white text-secondary hover:bg-secondary hover:text-white'}`}
@@ -376,12 +372,19 @@ export default function Home() {
                     </button>
                   </div>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-3 px-2 pb-2 mt-auto">
                   <div className="flex justify-between items-start">
                     <h3 className="font-headline text-lg font-bold group-hover:text-[#a1824a] transition-colors">{item.title}</h3>
-                    <span className="font-label text-xs font-bold">${new Intl.NumberFormat().format(item.price)}</span>
+                    <span className="font-label text-sm font-bold text-[#735c00]">EGP {new Intl.NumberFormat().format(item.price)}</span>
                   </div>
-                  <p className="font-body text-[10px] uppercase tracking-widest text-on-surface-variant/60 font-medium">In {item.category}</p>
+                  <div className="pt-2">
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }} 
+                      className="w-full bg-black text-white py-3 rounded-xl font-label text-[10px] tracking-widest uppercase flex items-center justify-center hover:bg-[#735c00] transition-colors font-bold shadow-md shadow-black/10 active:scale-95"
+                    >
+                      ADD TO CART
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -410,7 +413,7 @@ export default function Home() {
               <div className="relative z-10 text-left">
                 <h3 className="font-headline text-3xl mb-4 uppercase font-bold">Join the Studio</h3>
                 <div className="flex items-baseline gap-2 mb-8">
-                  <span className="font-headline text-5xl font-bold">$10,000</span>
+                  <span className="font-headline text-5xl font-bold">10,000 EGP</span>
                   <span className="font-label text-sm text-[#444748] uppercase tracking-widest font-bold">/ MONTHLY SUBSCRIPTION</span>
                 </div>
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 font-body text-sm text-[#444748]">
@@ -442,6 +445,81 @@ export default function Home() {
           </div>
         </div>
       </section>
+      {/* Product Details Modal */}
+      {selectedProduct && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-10 bg-black/95 backdrop-blur-md" onClick={() => setSelectedProduct(null)}>
+          <div className="relative w-full max-w-6xl max-h-[90vh] bg-white rounded-3xl shadow-2xl flex flex-col md:flex-row overflow-hidden border border-white/10" onClick={(e) => e.stopPropagation()}>
+            <button 
+              className="absolute top-4 right-4 z-10 p-4 bg-white/90 backdrop-blur shadow-xl hover:bg-black hover:text-white transition-all duration-300 rounded-full active:scale-95" 
+              onClick={() => setSelectedProduct(null)}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div className="md:w-1/2 bg-[#fcf9f4] p-8 md:p-12 lg:p-16 flex items-center justify-center border-r border-black/5">
+              <img 
+                src={selectedProduct.images?.[0] || selectedProduct.imageUrl || "https://images.unsplash.com/photo-1592078615290-033ee584e267?q=80&w=2000&auto=format&fit=crop"} 
+                className="w-full h-auto max-h-[60vh] object-contain rounded-2xl shadow-xl border border-black/5"
+              />
+            </div>
+            <div className="md:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col overflow-y-auto custom-scrollbar">
+              <span className="text-[#a1824a] font-label text-[10px] tracking-widest uppercase mb-4 block font-bold">DISCOVERY VIEWER</span>
+              <h2 className="font-headline text-4xl lg:text-5xl font-bold uppercase mb-6 leading-tight">{selectedProduct.title}</h2>
+              <p className="font-body text-on-surface-variant leading-relaxed text-sm lg:text-base italic mb-8">
+                "{selectedProduct.description}"
+              </p>
+              <div className="grid grid-cols-2 gap-6 py-6 border-y border-black/5 mb-8">
+                <div className="flex flex-col">
+                  <span className="font-label text-[8px] uppercase text-black/40 mb-1">Dimensions</span>
+                  <span className="font-headline text-lg">{selectedProduct.length || '--'} x {selectedProduct.width || '--'} x {selectedProduct.height || '--'} <small className="text-[10px]">cm</small></span>
+                </div>
+                <div className="flex flex-col">
+                    <span className="font-label text-[8px] uppercase text-black/40 mb-1">Category</span>
+                    <span className="font-headline text-lg uppercase">{selectedProduct.category || '--'}</span>
+                </div>
+              </div>
+              
+              {selectedProduct.images && selectedProduct.images.length > 1 && (
+                <div className="mb-8">
+                  <span className="font-label text-[10px] uppercase tracking-widest text-[#a1824a] mb-4 block font-bold">Alternate Views</span>
+                  <div className="flex gap-4 overflow-x-auto pb-4 custom-scrollbar">
+                    {selectedProduct.images.map((imgCard: string, index: number) => (
+                      <div key={index} className="w-24 h-24 flex-shrink-0 cursor-pointer border border-black/5 hover:border-black transition-colors" onClick={(e) => {
+                        const target = e.currentTarget.parentElement?.parentElement?.parentElement?.previousElementSibling?.querySelector('img');
+                        if (target) target.src = imgCard;
+                      }}>
+                        <img src={imgCard} className="w-full h-full object-cover" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              <div className="mt-auto pt-8">
+                <div className="flex justify-between items-end mb-6">
+                  <div className="flex flex-col">
+                    <span className="font-label text-[10px] uppercase text-black/40 mb-1">Investment Value</span>
+                    <span className="font-headline text-3xl font-bold text-[#735c00]">EGP {new Intl.NumberFormat().format(selectedProduct.price)}</span>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <button 
+                    onClick={() => { handleAddToCart(selectedProduct); setSelectedProduct(null); }}
+                    className="flex-1 bg-black text-white py-6 rounded-xl font-label text-xs tracking-widest uppercase hover:bg-secondary transition-all font-bold active:scale-[0.98] shadow-lg hover:shadow-black/20"
+                  >
+                    ADD TO CART
+                  </button>
+                  <button 
+                    onClick={() => handleToggleWishlist(selectedProduct)}
+                    className={`p-6 border border-black/5 transition-all ${isInWishlist(selectedProduct.id) ? 'bg-[#735c00] text-white' : 'bg-white hover:bg-black hover:text-white'}`}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={isInWishlist(selectedProduct.id) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.04-8.04 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

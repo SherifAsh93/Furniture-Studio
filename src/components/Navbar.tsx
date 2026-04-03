@@ -1,14 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useEcommerce } from '@/context/EcommerceContext';
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const { user, openModal, logout } = useAuth();
-  const { 
+  const {  
     cart, 
     wishlist, 
     setIsCartOpen, 
@@ -44,7 +45,7 @@ export default function Navbar() {
           FURNITURE <span className="text-[#a1824a]">STUDIO</span>
         </Link>
         <div className="flex items-center gap-4">
-           <button onClick={() => setIsCartOpen(true)} className="relative pt-1">
+           <button onClick={() => { if (!user) openModal('login', 'USER'); else setIsCartOpen(true); }} className="relative pt-1">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
               {cart.length > 0 && <span className="absolute -top-1 -right-2 bg-black text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center font-bold">{cart.length}</span>}
            </button>
@@ -90,7 +91,7 @@ export default function Navbar() {
             <h3 className="font-label text-[10px] tracking-[0.3em] uppercase text-on-surface-variant/40 mb-6 font-bold">STUDIO ARCHIVE</h3>
             <ul className="space-y-4">
                <li>
-                  <button onClick={() => setIsCartOpen(true)} className="flex items-center gap-4 group transition-colors text-on-surface-variant hover:text-black w-full">
+                  <button onClick={() => { if (!user) openModal('login', 'USER'); else setIsCartOpen(true); }} className="flex items-center gap-4 group transition-colors text-on-surface-variant hover:text-black w-full text-left">
                     <span className="w-8 h-8 rounded-lg flex items-center justify-center transition-all bg-[#fcf9f4] group-hover:bg-black group-hover:text-white shrink-0 relative">
                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
                        {cart.length > 0 && <span className="absolute -top-1 -right-1 bg-black text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center group-hover:bg-[#a1824a] border border-white">{cart.length}</span>}
@@ -99,7 +100,7 @@ export default function Navbar() {
                   </button>
                </li>
                <li>
-                  <button onClick={() => setIsWishlistOpen(true)} className="flex items-center gap-4 group transition-colors text-on-surface-variant hover:text-black w-full">
+                  <button onClick={() => { if (!user) openModal('login', 'USER'); else setIsWishlistOpen(true); }} className="flex items-center gap-4 group transition-colors text-on-surface-variant hover:text-black w-full text-left">
                     <span className="w-8 h-8 rounded-lg flex items-center justify-center transition-all bg-[#fcf9f4] group-hover:bg-black group-hover:text-white shrink-0 relative">
                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.04-8.04 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                        {wishlist.length > 0 && <span className="absolute -top-1 -right-1 bg-black text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center group-hover:bg-[#a1824a] border border-white">{wishlist.length}</span>}
@@ -108,12 +109,12 @@ export default function Navbar() {
                   </button>
                </li>
                <li>
-                  <Link href="/orders" className="flex items-center gap-4 group transition-colors text-on-surface-variant hover:text-black w-full">
+                  <button onClick={() => { if (!user) openModal('login', 'USER'); else router.push('/orders'); }} className="flex items-center gap-4 group transition-colors text-on-surface-variant hover:text-black w-full text-left">
                     <span className="w-8 h-8 rounded-lg flex items-center justify-center transition-all bg-[#fcf9f4] group-hover:bg-black group-hover:text-white shrink-0">
                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                     </span>
                     <span className="font-label text-xs tracking-widest font-bold uppercase">ORDERS</span>
-                  </Link>
+                  </button>
                </li>
             </ul>
           </div>
@@ -181,7 +182,7 @@ export default function Navbar() {
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
         </button>
         <button 
-          onClick={() => setIsCartOpen(true)}
+          onClick={() => { if (!user) openModal('login', 'USER'); else setIsCartOpen(true); }}
           className="p-2 text-on-surface-variant relative"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>

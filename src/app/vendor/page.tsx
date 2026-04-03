@@ -456,7 +456,7 @@ function OrderDetailModal({
                 </div>
                 <div>
                   <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-1">Unit Value</p>
-                  <p className="font-label text-sm font-bold">${item.price.toLocaleString()}</p>
+                  <p className="font-label text-sm font-bold">EGP {item.price.toLocaleString()}</p>
                 </div>
               </div>
             </div>
@@ -688,7 +688,7 @@ export default function VendorDashboard() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
                 <div className="bg-surface-container-low p-8 border border-outline-variant/15">
                   <p className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">Stock Value</p>
-                  <p className="font-headline text-3xl text-primary mb-2 uppercase">${vendorData?.products?.reduce((sum: number, p: any) => sum + (p.price * p.stock), 0).toLocaleString()}</p>
+                  <p className="font-headline text-3xl text-primary mb-2 uppercase">EGP {vendorData?.products?.reduce((sum: number, p: any) => sum + (p.price * p.stock), 0).toLocaleString()}</p>
                 </div>
                 <div className="bg-surface-container-low p-8 border border-outline-variant/15">
                   <p className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">Catalog Pieces</p>
@@ -777,7 +777,7 @@ export default function VendorDashboard() {
                     <div className="p-6">
                       <div className="flex justify-between items-start mb-2">
                         <h3 className="font-headline text-lg text-primary uppercase tracking-tight font-bold">{prod.title}</h3>
-                        <span className="font-bold text-primary">${prod.price}</span>
+                        <span className="font-bold text-primary">EGP {prod.price}</span>
                       </div>
                       <p className="text-xs text-on-surface-variant mb-6 uppercase italic">Stock: {prod.stock}</p>
                       <div className="flex gap-3">
@@ -823,7 +823,7 @@ export default function VendorDashboard() {
                           </div>
                           <div>
                             <p className="text-[0.55rem] font-bold uppercase opacity-40 mb-1">Total</p>
-                            <p className="text-xs font-bold text-primary">${(item.price * item.quantity).toLocaleString()}</p>
+                            <p className="text-xs font-bold text-primary">EGP {(item.price * item.quantity).toLocaleString()}</p>
                           </div>
                         </div>
                       </div>
