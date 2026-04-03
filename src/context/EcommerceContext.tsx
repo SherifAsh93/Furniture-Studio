@@ -32,7 +32,7 @@ type EcommerceContextType = {
 const EcommerceContext = createContext<EcommerceContextType | undefined>(undefined);
 
 export function EcommerceProvider({ children }: { children: React.ReactNode }) {
-  const { user } = useAuth();
+  const { user, openModal } = useAuth();
   const [cart, setCart] = useState<CartItem[]>([]);
   const [wishlist, setWishlist] = useState<any[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -90,6 +90,10 @@ export function EcommerceProvider({ children }: { children: React.ReactNode }) {
 
   const addToCart = (product: any) => {
     if (!product?.id) return;
+    if (!user) {
+      openModal('login', 'USER');
+      return;
+    }
     
     setCart(prev => {
       const existing = prev.find(item => item.productId === product.id);
@@ -127,33 +131,28 @@ export function EcommerceProvider({ children }: { children: React.ReactNode }) {
 
   const toggleWishlist = async (product: any) => {
     if (!product?.id) return;
+    if (!user) {
+      openModal('login', 'USER');
+      return;
+    }
     
-    if (user) {
-      const exists = wishlist.some(item => item.productId === product.id);
-      if (exists) {
-        const res = await apiRemoveFromWishlist(user.id, product.id);
-        if (res.success) {
-          setWishlist(prev => prev.filter(item => item.productId !== product.id));
-        } else {
-          console.error(res.error);
-          alert(res.error || 'Failed to remove from wishlist');
-        }
+    const exists = wishlist.some(item => item.productId === product.id);
+    if (exists) {
+      const res = await apiRemoveFromWishlist(user.id, product.id);
+      if (res.success) {
+        setWishlist(prev => prev.filter(item => item.productId !== product.id));
       } else {
-        const res = await apiAddToWishlist(user.id, product.id);
-        if (res.success) {
-          setWishlist(prev => [...prev, { productId: product.id, product }]);
-        } else {
-          console.error(res.error);
-          alert(res.error || 'Failed to add to wishlist');
-        }
+        console.error(res.error);
+        alert(res.error || 'Failed to remove from wishlist');
       }
     } else {
-      // Guest toggling
-      setWishlist(prev => {
-        const exists = prev.some(item => item.productId === product.id);
-        if (exists) return prev.filter(item => item.productId !== product.id);
-        return [...prev, { productId: product.id, product }];
-      });
+      const res = await apiAddToWishlist(user.id, product.id);
+      if (res.success) {
+        setWishlist(prev => [...prev, { productId: product.id, product }]);
+      } else {
+        console.error(res.error);
+        alert(res.error || 'Failed to add to wishlist');
+      }
     }
   };
 
@@ -162,7 +161,10 @@ export function EcommerceProvider({ children }: { children: React.ReactNode }) {
   };
 
   const checkout = async () => {
-    if (!user) return { success: false, error: 'Please login to checkout' };
+    if (!user) {
+      openModal('login', 'USER');
+      return { success: false, error: 'Please login to checkout' };
+    }
     if (cart.length === 0) return { success: false, error: 'Cart is empty' };
 
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);

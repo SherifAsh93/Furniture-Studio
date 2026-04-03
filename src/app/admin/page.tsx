@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
-import { getAdminData, updateUserStatus, deleteUser, getSiteSettings, updateSiteSettings, deleteProduct } from '@/app/actions/data';
+import { getAdminData, updateUserStatus, deleteUser, getSiteSettings, updateSiteSettings, deleteProduct, updateProduct } from '@/app/actions/data';
 import { useEffect, useState } from 'react';
 
 export default function AdminControlCenter() {
@@ -21,7 +21,7 @@ export default function AdminControlCenter() {
     }
   }, []);
 
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'inventory' | 'transactions' | 'commissions' | 'aesthetics'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'directory' | 'inventory' | 'transactions' | 'commissions' | 'aesthetics'>('dashboard');
   const [siteSettings, setSiteSettings] = useState<any>({
     heroTitle: '',
     heroSubtitle: '',
@@ -157,7 +157,7 @@ export default function AdminControlCenter() {
       <div className="flex pt-16 min-h-screen">
         <aside className="hidden md:flex h-[calc(100vh-64px)] w-80 bg-[#f6f3ee] dark:bg-[#1c1b1b] border-r border-[#c4c7c7]/15 flex-col p-8 gap-6 sticky top-16">
           <nav className="flex flex-col gap-4">
-            {['dashboard', 'inventory', 'transactions', 'commissions', 'aesthetics'].map((tab) => (
+            {['dashboard', 'directory', 'inventory', 'transactions', 'commissions', 'aesthetics'].map((tab) => (
               <button 
                 key={tab}
                 onClick={() => setActiveTab(tab as any)}
@@ -251,6 +251,91 @@ export default function AdminControlCenter() {
               </section>
             </div>
           )}
+
+          {activeTab === 'directory' && (
+            <div className="space-y-12">
+              <div className="bg-[#f6f3ee] p-8 border border-black/5">
+                <p className="text-[0.65rem] font-bold tracking-widest uppercase opacity-40 mb-2">DIRECTORY OVERVIEW</p>
+                <p className="font-body text-sm text-on-surface-variant">Manage vendors displayed on the Directory (/artisans) page. Each vendor's shop name and product images are shown publicly.</p>
+              </div>
+              
+              {adminData?.users?.filter((u: any) => u.role === 'VENDOR').length === 0 && (
+                <div className="py-20 text-center">
+                  <p className="text-[0.65rem] font-bold uppercase tracking-[0.3em] opacity-30">No vendors registered yet</p>
+                </div>
+              )}
+
+              {adminData?.users?.filter((u: any) => u.role === 'VENDOR').map((vendor: any) => {
+                const vendorProducts = adminData?.allProducts?.filter((p: any) => p.vendorId === vendor.id) || [];
+                return (
+                  <div key={vendor.id} className="border border-outline-variant/15 bg-white">
+                    {/* Vendor Header */}
+                    <div className="p-8 border-b border-outline-variant/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-full bg-[#735c00] flex items-center justify-center text-white font-bold text-lg">
+                          {(vendor.companyName || vendor.name || 'A')[0].toUpperCase()}
+                        </div>
+                        <div>
+                          <h3 className="font-headline text-xl font-bold uppercase tracking-tight">{vendor.companyName || vendor.name}</h3>
+                          <p className="text-[0.6rem] font-bold uppercase tracking-widest opacity-40">{vendor.email} — {vendor.city || 'No Location'}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className={`px-3 py-1.5 text-[0.55rem] font-bold uppercase tracking-widest ${
+                          vendor.status === 'ACTIVE' ? 'bg-green-100 text-green-800' : 
+                          vendor.status === 'PENDING' ? 'bg-yellow-100 text-yellow-800' : 
+                          'bg-red-100 text-red-800'
+                        }`}>{vendor.status}</span>
+                        {vendor.status === 'PENDING' && (
+                          <button onClick={() => handleStatusUpdate(vendor.id, 'ACTIVE')} className="text-[0.65rem] font-bold tracking-widest uppercase bg-primary text-on-primary px-4 py-1.5 hover:bg-secondary transition-colors">Approve</button>
+                        )}
+                        {vendor.status === 'ACTIVE' && (
+                          <button onClick={() => handleStatusUpdate(vendor.id, 'REJECTED')} className="text-[0.65rem] font-bold tracking-widest uppercase border border-error/30 text-error px-4 py-1.5 hover:bg-error/5 transition-colors">Suspend</button>
+                        )}
+                        {vendor.status === 'REJECTED' && (
+                          <button onClick={() => handleStatusUpdate(vendor.id, 'ACTIVE')} className="text-[0.65rem] font-bold tracking-widest uppercase border border-green-600/30 text-green-700 px-4 py-1.5 hover:bg-green-50 transition-colors">Re-activate</button>
+                        )}
+                      </div>
+                    </div>
+                    {/* Product Grid */}
+                    <div className="p-8">
+                      <p className="text-[0.6rem] font-bold tracking-widest uppercase opacity-40 mb-4">{vendorProducts.length} PRODUCT{vendorProducts.length !== 1 ? 'S' : ''} LISTED</p>
+                      {vendorProducts.length === 0 ? (
+                        <div className="py-8 text-center border-2 border-dashed border-outline-variant/15 bg-[#fcf9f4]">
+                          <p className="text-[0.6rem] font-bold uppercase tracking-widest opacity-30">No products uploaded yet</p>
+                        </div>
+                      ) : (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                          {vendorProducts.map((prod: any) => (
+                            <div key={prod.id} className="group/prod border border-outline-variant/10 bg-[#fcf9f4] transition-all hover:shadow-lg">
+                              <div className="aspect-square relative overflow-hidden">
+                                <img 
+                                  alt={prod.title} 
+                                  className="w-full h-full object-cover transition-all duration-500 group-hover/prod:scale-110" 
+                                  src={prod.images?.[0] || 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=200&q=60'}
+                                />
+                              </div>
+                              <div className="p-3">
+                                <h4 className="font-headline text-xs uppercase tracking-tight font-bold truncate">{prod.title}</h4>
+                                <p className="text-[0.55rem] font-bold tracking-widest uppercase opacity-40">EGP {new Intl.NumberFormat().format(prod.price)}</p>
+                                <div className="flex gap-2 mt-2">
+                                  <span className="text-[0.5rem] font-bold uppercase tracking-widest opacity-30">Stock: {prod.stock}</span>
+                                </div>
+                                <button 
+                                  onClick={() => handleDeleteProduct(prod.id)} 
+                                  className="w-full mt-3 py-2 border border-error/20 text-error text-[0.55rem] font-bold uppercase tracking-widest hover:bg-error/5 transition-colors"
+                                >Remove</button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )
 
           {activeTab === 'inventory' && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
