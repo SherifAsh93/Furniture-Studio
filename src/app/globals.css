@@ -3,7 +3,61 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: 'Manrope', sans-serif;
-  @apply bg-background text-on-background;
+@layer base {
+  :root {
+    --primary: #121212;
+    --on-primary: #ffffff;
+    --secondary: #a1824a;
+    --background: #fdfdfd;
+    --surface: #ffffff;
+    --surface-variant: #f6f3ee;
+    --outline: #e5e2dd;
+  }
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    @apply bg-[#fdfdfd] text-[#121212] selection:bg-black selection:text-white;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, .font-headline {
+    font-family: 'Noto Serif', serif;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-sm;
+  }
+  
+  .premium-shadow {
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+  }
+
+  .nav-blur {
+    @apply backdrop-blur-xl bg-white/80 border-b border-black/5;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .grid-mobile-1 {
+    @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+  }
+
+  .container-tight {
+    @apply max-w-7xl mx-auto px-6 md:px-12;
+  }
+}
+
+@keyframes slide-in-bottom {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-fade-up {
+  animation: slide-in-bottom 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

@@ -61,66 +61,66 @@ export default function Navbar() {
       </header>
 
       {/* Mobile Menu Drawer */}
-      <div className={`fixed inset-0 bg-white z-[55] transition-all duration-500 lg:hidden ${isMenuOpen ? 'opacity-100 pointer-events-auto pt-24 px-8 overflow-y-auto' : 'opacity-0 pointer-events-none translate-x-full'}`}>
-         <nav className="space-y-12 pb-24">
-            <div>
-              <h3 className="font-label text-xs tracking-[0.3em] uppercase text-on-surface-variant/40 mb-8 font-bold">NAVIGATION</h3>
-              <ul className="space-y-6">
+      <div className={`fixed inset-0 bg-white/95 backdrop-blur-xl z-[55] transition-all duration-700 lg:hidden ${isMenuOpen ? 'opacity-100 pointer-events-auto pt-24 px-8 overflow-y-auto' : 'opacity-0 pointer-events-none translate-x-full'}`}>
+         <nav className="space-y-16 pb-24">
+            <div className="animate-fade-up opacity-0" style={{ animationDelay: '0.1s' }}>
+              <h3 className="font-label text-[10px] tracking-[0.4em] uppercase text-on-surface-variant/30 mb-10 font-bold border-b border-black/5 pb-2">MAIN DIRECTORY</h3>
+              <ul className="space-y-8">
                 {navItems.map((item) => (
                   <li key={item.name}>
                     <Link 
                       href={item.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className={`flex items-center gap-6 group transition-colors ${pathname === item.href ? 'text-black' : 'text-on-surface-variant'}`}
+                      className={`flex items-center gap-6 group transition-all ${pathname === item.href ? 'translate-x-2 text-black' : 'text-on-surface-variant hover:text-black hover:translate-x-1'}`}
                     >
-                      <span className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${pathname === item.href ? 'bg-black text-white shrink-0 shadow-lg' : 'bg-[#fcf9f4] text-on-surface-variant shrink-0'}`}>
+                      <span className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${pathname === item.href ? 'bg-black text-white shadow-xl shadow-black/10 rotate-3' : 'bg-surface-variant text-on-surface-variant group-hover:bg-black group-hover:text-white'}`}>
                         {item.icon}
                       </span>
-                      <span className="font-label text-sm tracking-widest font-bold uppercase">{item.name}</span>
+                      <span className="font-label text-sm tracking-[0.2em] font-bold uppercase">{item.name}</span>
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div>
-              <h3 className="font-label text-xs tracking-[0.3em] uppercase text-on-surface-variant/40 mb-8 font-bold">STUDIO ARCHIVE</h3>
-              <ul className="space-y-6">
+            <div className="animate-fade-up opacity-0" style={{ animationDelay: '0.2s' }}>
+              <h3 className="font-label text-[10px] tracking-[0.4em] uppercase text-on-surface-variant/30 mb-10 font-bold border-b border-black/5 pb-2">PERSONAL ARCHIVE</h3>
+              <ul className="space-y-8">
                  <li>
-                    <button onClick={() => { setIsMenuOpen(false); if (!user) openModal('login', 'USER'); else setIsCartOpen(true); }} className="flex items-center gap-6 group transition-colors text-on-surface-variant hover:text-black w-full text-left">
-                      <span className="w-10 h-10 rounded-xl flex items-center justify-center bg-[#fcf9f4] shrink-0 relative">
+                    <button onClick={() => { setIsMenuOpen(false); if (!user) openModal('login', 'USER'); else setIsCartOpen(true); }} className="flex items-center gap-6 group transition-all text-on-surface-variant hover:text-black w-full text-left hover:translate-x-1">
+                      <span className="w-12 h-12 rounded-2xl flex items-center justify-center bg-surface-variant group-hover:bg-black group-hover:text-white transition-all duration-500 shrink-0 relative">
                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
                       </span>
-                      <span className="font-label text-sm tracking-widest font-bold uppercase">THE CART</span>
+                      <span className="font-label text-sm tracking-[0.2em] font-bold uppercase">THE CART</span>
                     </button>
                  </li>
                  <li>
-                    <button onClick={() => { setIsMenuOpen(false); if (!user) openModal('login', 'USER'); else setIsWishlistOpen(true); }} className="flex items-center gap-6 group transition-colors text-on-surface-variant hover:text-black w-full text-left">
-                      <span className="w-10 h-10 rounded-xl flex items-center justify-center bg-[#fcf9f4] shrink-0 relative">
+                    <button onClick={() => { setIsMenuOpen(false); if (!user) openModal('login', 'USER'); else setIsWishlistOpen(true); }} className="flex items-center gap-6 group transition-all text-on-surface-variant hover:text-black w-full text-left hover:translate-x-1">
+                      <span className="w-12 h-12 rounded-2xl flex items-center justify-center bg-surface-variant group-hover:bg-black group-hover:text-white transition-all duration-500 shrink-0 relative">
                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.04-8.04 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                       </span>
-                      <span className="font-label text-sm tracking-widest font-bold uppercase">WISHLIST</span>
+                      <span className="font-label text-sm tracking-[0.2em] font-bold uppercase">WISHLIST</span>
                     </button>
                  </li>
               </ul>
             </div>
 
             {user ? (
-               <div className="pt-8 border-t border-black/5">
-                  <div className="flex items-center gap-4 mb-4">
-                     <div className="w-12 h-12 rounded-full bg-[#735c00] flex items-center justify-center text-white font-bold text-sm">
+               <div className="pt-10 border-t border-black/5 animate-fade-up opacity-0" style={{ animationDelay: '0.3s' }}>
+                  <div className="flex items-center gap-5 mb-8">
+                     <div className="w-14 h-14 rounded-2xl bg-black flex items-center justify-center text-white font-bold text-lg shadow-xl shadow-black/10">
                         {user.name?.[0] || user.email[0].toUpperCase()}
                      </div>
                      <div className="flex flex-col">
-                        <span className="font-label text-xs tracking-widest uppercase font-bold text-black truncate max-w-[200px]">
+                        <span className="font-label text-[10px] tracking-[0.4em] uppercase font-bold text-black truncate max-w-[200px] mb-1">
                           {user.name || user.email.split('@')[0]}
                         </span>
-                        <span className="font-label text-[10px] tracking-widest uppercase text-on-surface-variant">Member Collective</span>
+                        <span className="font-label text-[9px] tracking-[0.2em] uppercase text-on-surface-variant/60 font-bold">Curated Member</span>
                      </div>
                   </div>
                   <button 
                     onClick={() => { setIsMenuOpen(false); logout(); }}
-                    className="w-full bg-[#fcf9f4] py-4 text-secondary font-label text-[10px] tracking-widest uppercase font-bold text-center"
+                    className="w-full bg-surface-variant py-5 text-secondary font-label text-[10px] tracking-[0.3em] uppercase font-bold text-center hover:bg-black hover:text-white transition-all rounded-xl"
                   >
                     SIGN OUT ARCHIVE
                   </button>
@@ -128,7 +128,8 @@ export default function Navbar() {
             ) : (
                <button 
                  onClick={() => { setIsMenuOpen(false); openModal('login', 'USER'); }}
-                 className="w-full bg-black text-white py-6 font-label text-xs tracking-widest uppercase font-bold text-center"
+                 className="w-full bg-black text-white py-6 font-label text-[10px] tracking-[0.4em] uppercase font-bold text-center shadow-2xl shadow-black/20 animate-fade-up opacity-0 rounded-xl"
+                 style={{ animationDelay: '0.3s' }}
                >
                  AUTHENTICATE IDENTITY
                </button>
@@ -239,16 +240,6 @@ export default function Navbar() {
           </div>
         </nav>
 
-        <div className="mt-auto pt-12">
-          <div className="bg-[#fcf9f4] rounded-xl p-6 relative overflow-hidden group">
-            <div className="absolute top-0 right-0 p-4 opacity-10">
-              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-            </div>
-            <p className="font-label text-[10px] tracking-widest uppercase mb-2 font-bold text-on-surface-variant">Concierge</p>
-            <h4 className="font-headline text-lg font-bold mb-4 uppercase">Direct Assistance</h4>
-            <Link href="#" className="font-label text-[10px] tracking-widest uppercase border-b border-black pb-1 font-bold">CONTACT AGENT</Link>
-          </div>
-        </div>
       </aside>
 
       {/* Mobile Bottom Navigation */}

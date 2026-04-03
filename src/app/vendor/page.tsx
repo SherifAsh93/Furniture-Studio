@@ -105,43 +105,44 @@ function ProductFormModal({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 md:p-8 flex flex-col gap-6">
+        <form onSubmit={handleSubmit} className="p-6 md:p-10 flex flex-col gap-8">
           {/* Multiple Image Support */}
           <div>
-            <label className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-2 block">Visual Assets (Cloudinary Links) *</label>
-            <div className="flex gap-2 mb-4">
+            <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/40 mb-4 block">Visual Assets (Cloudinary Links)</label>
+            <div className="flex flex-col sm:flex-row gap-3 mb-6">
               <input
                 type="url"
                 value={newImage}
                 onChange={e => setNewImage(e.target.value)}
                 placeholder="Paste Cloudinary link..."
-                className="flex-1 border-b border-outline-variant/40 py-2 bg-transparent text-sm focus:border-primary transition-all outline-none"
+                className="flex-1 border-b border-black/10 py-3 bg-transparent text-sm focus:border-black transition-all outline-none"
               />
               <button
                 type="button"
                 onClick={addImage}
-                className="bg-[#1c1b1b] text-white px-4 py-2 text-[0.6rem] font-bold uppercase tracking-widest hover:bg-primary transition-all"
+                className="bg-black text-white px-8 py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-[#a1824a] transition-all rounded-lg"
               >
-                Add
+                Capture Asset
               </button>
             </div>
 
-            <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide">
+            <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
               {form.images.map((img: string, idx: number) => (
-                <div key={idx} className="relative w-32 aspect-square shrink-0 bg-surface-container-low border border-outline-variant/30 group">
+                <div key={idx} className="relative w-32 aspect-square shrink-0 bg-surface-variant rounded-xl overflow-hidden border border-black/5 group shadow-sm">
                   <img src={img} alt={`Preview ${idx}`} className="w-full h-full object-cover" />
                   <button
                     type="button"
                     onClick={() => removeImage(idx)}
-                    className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute top-2 right-2 bg-black/60 backdrop-blur-md text-white rounded-full w-6 h-6 flex items-center justify-center text-sm opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     ×
                   </button>
                 </div>
               ))}
               {form.images.length === 0 && (
-                <div className="w-full py-12 border-2 border-dashed border-outline-variant/20 flex items-center justify-center">
-                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.2em] opacity-30">No images added yet</p>
+                <div className="w-full py-16 border-2 border-dashed border-black/5 rounded-2xl flex flex-col items-center justify-center gap-3 bg-surface-variant/30 text-black/20">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em]">No cinematic frames linked</p>
                 </div>
               )}
             </div>
@@ -618,25 +619,23 @@ export default function VendorDashboard() {
       )}
 
       {/* Header */}
-      <header className="sticky top-0 z-[60] bg-[#fcf9f4]/95 backdrop-blur-xl border-b border-outline-variant/15 px-4 md:px-6 py-4 flex items-center justify-between transition-colors duration-300">
+      <header className="sticky top-0 z-[60] bg-white/90 backdrop-blur-xl border-b border-black/5 px-4 md:px-8 py-5 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2 group cursor-pointer">
-            <div className="bg-white overflow-hidden w-8 h-8 rounded-lg flex items-center justify-center border border-outline-variant/30">
+            <div className="bg-white overflow-hidden w-9 h-9 rounded-xl flex items-center justify-center border border-black/5 shadow-sm">
               <img alt="Furniture Studio Logo" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYzwpRTmQxUU1zbZR1afOETDBbBv0B_OTy3uSZi1M-zr3D4OJhAdZ0rdtuJJVMreSJlhnXVbub7ICKPYtOIzIlBG9k9G0KaWgp5bzWDrziAUAXbS75sIc3Sa16PXvXkieA209VMEJWQLh75Mx7kidMOOdwBqHjOv2WfUJmMX9ythFYjuEt9oemiO96XkY7XFbPGpzOadEvAVB0kaJ83HKjGXKjarlpsAFZuyYWNGqW9BTJorDxFA9LYqQLpix6hr6C5-ehOtP7Soa7" />
             </div>
-            <div className="flex flex-col leading-none text-left">
-              <span className="font-headline text-lg tracking-tight font-bold text-black uppercase">FURNITURE</span>
-            </div>
+            <span className="font-headline text-xl tracking-tight font-bold text-black uppercase hidden sm:block">FURNITURE</span>
           </Link>
         </div>
-        <nav className="flex items-center gap-6 overflow-x-auto scrollbar-hide px-4 md:px-0 md:absolute md:left-1/2 md:-translate-x-1/2 w-auto max-w-[200px] sm:max-w-none">
-          <button onClick={() => setActiveTab('overview')} className={`text-[9px] md:text-[0.7rem] font-bold tracking-widest uppercase transition-all pb-1 whitespace-nowrap ${activeTab === 'overview' ? 'text-primary border-b border-primary' : 'text-on-surface-variant hover:text-primary'}`}>Dashboard</button>
-          <button onClick={() => setActiveTab('catalog')} className={`text-[9px] md:text-[0.7rem] font-bold tracking-widest uppercase transition-all pb-1 whitespace-nowrap ${activeTab === 'catalog' ? 'text-primary border-b border-primary' : 'text-on-surface-variant hover:text-primary'}`}>Catalog</button>
-          <button onClick={() => setActiveTab('orders')} className={`text-[9px] md:text-[0.7rem] font-bold tracking-widest uppercase transition-all pb-1 whitespace-nowrap ${activeTab === 'orders' ? 'text-primary border-b border-primary' : 'text-on-surface-variant hover:text-primary'}`}>Orders</button>
-          <button onClick={() => setActiveTab('requests')} className={`text-[9px] md:text-[0.7rem] font-bold tracking-widest uppercase transition-all pb-1 whitespace-nowrap ${activeTab === 'requests' ? 'text-primary border-b border-primary' : 'text-on-surface-variant hover:text-primary'}`}>Requests</button>
+        <nav className="flex items-center gap-6 overflow-x-auto scrollbar-hide px-4 md:px-0 bg-surface-variant/50 md:bg-transparent rounded-full p-1 md:p-0">
+          <button onClick={() => setActiveTab('overview')} className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-all px-4 py-2 rounded-full whitespace-nowrap ${activeTab === 'overview' ? 'bg-black text-white shadow-lg' : 'text-black/40 hover:text-black'}`}>Overview</button>
+          <button onClick={() => setActiveTab('catalog')} className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-all px-4 py-2 rounded-full whitespace-nowrap ${activeTab === 'catalog' ? 'bg-black text-white shadow-lg' : 'text-black/40 hover:text-black'}`}>Catalog</button>
+          <button onClick={() => setActiveTab('orders')} className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-all px-4 py-2 rounded-full whitespace-nowrap ${activeTab === 'orders' ? 'bg-black text-white shadow-lg' : 'text-black/40 hover:text-black'}`}>Orders</button>
+          <button onClick={() => setActiveTab('requests')} className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-all px-4 py-2 rounded-full whitespace-nowrap ${activeTab === 'requests' ? 'bg-black text-white shadow-lg' : 'text-black/40 hover:text-black'}`}>Requests</button>
         </nav>
         <div className="flex items-center gap-4">
-          <button onClick={async () => { await loadData(); }} className="p-2 hover:bg-black/5 rounded-full transition-colors">
+          <button onClick={async () => { await loadData(); }} className="w-10 h-10 flex items-center justify-center border border-black/5 rounded-xl hover:bg-black hover:text-white transition-all shadow-sm">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" /><path d="M16 16h5v5" /></svg>
           </button>
         </div>
@@ -675,16 +674,16 @@ export default function VendorDashboard() {
           <div className="flex-1 p-4 md:p-12 overflow-x-hidden">
             {activeTab === 'overview' && (
               <div className="space-y-12">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                   {[
-                    { label: 'Revenue', value: `EGP ${new Intl.NumberFormat().format(vendorData?.orders?.reduce((acc: number, cur: any) => acc + (cur.total || 0), 0) || 0)}`, color: 'bg-primary-container text-on-primary-container' },
-                    { label: 'Orders', value: vendorData?.orders?.length || 0, color: 'bg-surface-container-low' },
-                    { label: 'Inquiry', value: vendorData?.customRequests?.length || 0, color: 'bg-surface-container-low' },
-                    { label: 'Inventory', value: vendorData?.products?.length || 0, color: 'bg-surface-container-low' }
+                    { label: 'Revenue', value: `EGP ${new Intl.NumberFormat().format(vendorData?.orders?.reduce((acc: number, cur: any) => acc + (cur.total || 0), 0) || 0)}`, color: 'bg-black text-white shadow-xl shadow-black/10' },
+                    { label: 'Orders', value: vendorData?.orders?.length || 0, color: 'bg-surface-variant' },
+                    { label: 'Inquiry', value: vendorData?.customRequests?.length || 0, color: 'bg-white border border-black/5 premium-shadow' },
+                    { label: 'Inventory', value: vendorData?.products?.length || 0, color: 'bg-surface-variant' }
                   ].map((stat, i) => (
-                    <div key={i} className={`p-6 md:p-8 flex flex-col justify-between min-h-[120px] md:min-h-[160px] ${stat.color} rounded-2xl md:rounded-none`}>
-                      <p className="text-[8px] md:text-[0.65rem] font-bold tracking-widest uppercase opacity-40">{stat.label}</p>
-                      <h2 className="text-xl md:text-4xl font-headline italic font-bold tracking-tighter truncate">{stat.value}</h2>
+                    <div key={i} className={`p-8 flex flex-col justify-between min-h-[140px] rounded-2xl transition-all hover:scale-[1.02] ${stat.color}`}>
+                      <p className="text-[10px] font-bold tracking-[0.2em] uppercase opacity-40">{stat.label}</p>
+                      <h2 className="text-2xl md:text-3xl font-headline italic font-bold tracking-tighter truncate">{stat.value}</h2>
                     </div>
                   ))}
                 </div>

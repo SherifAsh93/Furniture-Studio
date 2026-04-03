@@ -121,24 +121,24 @@ export default function Home() {
             src={settings.heroImage || 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop'} 
           />
         </div>
-        <div className="container mx-auto px-6 relative z-10 flex flex-col items-start max-w-4xl">
-          <span className="font-label text-xs uppercase tracking-[0.3em] text-white mb-4">{settings.heroSubtitle}</span>
-          <h1 className="font-headline text-[3.5rem] md:text-[5rem] leading-[1.1] text-white font-bold tracking-tight mb-8 whitespace-pre-line">
+        <div className="container-tight relative z-10 flex flex-col items-start text-balance">
+          <span className="font-label text-xs uppercase tracking-[0.3em] text-white mb-4 animate-fade-up opacity-0" style={{ animationDelay: '0.2s' }}>{settings.heroSubtitle}</span>
+          <h1 className="font-headline text-[3rem] md:text-[5rem] leading-[1.05] text-white font-bold tracking-tighter mb-8 whitespace-pre-line animate-fade-up opacity-0" style={{ animationDelay: '0.4s' }}>
             {settings.heroTitle}
           </h1>
-          <p className="font-body text-lg text-white/80 max-w-lg mb-12 leading-relaxed">
+          <p className="font-body text-base md:text-lg text-white/70 max-w-lg mb-12 leading-relaxed animate-fade-up opacity-0" style={{ animationDelay: '0.6s' }}>
             {settings.heroDescription}
           </p>
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto animate-fade-up opacity-0" style={{ animationDelay: '0.8s' }}>
             <button 
               onClick={() => document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth' })}
-              className="bg-black text-white px-10 py-5 font-label text-xs tracking-widest uppercase transition-all active:scale-95"
+              className="bg-white text-black px-10 py-5 font-label text-[10px] tracking-widest uppercase transition-all active:scale-95 hover:bg-[#a1824a] hover:text-white font-bold"
             >
               EXPLORE THE SERIES
             </button>
             <button 
               onClick={() => document.getElementById('directory')?.scrollIntoView({ behavior: 'smooth' })}
-              className="border border-white/20 text-white px-10 py-5 font-label text-xs tracking-widest uppercase hover:bg-white/10 transition-all"
+              className="border border-white/20 text-white px-10 py-5 font-label text-[10px] tracking-widest uppercase hover:bg-white/10 transition-all font-bold"
             >
               VIEW SPACES
             </button>
@@ -167,20 +167,20 @@ export default function Home() {
                    <Link href="/artisans" className="font-label text-[10px] tracking-widest uppercase border-b-2 border-black pb-2 font-bold hover:text-[#a1824a] hover:border-[#a1824a] transition-all">CONSULT AN AGENT</Link>
                 </div>
               </div>
-              <div className="bg-white p-6 md:p-20 shadow-2xl rounded-2xl border border-black/5">
+              <div className="bg-white p-6 md:p-16 shadow-2xl rounded-3xl border border-black/5 premium-shadow">
                 <form onSubmit={handleCustomSubmit} className="space-y-8">
                   {success && (
-                    <div className="p-4 bg-[#735c00] text-white text-[10px] font-bold uppercase tracking-widest text-center animate-pulse">
+                    <div className="p-4 bg-[#735c00] text-white text-[10px] font-bold uppercase tracking-widest text-center animate-pulse rounded-lg">
                       Request Transmitted to Artisan Registry
                     </div>
                   )}
-                  <div className="grid grid-cols-2 gap-8">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                     <div className="flex flex-col gap-2">
-                      <label className="font-label text-[10px] uppercase text-black/40 font-bold">Artisan Hub</label>
+                      <label className="font-label text-[10px] uppercase text-black/40 font-bold tracking-widest">Artisan Hub</label>
                       <select 
                         value={vendorId}
                         onChange={(e) => setVendorId(e.target.value)}
-                        className="bg-[#fcf9f4] border-b border-black/10 py-3 font-body text-sm focus:outline-none focus:border-black"
+                        className="bg-[#fcf9f4] border-b border-black/10 py-3 font-body text-sm focus:outline-none focus:border-[#a1824a] transition-colors"
                       >
                         <option value="">Select Atelier</option>
                         {vendors.map(v => (
@@ -189,11 +189,11 @@ export default function Home() {
                       </select>
                     </div>
                     <div className="flex flex-col gap-2">
-                       <label className="font-label text-[10px] uppercase text-black/40 font-bold">Category</label>
+                       <label className="font-label text-[10px] uppercase text-black/40 font-bold tracking-widest">Category</label>
                        <select 
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
-                        className="bg-[#fcf9f4] border-b border-black/10 py-3 font-body text-sm focus:outline-none focus:border-black"
+                        className="bg-[#fcf9f4] border-b border-black/10 py-3 font-body text-sm focus:outline-none focus:border-[#a1824a] transition-colors"
                       >
                         <option>Dressing room</option>
                         <option>Master bedroom</option>

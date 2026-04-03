@@ -43,17 +43,17 @@ export default function CollectionsPage() {
 
   return (
     <main className="pt-24 md:pt-32 pb-32 px-6 md:px-12 max-w-[1400px] mx-auto min-h-screen">
-      <div className="mb-24 flex flex-col md:flex-row justify-between items-end gap-8">
+      <div className="mb-24 flex flex-col md:flex-row justify-between items-end gap-12 border-b border-black/5 pb-16">
         <div className="max-w-3xl">
-          <span className="font-label text-[10px] font-bold tracking-[0.3em] text-[#cf6317] uppercase mb-6 block">ARCHITECTURE & TYPOLOGY</span>
-          <h1 className="font-headline text-5xl md:text-8xl font-extrabold uppercase tracking-tight leading-[0.85] mb-8">
-            The<br/><span className="text-black/20 italic font-light">Series</span>
+          <span className="font-label text-[10px] font-bold tracking-[0.4em] text-[#a1824a] uppercase mb-8 block animate-fade-up opacity-0" style={{ animationDelay: '0.1s' }}>ARCHITECTURE & TYPOLOGY</span>
+          <h1 className="font-headline text-5xl md:text-8xl font-extrabold uppercase tracking-tighter leading-[0.85] mb-10 animate-fade-up opacity-0" style={{ animationDelay: '0.2s' }}>
+            The<br/><span className="text-black/10 italic font-light">Series</span>
           </h1>
-          <p className="font-body text-base md:text-lg text-on-surface-variant leading-relaxed max-w-xl">
+          <p className="font-body text-base md:text-lg text-on-surface-variant leading-relaxed max-w-xl animate-fade-up opacity-0" style={{ animationDelay: '0.3s' }}>
             Every series is a cohesive architectural statement. Curated by typological function and material intent, these collections represent our definitive vision for contemporary living.
           </p>
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-4 animate-fade-up opacity-0" style={{ animationDelay: '0.4s' }}>
           <div className="text-black/10">
             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3z"></path><path d="M9 3v18"></path><path d="M3 15h6"></path><path d="M15 3v18"></path><path d="M15 9h6"></path></svg>
           </div>
@@ -63,33 +63,33 @@ export default function CollectionsPage() {
         </div>
       </div>
 
-      <div className="space-y-24 md:space-y-48">
+      <div className="space-y-32 md:space-y-48">
         {collections.map((collection, index) => (
-          <section key={collection.id} className={`flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} gap-12 lg:gap-24 items-center group`}>
-            <div className="w-full md:w-3/5 aspect-[16/10] overflow-hidden bg-[#e5e2dd] relative">
+          <section key={collection.id} className={`flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} gap-12 lg:gap-24 items-center group animate-fade-up opacity-0`} style={{ animationDelay: `${0.2 + index * 0.1}s` }}>
+            <div className="w-full md:w-3/5 aspect-[16/10] overflow-hidden bg-[#e5e2dd] relative rounded-2xl shadow-sm premium-shadow">
               <img 
                 alt={collection.title} 
-                className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105" 
+                className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" 
                 src={collection.image} 
               />
               <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-700"></div>
             </div>
             <div className="w-full md:w-2/5 space-y-8">
               <div className="flex items-center gap-4">
-                <span className="text-[#cf6317]">
+                <span className="text-[#a1824a]">
                   {getIcon(collection.icon)}
                 </span>
-                <span className="font-label text-[10px] font-bold tracking-[0.4em] text-[#cf6317] uppercase">{collection.subtitle}</span>
+                <span className="font-label text-[10px] font-bold tracking-[0.4em] text-[#a1824a] uppercase">{collection.subtitle}</span>
               </div>
-              <h2 className="font-headline text-4xl lg:text-5xl font-extrabold uppercase tracking-tight">{collection.title}</h2>
-              <p className="font-body text-base text-on-surface-variant leading-relaxed">
+              <h2 className="font-headline text-4xl lg:text-6xl font-extrabold uppercase tracking-tighter leading-none">{collection.title}</h2>
+              <p className="font-body text-base text-on-surface-variant leading-relaxed italic pr-6 border-l-2 border-black/10 pl-6">
                 {collection.description}
               </p>
-              <div className="pt-4 flex flex-col sm:flex-row gap-6">
-                <button className="bg-primary text-white px-10 py-5 font-label text-[10px] font-bold tracking-[0.2em] hover:bg-[#cf6317] transition-all uppercase w-full sm:w-auto">
+              <div className="pt-8 flex flex-col sm:flex-row gap-8 items-center border-t border-black/5">
+                <button className="bg-black text-white px-10 py-5 font-label text-[10px] font-bold tracking-[0.3em] hover:bg-[#a1824a] transition-all uppercase w-full sm:w-auto text-center active:scale-[0.98]">
                   Explore Series
                 </button>
-                <button className="font-label text-[10px] font-bold tracking-[0.2em] border-b border-black pb-1 hover:text-[#cf6317] hover:border-[#cf6317] transition-colors uppercase h-max self-center mt-4 sm:mt-0">
+                <button className="font-label text-[10px] font-bold tracking-[0.3em] border-b border-black/20 pb-1 hover:text-[#a1824a] hover:border-[#a1824a] transition-colors uppercase h-max self-center sm:self-auto text-black text-center">
                   Download Catalog
                 </button>
               </div>

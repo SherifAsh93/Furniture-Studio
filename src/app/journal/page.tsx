@@ -45,14 +45,14 @@ export default function JournalPage() {
   };
 
   return (
-    <main className="pt-32 pb-32 px-6 md:px-12 max-w-[1400px] mx-auto min-h-screen">
-      <div className="mb-24 flex flex-col md:flex-row justify-between items-end gap-8 border-b border-black/5 pb-12">
+    <main className="pt-24 md:pt-32 pb-32 px-6 md:px-12 max-w-[1400px] mx-auto min-h-screen">
+      <div className="mb-24 flex flex-col md:flex-row justify-between items-end gap-12 border-b border-black/5 pb-16">
         <div className="max-w-3xl">
-          <span className="font-label text-[10px] font-bold tracking-[0.3em] text-[#cf6317] uppercase mb-6 block">EDITORIAL INTENT</span>
-          <h1 className="font-headline text-5xl md:text-8xl font-extrabold uppercase tracking-tight leading-[0.85] mb-8">
-            The<br/><span className="text-black/20 italic font-light">Journal</span>
+          <span className="font-label text-[10px] font-bold tracking-[0.4em] text-[#a1824a] uppercase mb-8 block animate-fade-up opacity-0" style={{ animationDelay: '0.1s' }}>EDITORIAL ARTIFACTS</span>
+          <h1 className="font-headline text-5xl md:text-8xl font-extrabold uppercase tracking-tighter leading-[0.85] mb-10 animate-fade-up opacity-0" style={{ animationDelay: '0.2s' }}>
+            The<br/><span className="text-black/10 italic font-light">Narrative Archive</span>
           </h1>
-          <p className="font-body text-base md:text-lg text-on-surface-variant leading-relaxed">
+          <p className="font-body text-base md:text-lg text-on-surface-variant leading-relaxed max-w-2xl animate-fade-up opacity-0" style={{ animationDelay: '0.3s' }}>
             Exploring the intersection of material, form, and philosophy. Our editorial platform provides a deeper look into the architectural intent behind everything we curate.
           </p>
         </div>
@@ -67,55 +67,57 @@ export default function JournalPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-24">
-        {articles.map((article) => (
-          <article key={article.id} className="group cursor-pointer">
-            <div className="aspect-[16/10] overflow-hidden bg-[#e5e2dd] mb-8 relative">
+        {articles.map((article, idx) => (
+          <article key={article.id} className="group cursor-pointer animate-fade-up opacity-0" style={{ animationDelay: `${0.4 + idx * 0.1}s` }}>
+            <div className="aspect-[16/10] overflow-hidden bg-[#e5e2dd] mb-8 relative rounded-2xl shadow-sm transition-all hover:shadow-xl hover:shadow-black/5">
               <img 
                 alt={article.title} 
-                className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" 
+                className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" 
                 src={article.image} 
               />
-              <div className="absolute top-6 left-6 bg-white/20 backdrop-blur-md px-3 py-1 rounded-none border border-white/20">
-                <span className="font-label text-[8px] font-bold tracking-[0.2em] text-white uppercase">{article.category}</span>
+              <div className="absolute top-6 left-6 bg-white/20 backdrop-blur-xl px-4 py-2 rounded-full border border-white/20">
+                <span className="font-label text-[8px] font-bold tracking-[0.3em] text-white uppercase">{article.category}</span>
               </div>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-5 px-2">
               <div className="flex items-center gap-3">
-                <span className="text-[#cf6317]">
+                <span className="text-[#a1824a]">
                   {getIcon(article.icon)}
                 </span>
                 <span className="font-label text-[9px] font-bold tracking-[0.2em] text-black/40 uppercase">{article.date}</span>
               </div>
-              <h2 className="font-headline text-3xl font-bold uppercase tracking-tight group-hover:text-[#cf6317] transition-colors leading-tight">
+              <h2 className="font-headline text-3xl font-bold uppercase tracking-tight group-hover:text-[#a1824a] transition-colors leading-[1.1]">
                 {article.title}
               </h2>
-              <p className="font-body text-sm text-on-surface-variant leading-relaxed line-clamp-3">
+              <p className="font-body text-sm text-on-surface-variant leading-relaxed line-clamp-3 italic opacity-80">
                 {article.excerpt}
               </p>
-              <button className="font-label text-[10px] font-bold tracking-[0.2em] text-black border-b border-black/20 pb-1 hover:border-[#cf6317] hover:text-[#cf6317] transition-all uppercase pt-4 inline-flex items-center gap-2 group/btn">
+              <button className="font-label text-[10px] font-bold tracking-[0.3em] text-black border-b border-black/10 pb-2 hover:border-[#a1824a] hover:text-[#a1824a] transition-all uppercase pt-6 inline-flex items-center gap-3 group/btn">
                 Read Narrative
-                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="group-hover/btn:translate-x-1 transition-transform"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="group-hover/btn:translate-x-2 transition-all"><polyline points="9 18 15 12 9 6"></polyline></svg>
               </button>
             </div>
           </article>
         ))}
       </div>
 
-      <div className="mt-48 py-24 border-t border-black/10 flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
-        <div>
-          <h3 className="font-headline text-3xl font-bold uppercase mb-4 tracking-tight">Stay Curated</h3>
-          <p className="font-body text-sm text-on-surface-variant uppercase tracking-widest">Receive our weekly editorial dispatch directly.</p>
+      <div className="mt-48 py-24 border-t border-black/5 flex flex-col lg:flex-row justify-between items-center gap-16 text-center lg:text-left">
+        <div className="max-w-xl">
+          <h3 className="font-headline text-4xl font-bold uppercase mb-4 tracking-tighter">Stay Curated</h3>
+          <p className="font-body text-xs text-black/40 uppercase tracking-[0.3em] font-bold leading-loose">Receive our weekly editorial dispatch directly into your archive.</p>
         </div>
-        <div className="flex w-full md:w-auto max-w-md bg-[#f6f3ee] border-b-2 border-transparent focus-within:border-[#cf6317] transition-colors group">
-          <div className="p-4 text-black/40 group-focus-within:text-[#cf6317]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        <div className="flex flex-col sm:flex-row w-full lg:w-auto max-w-xl bg-white rounded-2xl overflow-hidden premium-shadow border border-black/5">
+          <div className="flex flex-1 items-center bg-surface-variant/30">
+            <div className="p-5 text-black/20">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </div>
+            <input 
+              type="email" 
+              placeholder="COLLECTOR@TYPOLOGY.EG" 
+              className="bg-transparent border-0 py-5 px-2 text-[10px] font-label font-bold tracking-[0.3em] outline-none flex-1 uppercase"
+            />
           </div>
-          <input 
-            type="email" 
-            placeholder="COLLECTOR@TYPOLOGY.EU" 
-            className="bg-transparent border-0 py-4 px-2 text-xs font-label font-bold tracking-[0.2em] outline-none flex-1 uppercase"
-          />
-          <button className="bg-primary text-white px-8 py-4 font-label text-[10px] font-bold tracking-[0.2em] uppercase hover:bg-[#cf6317] transition-all active:scale-[0.98]">
+          <button className="bg-black text-white px-12 py-5 font-label text-[10px] font-bold tracking-[0.4em] uppercase hover:bg-[#a1824a] transition-all active:scale-[0.98]">
             Subscribe
           </button>
         </div>

@@ -157,13 +157,13 @@ export default function AdminControlCenter() {
       </header>
 
       {/* Mobile Tab Navigation */}
-      <div className="fixed top-16 left-0 right-0 z-50 bg-white border-b border-black/5 md:hidden overflow-x-auto scrollbar-hide">
-        <div className="flex px-4">
+      <div className="fixed top-16 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-black/5 md:hidden overflow-x-auto scrollbar-hide">
+        <div className="flex px-4 min-w-max">
           {['dashboard', 'directory', 'inventory', 'transactions', 'commissions', 'aesthetics'].map((tab) => (
             <button 
               key={tab}
               onClick={() => setActiveTab(tab as any)}
-              className={`whitespace-nowrap px-4 py-4 text-[10px] font-bold uppercase tracking-widest transition-all border-b-2 ${activeTab === tab ? 'border-primary text-primary' : 'border-transparent text-black/40'}`}
+              className={`whitespace-nowrap px-6 py-5 text-[10px] font-bold uppercase tracking-[0.2em] transition-all border-b-2 ${activeTab === tab ? 'border-black text-black' : 'border-transparent text-black/30'}`}
             >
               {tab}
             </button>
@@ -196,16 +196,16 @@ export default function AdminControlCenter() {
 
           {activeTab === 'dashboard' && (
             <div className="space-y-16">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 {[
-                  { label: 'Total Users', value: adminData?.users?.length || 0, color: 'bg-primary-container text-on-primary-container' },
-                  { label: 'Active Listings', value: adminData?.allProducts?.length || 0, color: 'bg-surface-container-low' },
-                  { label: 'Total Orders', value: adminData?.allOrders?.length || 0, color: 'bg-surface-container-lowest border' },
-                  { label: 'Custom Requests', value: adminData?.allRequests?.length || 0, color: 'bg-surface-container-low' }
+                  { label: 'Total Users', value: adminData?.users?.length || 0, color: 'bg-black text-white shadow-xl shadow-black/10' },
+                  { label: 'Active Listings', value: adminData?.allProducts?.length || 0, color: 'bg-surface-variant' },
+                  { label: 'Total Orders', value: adminData?.allOrders?.length || 0, color: 'bg-white border border-black/5 premium-shadow' },
+                  { label: 'Custom Requests', value: adminData?.allRequests?.length || 0, color: 'bg-surface-variant' }
                 ].map((stat, i) => (
-                  <div key={i} className={`p-6 md:p-8 flex flex-col justify-between min-h-[120px] md:min-h-[140px] ${stat.color}`}>
-                    <p className="text-[9px] md:text-[0.65rem] font-bold tracking-widest uppercase opacity-40">{stat.label}</p>
-                    <h2 className="text-2xl md:text-4xl font-headline italic font-bold tracking-tighter">{stat.value}</h2>
+                  <div key={i} className={`p-8 flex flex-col justify-between min-h-[140px] rounded-2xl transition-all hover:scale-[1.02] ${stat.color}`}>
+                    <p className="text-[10px] font-bold tracking-[0.2em] uppercase opacity-40">{stat.label}</p>
+                    <h2 className="text-4xl font-headline italic font-bold tracking-tighter">{stat.value}</h2>
                   </div>
                 ))}
               </div>
@@ -373,28 +373,38 @@ export default function AdminControlCenter() {
           )}
 
           {activeTab === 'transactions' && (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+            <div className="overflow-x-auto bg-surface-container-low border border-outline-variant/15 p-4 md:p-8">
+              <table className="w-full text-left border-collapse min-w-[600px]">
                 <thead className="border-b border-primary/10">
                   <tr className="text-[0.65rem] font-bold uppercase tracking-widest opacity-40">
                     <th className="py-4">Identifier</th>
                     <th className="py-4">Customer</th>
-                    <th className="py-4">Product</th>
+                    <th className="py-4">Items</th>
                     <th className="py-4 text-right">Revenue</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-outline-variant/10 text-[0.7rem] font-bold uppercase tracking-widest">
                   {adminData?.allOrders?.map((order: any) => (
                     <tr key={order.id} className="hover:bg-black/5 transition-colors">
-                      <td className="py-6 text-primary">{order.id}</td>
+                      <td className="py-6 text-primary">{order.id.slice(-8).toUpperCase()}</td>
                       <td className="py-6">
-                        <p>{order.customer.name}</p>
-                        <p className="opacity-40">{order.customer.email}</p>
+                        <p>{order.customer?.name || 'Guest'}</p>
+                        <p className="opacity-40 lowercase">{order.customer?.email}</p>
                       </td>
-                      <td className="py-6">{order.product.title}</td>
-                      <td className="py-6 text-right">EGP {order.total}</td>
+                      <td className="py-6">
+                        <div className="space-y-1">
+                           <p>{order.items?.[0]?.product?.title || 'Artifact'}</p>
+                           {order.items?.length > 1 && <p className="opacity-40 text-[10px]">+{order.items.length - 1} more items</p>}
+                        </div>
+                      </td>
+                      <td className="py-6 text-right whitespace-nowrap text-sm font-headline">EGP {new Intl.NumberFormat().format(order.total)}</td>
                     </tr>
                   ))}
+                  {(!adminData?.allOrders || adminData.allOrders.length === 0) && (
+                    <tr>
+                      <td colSpan={4} className="py-24 text-center text-outline uppercase tracking-widest font-bold opacity-30">No transactions recorded yet.</td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
