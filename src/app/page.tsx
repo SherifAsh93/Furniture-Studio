@@ -111,9 +111,9 @@ export default function Home() {
   };
 
   return (
-    <main className="pt-16 lg:pt-0">
+    <main className="pt-0 lg:pt-0">
       {/* Hero Section: Living Art */}
-      <section className="relative w-full h-[795px] flex items-center overflow-hidden bg-[#1c1b1b]">
+      <section className="relative w-full h-[600px] md:h-[795px] flex items-center overflow-hidden bg-[#1c1b1b]">
         <div className="absolute inset-0 opacity-70">
           <img 
             alt="Hero Cinematic" 
@@ -167,7 +167,7 @@ export default function Home() {
                    <Link href="/artisans" className="font-label text-[10px] tracking-widest uppercase border-b-2 border-black pb-2 font-bold hover:text-[#a1824a] hover:border-[#a1824a] transition-all">CONSULT AN AGENT</Link>
                 </div>
               </div>
-              <div className="bg-white p-10 md:p-20 shadow-2xl rounded-2xl border border-black/5">
+              <div className="bg-white p-6 md:p-20 shadow-2xl rounded-2xl border border-black/5">
                 <form onSubmit={handleCustomSubmit} className="space-y-8">
                   {success && (
                     <div className="p-4 bg-[#735c00] text-white text-[10px] font-bold uppercase tracking-widest text-center animate-pulse">
@@ -251,7 +251,7 @@ export default function Home() {
             <h2 className="font-headline text-4xl font-bold tracking-tight uppercase">The <br/>Directory</h2>
             <Link href="/collections" className="font-label text-[10px] tracking-widest uppercase border-b border-black transition-all hover:text-[#a1824a] hover:border-[#a1824a] font-bold">ARCHIVE FULL COLLECTION</Link>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-0">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-0">
             {[
               { title: "Dressing room", img: "https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?q=80&w=1000&auto=format&fit=crop" },
               { title: "Master bedroom", img: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?q=80&w=1000&auto=format&fit=crop" },
@@ -284,11 +284,11 @@ export default function Home() {
                     src={products[0].images?.[0] || products[0].imageUrl || "https://images.unsplash.com/photo-1592078615290-033ee584e267?q=80&w=2000&auto=format&fit=crop"} 
                   />
                 </div>
-                <div className="absolute -bottom-12 -left-12 w-2/3 aspect-square bg-black/5 -z-0"></div>
+                <div className="absolute -bottom-6 -left-6 md:-bottom-12 md:-left-12 w-2/3 aspect-square bg-black/5 -z-0"></div>
               </div>
               <div className="md:col-span-5">
                 <span className="text-[#735c00] font-label text-[10px] tracking-widest uppercase mb-4 block font-bold">LATEST DISCOVERY</span>
-                <h2 className="font-headline text-5xl font-bold mb-8 leading-tight uppercase">{products[0].title}</h2>
+                <h2 className="font-headline text-4xl md:text-5xl font-bold mb-8 leading-tight uppercase">{products[0].title}</h2>
                 <p className="font-body text-on-surface-variant leading-loose mb-10 italic">
                   "{products[0].description}"
                 </p>
@@ -300,21 +300,21 @@ export default function Home() {
                    <div className="grid grid-cols-3 gap-8 py-6 border-y border-black/5">
                       <div className="flex flex-col">
                          <span className="font-label text-[8px] uppercase text-black/40 mb-1">Height</span>
-                         <span className="font-headline text-xl">{products[0].height || '--'} <small className="text-[10px]">cm</small></span>
+                         <span className="font-headline text-lg">{products[0].height || '--'} <small className="text-[8px] md:text-[10px]">cm</small></span>
                       </div>
                       <div className="flex flex-col">
                          <span className="font-label text-[8px] uppercase text-black/40 mb-1">Width</span>
-                         <span className="font-headline text-xl">{products[0].width || '--'} <small className="text-[10px]">cm</small></span>
+                         <span className="font-headline text-lg">{products[0].width || '--'} <small className="text-[8px] md:text-[10px]">cm</small></span>
                       </div>
                       <div className="flex flex-col">
                          <span className="font-label text-[8px] uppercase text-black/40 mb-1">Length</span>
-                         <span className="font-headline text-xl">{products[0].length || '--'} <small className="text-[10px]">cm</small></span>
+                         <span className="font-headline text-lg">{products[0].length || '--'} <small className="text-[8px] md:text-[10px]">cm</small></span>
                       </div>
                    </div>
                    <div className="mt-8 flex justify-between items-end">
                       <div className="flex flex-col">
                          <span className="font-label text-[10px] uppercase text-black/40 mb-1">Investment Value</span>
-                         <span className="font-headline text-2xl font-bold text-[#735c00]">EGP {new Intl.NumberFormat().format(products[0].price)}</span>
+                         <span className="font-headline text-2xl font-bold text-[#735c00]">EGP <br className="md:hidden"/> {new Intl.NumberFormat().format(products[0].price)}</span>
                       </div>
                       <div className="flex gap-4">
                          <button 
@@ -352,7 +352,7 @@ export default function Home() {
               <h2 className="font-headline text-4xl font-bold tracking-tight uppercase">Product <br/>Showcase</h2>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-12">
             {products.map((item: any, idx: number) => (
               <div key={item.id} className="group cursor-pointer bg-white p-5 rounded-3xl shadow-lg border border-black/5 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col" onClick={() => setSelectedProduct(item)}>
                 <div className="aspect-[4/5] overflow-hidden mb-6 bg-[#fcf9f4] rounded-2xl relative w-full">
@@ -406,7 +406,7 @@ export default function Home() {
             <p className="font-body text-lg text-white/60 mb-16 max-w-2xl mx-auto leading-relaxed">
               Join an elite circle of artisans and manufacturers. Gain access to our global distribution network and premium customer base.
             </p>
-            <div className="bg-[#f6f3ee] p-12 md:p-20 text-black relative overflow-hidden">
+            <div className="bg-[#f6f3ee] p-8 md:p-20 text-black relative overflow-hidden">
               <div className="absolute top-0 right-0 p-4 opacity-10">
                 <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 1 0-7.65 7.65L12 21l8.42-8.77a5.4 5.4 0 0 0 0-7.65z"></path></svg>
               </div>
@@ -448,22 +448,22 @@ export default function Home() {
       {/* Product Details Modal */}
       {selectedProduct && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-10 bg-black/95 backdrop-blur-md" onClick={() => setSelectedProduct(null)}>
-          <div className="relative w-full max-w-6xl max-h-[90vh] bg-white rounded-3xl shadow-2xl flex flex-col md:flex-row overflow-hidden border border-white/10" onClick={(e) => e.stopPropagation()}>
+          <div className="relative w-full max-w-6xl max-h-[90vh] bg-white rounded-3xl shadow-2xl flex flex-col md:flex-row overflow-y-auto sm:overflow-hidden border border-white/10" onClick={(e) => e.stopPropagation()}>
             <button 
               className="absolute top-4 right-4 z-10 p-4 bg-white/90 backdrop-blur shadow-xl hover:bg-black hover:text-white transition-all duration-300 rounded-full active:scale-95" 
               onClick={() => setSelectedProduct(null)}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
-            <div className="md:w-1/2 bg-[#fcf9f4] p-8 md:p-12 lg:p-16 flex items-center justify-center border-r border-black/5">
+            <div className="w-full md:w-1/2 bg-[#fcf9f4] p-6 md:p-12 lg:p-16 flex items-center justify-center border-b md:border-b-0 md:border-r border-black/5">
               <img 
                 src={selectedProduct.images?.[0] || selectedProduct.imageUrl || "https://images.unsplash.com/photo-1592078615290-033ee584e267?q=80&w=2000&auto=format&fit=crop"} 
                 className="w-full h-auto max-h-[60vh] object-contain rounded-2xl shadow-xl border border-black/5"
               />
             </div>
-            <div className="md:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col overflow-y-auto custom-scrollbar">
+            <div className="w-full md:w-1/2 p-6 md:p-12 lg:p-16 flex flex-col overflow-y-auto custom-scrollbar">
               <span className="text-[#a1824a] font-label text-[10px] tracking-widest uppercase mb-4 block font-bold">DISCOVERY VIEWER</span>
-              <h2 className="font-headline text-4xl lg:text-5xl font-bold uppercase mb-6 leading-tight">{selectedProduct.title}</h2>
+              <h2 className="font-headline text-3xl md:text-4xl lg:text-5xl font-bold uppercase mb-6 leading-tight">{selectedProduct.title}</h2>
               <p className="font-body text-on-surface-variant leading-relaxed text-sm lg:text-base italic mb-8">
                 "{selectedProduct.description}"
               </p>

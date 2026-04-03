@@ -20,7 +20,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
   return (
     <>
       <Navbar />
-      <div className="lg:pl-[280px]">
+      <div className="lg:pl-[280px] pt-16 lg:pt-0">
         {children}
         <Footer />
       </div>

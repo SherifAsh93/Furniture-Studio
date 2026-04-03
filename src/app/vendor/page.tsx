@@ -96,16 +96,16 @@ function ProductFormModal({
     <div className="fixed inset-0 z-[100] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
       <div className="bg-[#fcf9f4] w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-outline-variant/20 shadow-2xl">
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-8 py-6 border-b border-outline-variant/15 bg-[#1c1b1b] text-[#fcf9f4]">
-          <h2 className="font-headline text-xl uppercase tracking-tight font-bold">
+        <div className="flex items-center justify-between px-6 md:px-8 py-4 md:py-6 border-b border-outline-variant/15 bg-[#1c1b1b] text-[#fcf9f4]">
+          <h2 className="font-headline text-lg md:text-xl uppercase tracking-tight font-bold">
             {product ? 'Edit Listing' : 'New Listing'}
           </h2>
-          <button onClick={onClose} className="opacity-40 hover:opacity-100 transition-opacity">
+          <button onClick={onClose} className="opacity-40 hover:opacity-100 transition-opacity p-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-8 flex flex-col gap-6">
+        <form onSubmit={handleSubmit} className="p-6 md:p-8 flex flex-col gap-6">
           {/* Multiple Image Support */}
           <div>
             <label className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-2 block">Visual Assets (Cloudinary Links) *</label>
@@ -618,31 +618,32 @@ export default function VendorDashboard() {
       )}
 
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-[#fcf9f4]/80 backdrop-blur-xl border-b border-outline-variant/15 px-6 py-4 flex items-center justify-between transition-colors duration-300">
-        <div className="flex items-center gap-4">
-          <Link href="/" className="flex items-center gap-3 group cursor-pointer">
-            <div className="bg-white overflow-hidden w-10 h-10 rounded-lg flex items-center justify-center border border-outline-variant/30">
+      <header className="sticky top-0 z-[60] bg-[#fcf9f4]/95 backdrop-blur-xl border-b border-outline-variant/15 px-4 md:px-6 py-4 flex items-center justify-between transition-colors duration-300">
+        <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-2 group cursor-pointer">
+            <div className="bg-white overflow-hidden w-8 h-8 rounded-lg flex items-center justify-center border border-outline-variant/30">
               <img alt="Furniture Studio Logo" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYzwpRTmQxUU1zbZR1afOETDBbBv0B_OTy3uSZi1M-zr3D4OJhAdZ0rdtuJJVMreSJlhnXVbub7ICKPYtOIzIlBG9k9G0KaWgp5bzWDrziAUAXbS75sIc3Sa16PXvXkieA209VMEJWQLh75Mx7kidMOOdwBqHjOv2WfUJmMX9ythFYjuEt9oemiO96XkY7XFbPGpzOadEvAVB0kaJ83HKjGXKjarlpsAFZuyYWNGqW9BTJorDxFA9LYqQLpix6hr6C5-ehOtP7Soa7" />
             </div>
             <div className="flex flex-col leading-none text-left">
-              <span className="font-headline text-xl tracking-tight font-bold text-black uppercase">FURNITURE</span>
-              <span className="font-headline text-xl tracking-tight font-light text-black/60 uppercase -mt-0.5">STUDIO</span>
+              <span className="font-headline text-lg tracking-tight font-bold text-black uppercase">FURNITURE</span>
             </div>
           </Link>
         </div>
-        <nav className="flex items-center gap-8 overflow-x-auto scrollbar-hide px-4 md:px-0 md:absolute md:left-1/2 md:-translate-x-1/2 w-full md:w-auto pb-4 md:pb-0">
-          <button onClick={() => setActiveTab('overview')} className={`text-[0.7rem] font-bold tracking-widest uppercase transition-all pb-1 whitespace-nowrap ${activeTab === 'overview' ? 'text-primary border-b border-primary' : 'text-on-surface-variant hover:text-primary'}`}>Dashboard</button>
-          <button onClick={() => setActiveTab('catalog')} className={`text-[0.7rem] font-bold tracking-widest uppercase transition-all pb-1 whitespace-nowrap ${activeTab === 'catalog' ? 'text-primary border-b border-primary' : 'text-on-surface-variant hover:text-primary'}`}>Catalog</button>
-          <button onClick={() => setActiveTab('orders')} className={`text-[0.7rem] font-bold tracking-widest uppercase transition-all pb-1 whitespace-nowrap ${activeTab === 'orders' ? 'text-primary border-b border-primary' : 'text-on-surface-variant hover:text-primary'}`}>Orders</button>
-          <button onClick={() => setActiveTab('requests')} className={`text-[0.7rem] font-bold tracking-widest uppercase transition-all pb-1 whitespace-nowrap ${activeTab === 'requests' ? 'text-primary border-b border-primary' : 'text-on-surface-variant hover:text-primary'}`}>Requests</button>
+        <nav className="flex items-center gap-6 overflow-x-auto scrollbar-hide px-4 md:px-0 md:absolute md:left-1/2 md:-translate-x-1/2 w-auto max-w-[200px] sm:max-w-none">
+          <button onClick={() => setActiveTab('overview')} className={`text-[9px] md:text-[0.7rem] font-bold tracking-widest uppercase transition-all pb-1 whitespace-nowrap ${activeTab === 'overview' ? 'text-primary border-b border-primary' : 'text-on-surface-variant hover:text-primary'}`}>Dashboard</button>
+          <button onClick={() => setActiveTab('catalog')} className={`text-[9px] md:text-[0.7rem] font-bold tracking-widest uppercase transition-all pb-1 whitespace-nowrap ${activeTab === 'catalog' ? 'text-primary border-b border-primary' : 'text-on-surface-variant hover:text-primary'}`}>Catalog</button>
+          <button onClick={() => setActiveTab('orders')} className={`text-[9px] md:text-[0.7rem] font-bold tracking-widest uppercase transition-all pb-1 whitespace-nowrap ${activeTab === 'orders' ? 'text-primary border-b border-primary' : 'text-on-surface-variant hover:text-primary'}`}>Orders</button>
+          <button onClick={() => setActiveTab('requests')} className={`text-[9px] md:text-[0.7rem] font-bold tracking-widest uppercase transition-all pb-1 whitespace-nowrap ${activeTab === 'requests' ? 'text-primary border-b border-primary' : 'text-on-surface-variant hover:text-primary'}`}>Requests</button>
         </nav>
         <div className="flex items-center gap-4">
-          <span className="text-[0.6rem] font-bold tracking-widest uppercase opacity-40">{user.email}</span>
+          <button onClick={async () => { await loadData(); }} className="p-2 hover:bg-black/5 rounded-full transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" /><path d="M16 16h5v5" /></svg>
+          </button>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col md:flex-row max-w-[1600px] w-full mx-auto">
+        <main className="flex-1 flex flex-col md:flex-row max-w-[1600px] w-full mx-auto p-4 md:p-0">
         {/* Sidebar */}
         <aside className="hidden md:flex w-64 flex-col border-r border-outline-variant/15 p-6 gap-8 bg-surface-container-low/50">
           <div className="flex flex-col gap-2">
@@ -671,12 +672,23 @@ export default function VendorDashboard() {
         </aside>
 
         {/* Content Area */}
-        <div className="flex-1 p-6 md:p-10 lg:p-16 overflow-y-auto">
-
-          {/* ── OVERVIEW ── */}
-          {activeTab === 'overview' && (
-            <>
-              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div className="flex-1 p-4 md:p-12 overflow-x-hidden">
+            {activeTab === 'overview' && (
+              <div className="space-y-12">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                  {[
+                    { label: 'Revenue', value: `EGP ${new Intl.NumberFormat().format(vendorData?.orders?.reduce((acc: number, cur: any) => acc + (cur.total || 0), 0) || 0)}`, color: 'bg-primary-container text-on-primary-container' },
+                    { label: 'Orders', value: vendorData?.orders?.length || 0, color: 'bg-surface-container-low' },
+                    { label: 'Inquiry', value: vendorData?.customRequests?.length || 0, color: 'bg-surface-container-low' },
+                    { label: 'Inventory', value: vendorData?.products?.length || 0, color: 'bg-surface-container-low' }
+                  ].map((stat, i) => (
+                    <div key={i} className={`p-6 md:p-8 flex flex-col justify-between min-h-[120px] md:min-h-[160px] ${stat.color} rounded-2xl md:rounded-none`}>
+                      <p className="text-[8px] md:text-[0.65rem] font-bold tracking-widest uppercase opacity-40">{stat.label}</p>
+                      <h2 className="text-xl md:text-4xl font-headline italic font-bold tracking-tighter truncate">{stat.value}</h2>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
                 <div>
                   <h2 className="font-headline text-4xl md:text-5xl text-primary tracking-tight mb-2 uppercase">Artisan Terminal</h2>
                   <p className="text-on-surface-variant text-lg">Welcome back, {vendorData?.user?.name || vendorData?.user?.companyName}. Manage your curated pieces.</p>
@@ -751,7 +763,7 @@ export default function VendorDashboard() {
                   </div>
                 </div>
               </div>
-            </>
+            </div>
           )}
 
           {/* ── CATALOG ── */}

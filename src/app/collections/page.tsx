@@ -42,14 +42,14 @@ export default function CollectionsPage() {
   };
 
   return (
-    <main className="pt-32 pb-32 px-6 md:px-12 max-w-[1400px] mx-auto min-h-screen">
+    <main className="pt-24 md:pt-32 pb-32 px-6 md:px-12 max-w-[1400px] mx-auto min-h-screen">
       <div className="mb-24 flex flex-col md:flex-row justify-between items-end gap-8">
         <div className="max-w-3xl">
           <span className="font-label text-[10px] font-bold tracking-[0.3em] text-[#cf6317] uppercase mb-6 block">ARCHITECTURE & TYPOLOGY</span>
           <h1 className="font-headline text-5xl md:text-8xl font-extrabold uppercase tracking-tight leading-[0.85] mb-8">
             The<br/><span className="text-black/20 italic font-light">Series</span>
           </h1>
-          <p className="font-body text-base md:text-lg text-on-surface-variant leading-relaxed">
+          <p className="font-body text-base md:text-lg text-on-surface-variant leading-relaxed max-w-xl">
             Every series is a cohesive architectural statement. Curated by typological function and material intent, these collections represent our definitive vision for contemporary living.
           </p>
         </div>
@@ -63,7 +63,7 @@ export default function CollectionsPage() {
         </div>
       </div>
 
-      <div className="space-y-48">
+      <div className="space-y-24 md:space-y-48">
         {collections.map((collection, index) => (
           <section key={collection.id} className={`flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} gap-12 lg:gap-24 items-center group`}>
             <div className="w-full md:w-3/5 aspect-[16/10] overflow-hidden bg-[#e5e2dd] relative">
@@ -79,17 +79,17 @@ export default function CollectionsPage() {
                 <span className="text-[#cf6317]">
                   {getIcon(collection.icon)}
                 </span>
-                <span className="font-label text-[10px] font-bold tracking-[0.4em] text-[#cf6317] uppercase whitespace-nowrap">{collection.subtitle}</span>
+                <span className="font-label text-[10px] font-bold tracking-[0.4em] text-[#cf6317] uppercase">{collection.subtitle}</span>
               </div>
               <h2 className="font-headline text-4xl lg:text-5xl font-extrabold uppercase tracking-tight">{collection.title}</h2>
               <p className="font-body text-base text-on-surface-variant leading-relaxed">
                 {collection.description}
               </p>
               <div className="pt-4 flex flex-col sm:flex-row gap-6">
-                <button className="bg-primary text-white px-10 py-5 font-label text-[10px] font-bold tracking-[0.2em] hover:bg-[#cf6317] transition-all uppercase whitespace-nowrap">
+                <button className="bg-primary text-white px-10 py-5 font-label text-[10px] font-bold tracking-[0.2em] hover:bg-[#cf6317] transition-all uppercase w-full sm:w-auto">
                   Explore Series
                 </button>
-                <button className="font-label text-[10px] font-bold tracking-[0.2em] border-b border-black pb-1 hover:text-[#cf6317] hover:border-[#cf6317] transition-colors uppercase h-max self-center">
+                <button className="font-label text-[10px] font-bold tracking-[0.2em] border-b border-black pb-1 hover:text-[#cf6317] hover:border-[#cf6317] transition-colors uppercase h-max self-center mt-4 sm:mt-0">
                   Download Catalog
                 </button>
               </div>

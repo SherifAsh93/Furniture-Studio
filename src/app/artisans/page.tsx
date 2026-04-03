@@ -25,14 +25,14 @@ export default async function ArtisansPage() {
   };
 
   return (
-    <main className="pt-32 pb-32 px-6 md:px-12 max-w-[1400px] mx-auto min-h-screen cursor-default">
+    <main className="pt-24 md:pt-32 pb-32 px-6 md:px-12 max-w-[1400px] mx-auto min-h-screen cursor-default">
       <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
         <div className="max-w-3xl">
           <span className="font-label text-[10px] font-bold tracking-[0.3em] text-[#cf6317] uppercase mb-6 block">THE COLLECTIVE</span>
           <h1 className="font-headline text-5xl md:text-8xl font-extrabold uppercase tracking-tight leading-[0.85] mb-8">
             The<br/><span className="text-black/20 italic font-light">Artisans</span>
           </h1>
-          <p className="font-body text-base md:text-lg text-on-surface-variant leading-relaxed">
+          <p className="font-body text-base md:text-lg text-on-surface-variant leading-relaxed max-w-xl">
             A global circle of master craftspeople. We don't just manufacture; we curate a lineage of expertise that translates raw earth into architectural punctuation.
           </p>
         </div>
@@ -46,7 +46,7 @@ export default async function ArtisansPage() {
         </div>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-24">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-24">
         {vendors.map(vendor => {
           const name = vendor.companyName || vendor.name || 'Artisan Studio';
           const location = vendor.city || 'Global';
@@ -110,7 +110,7 @@ export default async function ArtisansPage() {
           <svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
         </div>
         <div className="relative z-10 max-w-2xl">
-          <h2 className="font-headline text-3xl md:text-5xl font-bold uppercase mb-8 leading-tight">Apply to the<br/>Artisan Circle</h2>
+          <h2 className="font-headline text-3xl md:text-5xl font-bold uppercase mb-8 leading-tight">Apply to the<br className="hidden md:block"/>Artisan Circle</h2>
           <p className="font-body text-base text-white/60 mb-12">
             Are you a master of your craft? Join our global directory and showcase your work to the world's most discerning architectural visionaries.
           </p>

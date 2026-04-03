@@ -1,5 +1,6 @@
 'use client';
 
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
@@ -15,6 +16,7 @@ export default function Navbar() {
     setIsCartOpen, 
     setIsWishlistOpen 
   } = useEcommerce();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const isHome = pathname === '/';
   const isVendor = pathname.startsWith('/vendor');
@@ -41,7 +43,7 @@ export default function Navbar() {
     <>
       {/* Mobile Top Header */}
       <header className="fixed top-0 left-0 right-0 h-16 bg-white border-b border-black/5 z-50 flex items-center justify-between px-6 lg:hidden">
-        <Link href="/" className="font-headline text-xl font-bold tracking-tighter">
+        <Link href="/" onClick={() => setIsMenuOpen(false)} className="font-headline text-xl font-bold tracking-tighter">
           FURNITURE <span className="text-[#a1824a]">STUDIO</span>
         </Link>
         <div className="flex items-center gap-4">
@@ -49,11 +51,93 @@ export default function Navbar() {
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
               {cart.length > 0 && <span className="absolute -top-1 -right-2 bg-black text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center font-bold">{cart.length}</span>}
            </button>
-           <button className="text-on-background">
-             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+           <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-on-background relative z-[60]">
+             {isMenuOpen ? (
+               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+             ) : (
+               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+             )}
            </button>
         </div>
       </header>
+
+      {/* Mobile Menu Drawer */}
+      <div className={`fixed inset-0 bg-white z-[55] transition-all duration-500 lg:hidden ${isMenuOpen ? 'opacity-100 pointer-events-auto pt-24 px-8 overflow-y-auto' : 'opacity-0 pointer-events-none translate-x-full'}`}>
+         <nav className="space-y-12 pb-24">
+            <div>
+              <h3 className="font-label text-xs tracking-[0.3em] uppercase text-on-surface-variant/40 mb-8 font-bold">NAVIGATION</h3>
+              <ul className="space-y-6">
+                {navItems.map((item) => (
+                  <li key={item.name}>
+                    <Link 
+                      href={item.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className={`flex items-center gap-6 group transition-colors ${pathname === item.href ? 'text-black' : 'text-on-surface-variant'}`}
+                    >
+                      <span className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${pathname === item.href ? 'bg-black text-white shrink-0 shadow-lg' : 'bg-[#fcf9f4] text-on-surface-variant shrink-0'}`}>
+                        {item.icon}
+                      </span>
+                      <span className="font-label text-sm tracking-widest font-bold uppercase">{item.name}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-label text-xs tracking-[0.3em] uppercase text-on-surface-variant/40 mb-8 font-bold">STUDIO ARCHIVE</h3>
+              <ul className="space-y-6">
+                 <li>
+                    <button onClick={() => { setIsMenuOpen(false); if (!user) openModal('login', 'USER'); else setIsCartOpen(true); }} className="flex items-center gap-6 group transition-colors text-on-surface-variant hover:text-black w-full text-left">
+                      <span className="w-10 h-10 rounded-xl flex items-center justify-center bg-[#fcf9f4] shrink-0 relative">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                         {cart.length > 0 && <span className="absolute -top-1 -right-1 bg-black text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center border border-white">{cart.length}</span>}
+                      </span>
+                      <span className="font-label text-sm tracking-widest font-bold uppercase">THE CART</span>
+                    </button>
+                 </li>
+                 <li>
+                    <button onClick={() => { setIsMenuOpen(false); if (!user) openModal('login', 'USER'); else setIsWishlistOpen(true); }} className="flex items-center gap-6 group transition-colors text-on-surface-variant hover:text-black w-full text-left">
+                      <span className="w-10 h-10 rounded-xl flex items-center justify-center bg-[#fcf9f4] shrink-0 relative">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.04-8.04 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                         {wishlist.length > 0 && <span className="absolute -top-1 -right-1 bg-black text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center border border-white">{wishlist.length}</span>}
+                      </span>
+                      <span className="font-label text-sm tracking-widest font-bold uppercase">WISHLIST</span>
+                    </button>
+                 </li>
+              </ul>
+            </div>
+
+            {user ? (
+               <div className="pt-8 border-t border-black/5">
+                  <div className="flex items-center gap-4 mb-4">
+                     <div className="w-12 h-12 rounded-full bg-[#735c00] flex items-center justify-center text-white font-bold text-sm">
+                        {user.name?.[0] || user.email[0].toUpperCase()}
+                     </div>
+                     <div className="flex flex-col">
+                        <span className="font-label text-xs tracking-widest uppercase font-bold text-black truncate max-w-[200px]">
+                          {user.name || user.email.split('@')[0]}
+                        </span>
+                        <span className="font-label text-[10px] tracking-widest uppercase text-on-surface-variant">Member Collective</span>
+                     </div>
+                  </div>
+                  <button 
+                    onClick={() => { setIsMenuOpen(false); logout(); }}
+                    className="w-full bg-[#fcf9f4] py-4 text-secondary font-label text-[10px] tracking-widest uppercase font-bold text-center"
+                  >
+                    SIGN OUT ARCHIVE
+                  </button>
+               </div>
+            ) : (
+               <button 
+                 onClick={() => { setIsMenuOpen(false); openModal('login', 'USER'); }}
+                 className="w-full bg-black text-white py-6 font-label text-xs tracking-widest uppercase font-bold text-center"
+               >
+                 AUTHENTICATE IDENTITY
+               </button>
+            )}
+         </nav>
+      </div>
 
       {/* Desktop Sidebar */}
       <aside className="fixed left-0 top-0 bottom-0 w-[280px] bg-white border-r border-black/5 z-40 hidden lg:flex flex-col p-8 overflow-y-auto">

@@ -139,22 +139,39 @@ export default function AdminControlCenter() {
 
   return (
     <div className="bg-surface text-on-surface font-body antialiased selection:bg-secondary selection:text-on-secondary min-h-screen">
-      <header className="fixed top-0 w-full z-50 bg-[#fcf9f4]/80 dark:bg-[#1c1b1b]/80 backdrop-blur-xl shadow-[0px_20px_40px_rgba(28,28,25,0.04)] flex justify-between items-center px-6 py-4 transition-colors duration-300">
-        <div className="flex items-center gap-4">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="bg-white overflow-hidden w-10 h-10 rounded-lg flex items-center justify-center border border-outline-variant/30">
+      <header className="fixed top-0 w-full z-[60] bg-[#fcf9f4]/90 dark:bg-[#1c1b1b]/90 backdrop-blur-xl border-b border-black/5 flex justify-between items-center px-4 md:px-6 py-4 transition-colors duration-300">
+        <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-2">
+            <div className="bg-white overflow-hidden w-8 h-8 rounded-lg flex items-center justify-center border border-outline-variant/30">
               <img alt="Logo" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYzwpRTmQxUU1zbZR1afOETDBbBv0B_OTy3uSZi1M-zr3D4OJhAdZ0rdtuJJVMreSJlhnXVbub7ICKPYtOIzIlBG9k9G0KaWgp5bzWDrziAUAXbS75sIc3Sa16PXvXkieA209VMEJWQLh75Mx7kidMOOdwBqHjOv2WfUJmMX9ythFYjuEt9oemiO96XkY7XFbPGpzOadEvAVB0kaJ83HKjGXKjarlpsAFZuyYWNGqW9BTJorDxFA9LYqQLpix6hr6C5-ehOtP7Soa7"/>
             </div>
             <div className="flex flex-col leading-none">
-              <span className="font-headline text-xl tracking-tight font-bold text-black dark:text-white uppercase">FURNITURE</span>
-              <span className="font-headline text-xl tracking-tight font-light text-black/60 dark:text-white/60 uppercase -mt-0.5">STUDIO</span>
+              <span className="font-headline text-lg tracking-tight font-bold text-black dark:text-white uppercase">FURNITURE</span>
             </div>
           </Link>
         </div>
-        <span className="text-xs font-mono tracking-widest uppercase opacity-60">Admin Terminal</span>
+        <div className="flex items-center gap-4">
+           <span className="hidden sm:block text-[10px] font-mono tracking-widest uppercase opacity-40">Admin Terminal</span>
+           <button onClick={() => { sessionStorage.removeItem('admin_pin_verified'); window.location.reload(); }} className="text-[9px] font-bold uppercase tracking-widest text-secondary border border-secondary/20 px-3 py-1 hover:bg-secondary hover:text-white transition-all">Lock</button>
+        </div>
       </header>
 
-      <div className="flex pt-16 min-h-screen">
+      {/* Mobile Tab Navigation */}
+      <div className="fixed top-16 left-0 right-0 z-50 bg-white border-b border-black/5 md:hidden overflow-x-auto scrollbar-hide">
+        <div className="flex px-4">
+          {['dashboard', 'directory', 'inventory', 'transactions', 'commissions', 'aesthetics'].map((tab) => (
+            <button 
+              key={tab}
+              onClick={() => setActiveTab(tab as any)}
+              className={`whitespace-nowrap px-4 py-4 text-[10px] font-bold uppercase tracking-widest transition-all border-b-2 ${activeTab === tab ? 'border-primary text-primary' : 'border-transparent text-black/40'}`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex pt-32 md:pt-16 min-h-screen">
         <aside className="hidden md:flex h-[calc(100vh-64px)] w-80 bg-[#f6f3ee] dark:bg-[#1c1b1b] border-r border-[#c4c7c7]/15 flex-col p-8 gap-6 sticky top-16">
           <nav className="flex flex-col gap-4">
             {['dashboard', 'directory', 'inventory', 'transactions', 'commissions', 'aesthetics'].map((tab) => (
@@ -169,26 +186,26 @@ export default function AdminControlCenter() {
           </nav>
         </aside>
 
-        <main className="flex-1 p-8 md:p-12 max-w-7xl mx-auto w-full">
-          <div className="mb-12 border-b border-outline-variant/15 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <main className="flex-1 p-6 md:p-12 max-w-7xl mx-auto w-full overflow-x-hidden">
+          <div className="mb-8 md:mb-12 border-b border-outline-variant/15 pb-6 md:pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <span className="text-[0.7rem] font-bold uppercase tracking-[0.3em] text-secondary">Operational Oversight</span>
-              <h1 className="text-4xl font-headline font-bold tracking-tight text-primary mt-2 uppercase">{activeTab.replace('_', ' ')} Control</h1>
+              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-secondary">Operational Oversight</span>
+              <h1 className="text-3xl md:text-4xl font-headline font-bold tracking-tight text-primary mt-2 uppercase">{activeTab.replace('_', ' ')} Control</h1>
             </div>
           </div>
 
           {activeTab === 'dashboard' && (
             <div className="space-y-16">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                 {[
                   { label: 'Total Users', value: adminData?.users?.length || 0, color: 'bg-primary-container text-on-primary-container' },
                   { label: 'Active Listings', value: adminData?.allProducts?.length || 0, color: 'bg-surface-container-low' },
                   { label: 'Total Orders', value: adminData?.allOrders?.length || 0, color: 'bg-surface-container-lowest border' },
                   { label: 'Custom Requests', value: adminData?.allRequests?.length || 0, color: 'bg-surface-container-low' }
                 ].map((stat, i) => (
-                  <div key={i} className={`p-8 flex flex-col justify-between min-h-[140px] ${stat.color}`}>
-                    <p className="text-[0.65rem] font-bold tracking-widest uppercase opacity-40">{stat.label}</p>
-                    <h2 className="text-4xl font-headline italic font-bold tracking-tighter">{stat.value}</h2>
+                  <div key={i} className={`p-6 md:p-8 flex flex-col justify-between min-h-[120px] md:min-h-[140px] ${stat.color}`}>
+                    <p className="text-[9px] md:text-[0.65rem] font-bold tracking-widest uppercase opacity-40">{stat.label}</p>
+                    <h2 className="text-2xl md:text-4xl font-headline italic font-bold tracking-tighter">{stat.value}</h2>
                   </div>
                 ))}
               </div>
@@ -305,7 +322,7 @@ export default function AdminControlCenter() {
                           <p className="text-[0.6rem] font-bold uppercase tracking-widest opacity-30">No products uploaded yet</p>
                         </div>
                       ) : (
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
                           {vendorProducts.map((prod: any) => (
                             <div key={prod.id} className="group/prod border border-outline-variant/10 bg-[#fcf9f4] transition-all hover:shadow-lg">
                               <div className="aspect-square relative overflow-hidden">
@@ -335,8 +352,8 @@ export default function AdminControlCenter() {
                 );
               })}
             </div>
-          )
-
+          )}
+          
           {activeTab === 'inventory' && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {adminData?.allProducts?.map((prod: any) => (
