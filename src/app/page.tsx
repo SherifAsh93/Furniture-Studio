@@ -123,13 +123,34 @@ export default function Home() {
             >
               <div className="relative aspect-[1/1] overflow-hidden">
                 <img 
+                  id={`grid-img-${item.id}`}
                   src={item.images?.[0] || item.imageUrl || "https://images.unsplash.com/photo-1581539250439-c96689b516dd?q=80&w=1000&auto=format&fit=crop"} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   alt={item.title}
                 />
+                
+                {/* Overlay Thumbnails for Card */}
+                {item.images?.length > 1 && (
+                  <div className="absolute bottom-2 left-2 right-2 flex gap-1.5 overflow-x-auto pb-1 scrollbar-none z-10">
+                    {item.images.slice(0, 4).map((img: string, idx: number) => (
+                      <div 
+                        key={idx} 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const target = document.getElementById(`grid-img-${item.id}`) as HTMLImageElement;
+                          if (target) target.src = img;
+                        }}
+                        className="w-7 h-7 md:w-10 md:h-10 rounded-lg overflow-hidden border border-white/80 shadow-md flex-shrink-0 cursor-pointer active:scale-90 transition-transform"
+                      >
+                        <img src={img} className="w-full h-full object-cover" />
+                      </div>
+                    ))}
+                  </div>
+                )}
+
                 <button 
                   onClick={(e) => { e.stopPropagation(); handleToggleWishlist(item); }}
-                  className={`absolute top-3 right-3 p-2.5 rounded-full backdrop-blur-md shadow-xl transition-all ${isInWishlist(item.id) ? 'bg-[#735c00] text-white' : 'bg-white/80 text-black'}`}
+                  className={`absolute top-3 right-3 p-2.5 rounded-full backdrop-blur-md shadow-xl transition-all z-20 ${isInWishlist(item.id) ? 'bg-[#735c00] text-white' : 'bg-white/80 text-black'}`}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill={isInWishlist(item.id) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.04-8.04 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                 </button>
@@ -188,13 +209,13 @@ export default function Home() {
 
               <div className="flex flex-col gap-4">
                 <label className="font-label text-[9px] uppercase text-black/40 font-bold tracking-widest">Category</label>
-                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
+                <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-none">
                   {['Dressing room', 'Master bedroom', 'Kids room', 'Sofas tables', 'Sofas'].map((cat) => (
                     <button
                       key={cat}
                       type="button"
                       onClick={() => setCategory(cat)}
-                      className={`px-6 py-2.5 rounded-full font-label text-[9px] uppercase tracking-widest font-bold whitespace-nowrap transition-all border-2 ${category === cat ? 'bg-black text-white border-black shadow-lg scale-105' : 'bg-[#faf9f6] text-black border-black/5 hover:border-black/20'}`}
+                      className={`px-4 md:px-8 py-2 md:py-3 rounded-full font-label text-[8px] md:text-[10px] uppercase tracking-widest font-bold whitespace-nowrap transition-all border-2 ${category === cat ? 'bg-black text-white border-black shadow-lg scale-105' : 'bg-[#faf9f6] text-black border-black/5 hover:border-black/20'}`}
                     >
                       {cat}
                     </button>
@@ -205,29 +226,29 @@ export default function Home() {
               {filteredSamples.length > 0 && (
                 <div className="flex flex-col gap-4">
                   <label className="font-label text-[9px] uppercase text-black/40 font-bold tracking-widest">Reference Sample (Visual Selection)</label>
-                  <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-none snap-x h-[120px]">
+                  <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-none snap-x h-[120px] md:h-[180px]">
                     {/* "None" Option Card */}
                     <div 
                       onClick={() => handleSampleChange('')}
-                      className={`flex-shrink-0 w-24 h-full rounded-2xl border-2 flex flex-col items-center justify-center cursor-pointer transition-all snap-start ${sampleProductId === '' ? 'border-[#735c00] bg-[#bcaf6a]/5' : 'border-black/5 bg-white'}`}
+                      className={`flex-shrink-0 w-24 md:w-40 h-full rounded-2xl border-2 flex flex-col items-center justify-center cursor-pointer transition-all snap-start ${sampleProductId === '' ? 'border-[#735c00] bg-[#bcaf6a]/5' : 'border-black/5 bg-white'}`}
                     >
-                      <div className="w-10 h-10 rounded-full border-2 border-dashed border-black/10 flex items-center justify-center mb-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                      <div className="w-10 h-10 md:w-16 md:h-16 rounded-full border-2 border-dashed border-black/10 flex items-center justify-center mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="md:w-8 md:h-8"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                       </div>
-                      <span className="font-label text-[8px] uppercase font-bold text-center">Scratch</span>
+                      <span className="font-label text-[8px] md:text-[10px] uppercase font-bold text-center">Scratch</span>
                     </div>
 
                     {filteredSamples.map(p => (
                       <div 
                         key={p.id}
                         onClick={() => handleSampleChange(p.id)}
-                        className={`flex-shrink-0 w-24 h-full rounded-2xl border-2 overflow-hidden flex flex-col cursor-pointer transition-all snap-start shadow-sm ${sampleProductId === p.id ? 'border-[#735c00] bg-[#bcaf6a]/5 scale-105' : 'border-black/5 bg-white opacity-60 hover:opacity-100'}`}
+                        className={`flex-shrink-0 w-24 md:w-40 h-full rounded-2xl border-2 overflow-hidden flex flex-col cursor-pointer transition-all snap-start shadow-sm ${sampleProductId === p.id ? 'border-[#735c00] bg-[#bcaf6a]/5 scale-105' : 'border-black/5 bg-white opacity-60 hover:opacity-100'}`}
                       >
-                        <div className="h-14 w-full bg-surface-variant">
+                        <div className="h-14 md:h-24 w-full bg-surface-variant overflow-hidden">
                           <img src={p.images?.[0] || p.imageUrl} className="w-full h-full object-cover" />
                         </div>
-                        <div className="p-2 flex-1 flex items-center justify-center">
-                          <span className="font-label text-[8px] uppercase font-bold text-center leading-tight line-clamp-2">{p.title}</span>
+                        <div className="p-2 md:p-4 flex-1 flex items-center justify-center">
+                          <span className="font-label text-[8px] md:text-[10px] uppercase font-bold text-center leading-tight line-clamp-2">{p.title}</span>
                         </div>
                       </div>
                     ))}
@@ -277,31 +298,31 @@ export default function Home() {
 
       {/* PART 3: Product Popup / Modal */}
       {selectedProduct && (
-        <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/90 backdrop-blur-md" onClick={() => setSelectedProduct(null)}>
+        <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/95 backdrop-blur-xl" onClick={() => setSelectedProduct(null)}>
           <div className="relative w-full max-w-lg bg-white rounded-t-[3rem] sm:rounded-[3rem] shadow-2xl overflow-hidden animate-slide-up" onClick={(e) => e.stopPropagation()}>
             {/* Close Button */}
             <button 
-              className="absolute top-6 right-6 z-20 p-4 bg-white/90 backdrop-blur rounded-full shadow-xl active:scale-90"
+              className="absolute top-6 right-6 z-[110] p-4 bg-white/90 backdrop-blur rounded-full shadow-xl active:scale-90"
               onClick={() => setSelectedProduct(null)}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
 
-            <div className="max-h-[90vh] overflow-y-auto">
+            <div className="max-h-[90vh] overflow-y-auto scrollbar-none">
               {/* Product Gallery (Large) */}
               <div className="relative aspect-square bg-[#fcf9f4]">
                 <img 
                   id="expanded-image"
                   src={selectedProduct.images?.[0] || selectedProduct.imageUrl || "https://images.unsplash.com/photo-1581539250439-c96689b516dd?q=80&w=1000&auto=format&fit=crop"} 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-all duration-500"
                 />
                 
                 {selectedProduct.images?.length > 1 && (
-                  <div className="absolute bottom-6 left-6 right-6 flex gap-3 overflow-x-auto pb-2 scrollbar-none">
+                  <div className="absolute bottom-6 left-6 right-6 flex gap-3 overflow-x-auto pb-2 scrollbar-none z-[110]">
                     {selectedProduct.images.map((img: string, idx: number) => (
                       <div 
                         key={idx} 
-                        className="w-16 h-16 rounded-xl overflow-hidden border-2 border-white/50 flex-shrink-0 cursor-pointer shadow-lg"
+                        className="w-16 h-16 rounded-xl overflow-hidden border-2 border-white/80 flex-shrink-0 cursor-pointer shadow-2xl active:scale-90 transition-all hover:border-[#735c00]"
                         onClick={() => {
                           const target = document.getElementById('expanded-image') as HTMLImageElement;
                           if (target) target.src = img;

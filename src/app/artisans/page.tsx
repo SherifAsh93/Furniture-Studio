@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import Link from 'next/link';
+import RegisterArtisanButton from '@/components/artisans/RegisterArtisanButton';
 
 export const dynamic = 'force-dynamic';
 
@@ -111,9 +112,7 @@ export default async function ArtisansPage() {
           <p className="font-body text-sm md:text-base text-white/60 mb-12 italic border-l-2 border-[#a1824a] pl-6">
             Are you a master of your craft? Join our global directory and showcase your work to the world's most discerning architectural visionaries.
           </p>
-          <button className="bg-white text-black px-12 py-5 font-label text-[10px] font-bold tracking-[0.4em] hover:bg-[#a1824a] hover:text-white transition-all uppercase active:scale-[0.98]">
-            Submit Portfolio
-          </button>
+          <RegisterArtisanButton />
         </div>
       </section>
     </main>

@@ -9,7 +9,7 @@ export default function JournalPage() {
       excerpt: "Exploring why high-end residential spaces are moving toward monolithic forms and rejecting ornamentation in favor of absolute material presence.",
       date: "MARCH 20, 2024",
       icon: "menu_book",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDOLHrQHpP15CHRIIQXaEQP-HEnQyEyxMUzlukgGVPzHvc1kgUSOs0WrkhlYWD_Z0M9iEwqF_3nZ_mh6sQdbQ3qJkSER3zzqH2_VzrFO_8xH5xNYstuxxfrnd4lw4lIMgbFiz03C-18RQS96JZhgafZQ5h16U_qTc0wYVUk3Sf67JVne39tzgI-19WdqrSi6rHA5GhXyC5GDso42i0SaLL67oMuH336PxvThk4uGvGgpwVPgoHYPfPbDmyEQNTxNb__DWwG4vZeuVMl"
+      image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1000&auto=format&fit=crop"
     },
     {
       id: 2,
@@ -18,7 +18,7 @@ export default function JournalPage() {
       excerpt: "A look into the ancient techniques used in the Obsidian collection, translating fire into a permanent architectural finish that is as durable as it is beautiful.",
       date: "MARCH 15, 2024",
       icon: "local_fire_department",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDfZMhs4icujLnFuggbQBVMGdZkeOH05TWHc2aeuNOLC84jyLEOsInwLTjnTm-_6qs32yJg66Bh9GYJW2YTX5aiq_DNWUNcW5wkWLGp5HhLsbBUh6eGeORLdEb08Z7b19WIBeeLR2M71_q6ViHm6bW9K2vqP4n2bsbnEVX4JuWC_RX28Oo7EkNKPiCBAqPwlU_FABtuFOH3LGL0XuM4M5RdecgN_QP-p_HkDCi1ieNGkbmYwwDwTxaDxy7oZDH_22IPHoO7i0rsfTBA"
+      image: "https://images.unsplash.com/photo-1541123437809-9fd12bd01057?q=80&w=1000&auto=format&fit=crop"
     },
     {
       id: 3,
@@ -27,7 +27,7 @@ export default function JournalPage() {
       excerpt: "Five principles for balancing luxury and intimacy in private spaces, featuring selecting pieces from the newly launched Nocturne series for maximum impact.",
       date: "MARCH 10, 2024",
       icon: "bedroom_parent",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCTS2WvWXL1c76QlfWJLrIrTRc2SaaVSFKUC1HQ1TsfBEt54ZtLxyprF5KZH1shlnPc1DuBcuFnK85KfViAHDBW0LJJKKOiGRu0_qpzWRDBnwOK7nYkVT7yvkBNVB_F1167VGLCR3RzSlAw7BOrUB30hDXaEjq8hyk9ZEZpwIeQSdzSMX5kAueynlW3A2A-lk5t_hLu510vshNAS4l8yLgvny2RTCNA4gxnnzGNWPDTCAssBIr7EHZAuYHseHy0XEgMkDBnzZjmF1T7"
+      image: "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?q=80&w=1000&auto=format&fit=crop"
     }
   ];
 

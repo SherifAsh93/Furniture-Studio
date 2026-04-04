@@ -8,7 +8,7 @@ export default function CollectionsPage() {
       subtitle: "Material Alchemy",
       description: "A meditation on shadow and surface. Hand-charred timber and antique brass hardware create a presence that is felt before it is seen.",
       icon: "nights_stay",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBCMCD4HQETm-yZhc4DNlNG3kNEn0-2J8InfsYZWRvT81qcpRJe_Q6Dp1BgMCSDO7zA08NCLmeD1LylNg-HHrXmYXoYZodKjDlhcjyGqYG4w9M3_6zm_evTplXFFLYqWkI08vDiGLyzDiFU_ZUaHdJ_lti21J-9wEr-TKU2vd33w0x46JFk-JVqIFRkfCaceE-aIGnuEF-099c1-iNjlaRY6-p7h0Z5CwARKbGmIu-pEdEUKjveyjfBywRaoN9aSWvj_ywzdZejyhp"
+      image: "https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?q=80&w=1000&auto=format&fit=crop"
     },
     {
       id: 2,
@@ -16,7 +16,7 @@ export default function CollectionsPage() {
       subtitle: "Intimate Geometry",
       description: "Sculptural forms for the private residence. Deep walnut and brushed limestone combine to offer a tactile refuge from the external world.",
       icon: "bed",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCwRof9ZZAxaEcYlN3dMISLNGfAQk9Usxo64tw1EOVF5LoKfiIos1JSskqyLrsRIjHmEfwpJX5tRIl8DNqaWKlEfGYevZPPY1xuKQhilKJJI205c7CGOF6qoGYIiRx0lgFr07Uhh1Go9BdAaF4b2ctcCE4zutk4LfVaUpm2xX4y3IzUqtcGMcKw5LIcHfcGCpbK7X62FRHx-c9TB_iglYZLEWUDSlkdIQOQ_i_hvEbuvsQl7btH1XPi6w4VGjJ1fIf5Q0E0I7YXIhK0"
+      image: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?q=80&w=1000&auto=format&fit=crop"
     },
     {
       id: 3,
@@ -24,7 +24,7 @@ export default function CollectionsPage() {
       subtitle: "Light & Proportion",
       description: "A celebration of transparency. Fluted glass and light-washed ash highlight the mathematical purity of contemporary living spaces.",
       icon: "light_mode",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBDQsqo9B-bOepx60Xvf1-U161YyF1S2O4_wgrJ3m-Y9J6sxce8E3vhOz1hVVkXbMKIYXf_peVdFqnd4b99ekSHv2CyBQe7bDRoUyeSrkR4syyj2VP_hMMvVmQUcdd4Ojdd40VRjvj3LCeZEWdA3uiN_hpH9AdmgHh8jXxRIHCZg5cnXXpkFtf0gm7XxECGvWtUQ5I5r47bHN7e17XUmyvCVYZxd8Rdd4y-gGuDP-kZNq7CYnJGRK94R_NaH_IHgRXy7PlzT_fRfAzI"
+      image: "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1000&auto=format&fit=crop"
     }
   ];
 
