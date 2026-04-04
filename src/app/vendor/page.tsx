@@ -6,6 +6,19 @@ import { getVendorData, deleteProduct, createProduct, updateProduct, updateCusto
 import { useEffect, useState, useRef } from 'react';
 import AuthModal from '@/components/AuthModal';
 
+// ─── Shared Utilities ────────────────────────────────────────────────────────
+const getStatusColor = (status: string) => {
+  switch (status) {
+    case 'PENDING': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+    case 'IN_PROGRESS': return 'bg-blue-100 text-blue-800 border-blue-200';
+    case 'CONTACTED': return 'bg-purple-100 text-purple-800 border-purple-200';
+    case 'DELIVERED': return 'bg-indigo-100 text-indigo-800 border-indigo-200';
+    case 'COMPLETED': return 'bg-green-100 text-green-800 border-green-200';
+    case 'CANCELLED': return 'bg-red-100 text-red-800 border-red-200';
+    default: return 'bg-gray-100 text-gray-800 border-gray-200';
+  }
+};
+
 // ─── Product Form Modal ───────────────────────────────────────────────────────
 function ProductFormModal({
   vendorId,
@@ -286,10 +299,10 @@ function RequestDetailModal({
     setLoading(false);
   };
 
-  const handleDeleteRequest = async () => {
-    if (!confirm('DANGER: This will permanently expunge this lead from the archive. Continue?')) return;
+  const handleCancelRequest = async () => {
+    if (!confirm('Are you sure you want to cancel this request? It will be marked as Cancelled but remain in your history.')) return;
     setLoading(true);
-    const res = await deleteCustomRequest(request.id);
+    const res = await updateCustomRequestStatus(request.id, 'CANCELLED');
     if (res.success) {
       onRefresh();
       onClose();
@@ -297,22 +310,11 @@ function RequestDetailModal({
     setLoading(false);
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'PENDING': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'CONTACTED': return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'IN_PRODUCTION': return 'bg-purple-100 text-purple-800 border-purple-200';
-      case 'DELIVERED': return 'bg-indigo-100 text-indigo-800 border-indigo-200';
-      case 'COMPLETED': return 'bg-green-100 text-green-800 border-green-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
-    }
-  };
-
   return (
     <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
       <div className="bg-[#fcf9f4] w-full max-w-2xl border border-outline-variant/20 shadow-2xl animate-in zoom-in-95 duration-200">
         <div className="flex items-center justify-between px-8 py-6 border-b border-outline-variant/15 bg-[#1c1b1b] text-[#fcf9f4]">
-          <h2 className="font-headline text-lg uppercase tracking-widest font-bold">Request Intelligence</h2>
+          <h2 className="font-headline text-lg uppercase tracking-widest font-bold">Custom Order Details</h2>
           <button onClick={onClose} className="opacity-40 hover:opacity-100 transition-opacity p-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
           </button>
@@ -321,26 +323,26 @@ function RequestDetailModal({
         <div className="p-10 space-y-10">
           <div className="flex justify-between items-start">
              <div>
-                <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-1">Commission Category</p>
+                <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-1">Category</p>
                 <h3 className="font-headline text-2xl text-primary font-bold uppercase leading-tight">{request.category}</h3>
              </div>
              <span className={`px-3 py-1 text-[10px] font-bold border uppercase tracking-widest ${getStatusColor(request.status)}`}>
-                {request.status}
+                {request.status.replace('_', ' ')}
              </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div className="space-y-6">
               <div>
-                <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-3">Client Profile</p>
+                <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-3">Customer Profile</p>
                 <div className="space-y-2">
                   <p className="font-headline text-xl text-primary font-bold uppercase">{request.customer.name}</p>
                   <p className="text-sm font-medium text-primary/60">{request.customer.email}</p>
-                  <p className="text-sm font-bold text-primary tracking-widest">{request.customer.phone || "STATION 2 AUTH REQUIRED"}</p>
+                  <p className="text-sm font-bold text-primary tracking-widest">{request.customer.phone || "PHONE NOT PROVIDED"}</p>
                 </div>
               </div>
               <div className="pt-4 border-t border-outline-variant/10">
-                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-3">Spatial Specifications</p>
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-3">Dimensions & Details</p>
                   <div className="space-y-2 font-label text-sm font-bold">
                     <p>L: {request.length}cm</p>
                     <p>W: {request.width}cm</p>
@@ -351,9 +353,9 @@ function RequestDetailModal({
             </div>
             <div className="space-y-6">
                <div>
-                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-3">Project Narrative</p>
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-3">Message from Client</p>
                   <p className="text-xs font-medium leading-relaxed uppercase tracking-tight italic bg-primary/5 p-4 border border-primary/10">
-                    "{request.message || "No contextual intelligence provided by client."}"
+                    "{request.message || "No additional details provided."}"
                   </p>
                </div>
             </div>
@@ -361,19 +363,21 @@ function RequestDetailModal({
 
           <div className="pt-6 grid grid-cols-2 lg:grid-cols-3 gap-3">
             {request.status === 'PENDING' && (
-              <button disabled={loading} onClick={() => handleStatusChange('CONTACTED')} className="bg-[#1c1b1b] text-white py-4 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-black/80 transition-all disabled:opacity-50">Initiate Contact</button>
+              <button disabled={loading} onClick={() => handleStatusChange('IN_PROGRESS')} className="bg-[#1c1b1b] text-white py-4 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-black/80 transition-all disabled:opacity-50">Accept & Start</button>
+            )}
+            {request.status === 'IN_PROGRESS' && (
+              <button disabled={loading} onClick={() => handleStatusChange('CONTACTED')} className="bg-[#1c1b1b] text-white py-4 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-black/80 transition-all disabled:opacity-50">Mark Contacted</button>
             )}
             {request.status === 'CONTACTED' && (
-              <button disabled={loading} onClick={() => handleStatusChange('IN_PRODUCTION')} className="bg-[#1c1b1b] text-white py-4 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-black/80 transition-all disabled:opacity-50">Move to Production</button>
-            )}
-            {request.status === 'IN_PRODUCTION' && (
               <button disabled={loading} onClick={() => handleStatusChange('DELIVERED')} className="bg-[#1c1b1b] text-white py-4 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-black/80 transition-all disabled:opacity-50">Mark Delivered</button>
             )}
             {request.status === 'DELIVERED' && (
               <button disabled={loading} onClick={() => handleStatusChange('COMPLETED')} className="bg-[#a1824a] text-white py-4 font-label text-[9px] font-bold tracking-widest uppercase transition-all disabled:opacity-50">Finalize Transaction</button>
             )}
-            <button onClick={onClose} className="px-8 py-4 border border-outline-variant/30 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-black/5 transition-all text-center">Dismiss</button>
-            <button disabled={loading} onClick={handleDeleteRequest} className="px-8 py-4 border border-red-200 text-red-500 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-red-50 transition-all text-center lg:col-span-1">Scrap Request</button>
+            {request.status !== 'CANCELLED' && request.status !== 'COMPLETED' && (
+               <button disabled={loading} onClick={handleCancelRequest} className="px-8 py-4 border border-red-200 text-red-500 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-red-50 transition-all text-center">Cancel Request</button>
+            )}
+            <button onClick={onClose} className="px-8 py-4 border border-outline-variant/30 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-black/5 transition-all text-center">Close</button>
           </div>
         </div>
       </div>
@@ -414,22 +418,11 @@ function OrderDetailModal({
     setUpdating(false);
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'PENDING': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'PAID': return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'SHIPPED': return 'bg-purple-100 text-purple-800 border-purple-200';
-      case 'DELIVERED': return 'bg-green-100 text-green-800 border-green-200';
-      case 'CANCELLED': return 'bg-red-100 text-red-800 border-red-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
-    }
-  };
-
   return (
     <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
       <div className="bg-[#fcf9f4] w-full max-w-2xl border border-outline-variant/20 shadow-2xl animate-in zoom-in-95 duration-200">
         <div className="flex items-center justify-between px-8 py-6 border-b border-outline-variant/15 bg-[#1c1b1b] text-[#fcf9f4]">
-          <h2 className="font-headline text-lg uppercase tracking-widest font-bold">Acquisition Dossier</h2>
+          <h2 className="font-headline text-lg uppercase tracking-widest font-bold">Order Details</h2>
           <button onClick={onClose} className="opacity-40 hover:opacity-100 transition-opacity p-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
           </button>
@@ -443,7 +436,7 @@ function OrderDetailModal({
             <div className="flex-1">
               <div className="flex justify-between items-start mb-2">
                 <div>
-                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-1">Catalog Item</p>
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-1">Product Details</p>
                   <h3 className="font-headline text-2xl text-primary font-bold uppercase leading-tight">{item.product?.title}</h3>
                 </div>
                 <span className={`px-3 py-1 text-[10px] font-bold border uppercase tracking-widest ${getStatusColor(item.order.status)}`}>
@@ -466,17 +459,17 @@ function OrderDetailModal({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div className="space-y-6">
               <div>
-                <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-3">Client Intelligence</p>
+                <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-3">Customer Details</p>
                 <div className="space-y-2">
                   <p className="font-headline text-xl text-primary font-bold uppercase">{item.order.customer.name}</p>
                   <p className="text-sm font-medium text-primary/60">{item.order.customer.email}</p>
-                  <p className="text-sm font-bold text-primary tracking-widest">{item.order.customer.phone || "PHASE 2 AUTH REQUIRED"}</p>
+                  <p className="text-sm font-bold text-primary tracking-widest">{item.order.customer.phone || "PHONE NOT PROVIDED"}</p>
                 </div>
               </div>
             </div>
             <div className="space-y-6">
                <div>
-                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-3">Dispatch Destination</p>
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-primary/40 mb-3">Shipping Address</p>
                   <p className="text-xs font-medium leading-relaxed uppercase tracking-tight italic bg-primary/5 p-4 border border-primary/10">
                     {item.order.customer.address || "Address Pending Verification"}
                   </p>
@@ -497,8 +490,7 @@ function OrderDetailModal({
             {item.order.status !== 'CANCELLED' && item.order.status !== 'DELIVERED' && (
                <button disabled={updating} onClick={() => handleStatusChange('CANCELLED')} className="border border-red-200 text-red-600 py-4 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-red-50 transition-all disabled:opacity-50">Cancel Order</button>
             )}
-            <button onClick={onClose} className="px-8 py-4 border border-outline-variant/30 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-black/5 transition-all md:col-span-1">Dismiss</button>
-            <button disabled={updating} onClick={handleDeleteOrder} className="px-8 py-4 border border-red-200 text-red-500 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-red-50 transition-all md:col-span-1">Scrap Line Item</button>
+            <button onClick={onClose} className="px-8 py-4 border border-outline-variant/30 font-label text-[9px] font-bold tracking-widest uppercase hover:bg-black/5 transition-all md:col-span-1">Close</button>
           </div>
         </div>
       </div>
@@ -511,7 +503,7 @@ export default function VendorDashboard() {
   const { user, loading: authLoading, openModal } = useAuth();
   const [vendorData, setVendorData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'overview' | 'catalog' | 'inbox' | 'requests' | 'orders'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'catalog' | 'inbox' | 'custom-orders' | 'orders'>('overview');
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isOrderDetailModalOpen, setIsOrderDetailModalOpen] = useState(false);
@@ -632,7 +624,7 @@ export default function VendorDashboard() {
           <button onClick={() => setActiveTab('overview')} className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-all px-4 py-2 rounded-full whitespace-nowrap ${activeTab === 'overview' ? 'bg-black text-white shadow-lg' : 'text-black/40 hover:text-black'}`}>Overview</button>
           <button onClick={() => setActiveTab('catalog')} className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-all px-4 py-2 rounded-full whitespace-nowrap ${activeTab === 'catalog' ? 'bg-black text-white shadow-lg' : 'text-black/40 hover:text-black'}`}>Catalog</button>
           <button onClick={() => setActiveTab('orders')} className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-all px-4 py-2 rounded-full whitespace-nowrap ${activeTab === 'orders' ? 'bg-black text-white shadow-lg' : 'text-black/40 hover:text-black'}`}>Orders</button>
-          <button onClick={() => setActiveTab('requests')} className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-all px-4 py-2 rounded-full whitespace-nowrap ${activeTab === 'requests' ? 'bg-black text-white shadow-lg' : 'text-black/40 hover:text-black'}`}>Requests</button>
+          <button onClick={() => setActiveTab('custom-orders')} className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-all px-4 py-2 rounded-full whitespace-nowrap ${activeTab === 'custom-orders' ? 'bg-black text-white shadow-lg' : 'text-black/40 hover:text-black'}`}>Custom Orders</button>
         </nav>
         <div className="flex items-center gap-4">
           <button onClick={async () => { await loadData(); }} className="w-10 h-10 flex items-center justify-center border border-black/5 rounded-xl hover:bg-black hover:text-white transition-all shadow-sm">
@@ -663,9 +655,9 @@ export default function VendorDashboard() {
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 0 1-8 0" /></svg>
               <span className="text-[0.75rem] font-bold tracking-widest uppercase">Orders <span className="ml-1 opacity-40">{vendorData?.orders?.length || 0}</span></span>
             </button>
-            <button onClick={() => setActiveTab('requests')} className={`flex items-center gap-3 py-2 transition-colors ${activeTab === 'requests' ? 'text-primary' : 'text-on-surface-variant hover:text-primary'}`}>
+            <button onClick={() => setActiveTab('custom-orders')} className={`flex items-center gap-3 py-2 transition-colors ${activeTab === 'custom-orders' ? 'text-primary' : 'text-on-surface-variant hover:text-primary'}`}>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /></svg>
-              <span className="text-[0.75rem] font-bold tracking-widest uppercase">Requests <span className="ml-1 opacity-40">{vendorData?.customRequests?.length || 0}</span></span>
+              <span className="text-[0.75rem] font-bold tracking-widest uppercase">Custom Orders <span className="ml-1 opacity-40">{vendorData?.customRequests?.length || 0}</span></span>
             </button>
           </div>
         </aside>
@@ -678,7 +670,7 @@ export default function VendorDashboard() {
                   {[
                     { label: 'Revenue', value: `EGP ${new Intl.NumberFormat().format(vendorData?.orders?.reduce((acc: number, cur: any) => acc + (cur.total || 0), 0) || 0)}`, color: 'bg-black text-white shadow-xl shadow-black/10' },
                     { label: 'Orders', value: vendorData?.orders?.length || 0, color: 'bg-surface-variant' },
-                    { label: 'Inquiry', value: vendorData?.customRequests?.length || 0, color: 'bg-white border border-black/5 premium-shadow' },
+                    { label: 'Custom Orders', value: vendorData?.customRequests?.length || 0, color: 'bg-white border border-black/5 premium-shadow' },
                     { label: 'Inventory', value: vendorData?.products?.length || 0, color: 'bg-surface-variant' }
                   ].map((stat, i) => (
                     <div key={i} className={`p-8 flex flex-col justify-between min-h-[140px] rounded-2xl transition-all hover:scale-[1.02] ${stat.color}`}>
@@ -710,7 +702,7 @@ export default function VendorDashboard() {
                   <p className="font-headline text-3xl text-primary mb-2 uppercase">{vendorData?.orders?.length || 0}</p>
                 </div>
                 <div className="bg-surface-container-low p-8 border border-outline-variant/15">
-                  <p className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">Custom Requests</p>
+                  <p className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">Custom Orders</p>
                   <p className="font-headline text-3xl text-primary mb-2 uppercase">{vendorData?.customRequests?.length || 0}</p>
                 </div>
               </div>
@@ -824,7 +816,16 @@ export default function VendorDashboard() {
                       <div className="flex-1">
                         <div className="flex items-center gap-4 mb-2">
                           <span className="text-[0.65rem] font-bold text-outline tracking-tight uppercase">Order #{item.orderId.slice(-6)}</span>
-                          <span className="text-[10px] font-bold uppercase tracking-widest bg-yellow-100 text-yellow-800 px-2 py-0.5 border border-yellow-200">{item.order.status}</span>
+                          <span className="text-[10px] font-bold uppercase tracking-widest bg-yellow-100 text-yellow-800 px-2 py-0.5 border border-yellow-200">{item.order.status.replace('_', ' ')}</span>
+                          {item.order.status === 'CANCELLED' && (
+                            <button 
+                              onClick={async (e) => { e.stopPropagation(); if(confirm('Permanently delete this cancelled record?')) { await deleteOrderItem(item.id); loadData(); } }}
+                              className="text-red-400 hover:text-red-700 transition-colors p-1"
+                              title="Delete Permanently"
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                            </button>
+                          )}
                         </div>
                         <h3 className="font-headline text-2xl text-primary font-bold uppercase leading-none mb-2">{item.product?.title}</h3>
                         <div className="flex gap-6">
@@ -833,7 +834,7 @@ export default function VendorDashboard() {
                             <p className="text-xs font-bold">{item.quantity}</p>
                           </div>
                           <div>
-                            <p className="text-[0.55rem] font-bold uppercase opacity-40 mb-1">Total</p>
+                            <p className="text-[0.55rem] font-bold uppercase opacity-40 mb-1">Total Price</p>
                             <p className="text-xs font-bold text-primary">EGP {(item.price * item.quantity).toLocaleString()}</p>
                           </div>
                         </div>
@@ -842,7 +843,7 @@ export default function VendorDashboard() {
 
                     <div className="w-full md:w-64 space-y-4 border-t md:border-t-0 md:border-l border-outline-variant/10 pt-6 md:pt-0 md:pl-8 flex flex-col justify-between">
                       <div>
-                        <p className="text-[0.55rem] font-bold uppercase opacity-40 mb-2">Customer Profile</p>
+                        <p className="text-[0.55rem] font-bold uppercase opacity-40 mb-2">Customer Details</p>
                         <div className="space-y-1">
                           <p className="text-sm font-bold uppercase">{item.order.customer.name}</p>
                           <p className="text-[10px] font-medium opacity-60">{item.order.customer.email}</p>
@@ -854,13 +855,7 @@ export default function VendorDashboard() {
                           onClick={() => openOrder(item)}
                           className="w-full bg-black text-white py-3 text-[9px] font-bold uppercase tracking-widest hover:bg-primary transition-all font-bold"
                         >
-                          View Details & Control
-                        </button>
-                        <button 
-                          onClick={async () => { if(confirm('Scrap this line item?')) { await deleteOrderItem(item.id); loadData(); } }}
-                          className="w-full border border-red-200 text-red-500 py-2 text-[9px] font-bold uppercase tracking-widest hover:bg-red-50 transition-all"
-                        >
-                          Scrap Item
+                          View Details & Update
                         </button>
                       </div>
                     </div>
@@ -875,10 +870,10 @@ export default function VendorDashboard() {
             </div>
           )}
 
-          {/* ── REQUESTS ── */}
-          {activeTab === 'requests' && (
+          {/* ── CUSTOM ORDERS ── */}
+          {activeTab === 'custom-orders' && (
             <div>
-              <h2 className="font-headline text-4xl text-primary tracking-tight uppercase mb-12">Client Requests</h2>
+              <h2 className="font-headline text-4xl text-primary tracking-tight uppercase mb-12">Custom Orders</h2>
               <div className="space-y-6">
                 {vendorData?.customRequests?.map((req: any) => (
                   <div key={req.id} className="bg-surface-container-low p-8 border border-outline-variant/15 flex flex-col md:flex-row justify-between gap-8 items-start group hover:border-primary/30 transition-all">
@@ -886,6 +881,20 @@ export default function VendorDashboard() {
                       <div className="flex items-center gap-4 mb-4">
                         <span className="bg-secondary text-on-secondary px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.2em]">{req.category}</span>
                         <span className="text-[0.6rem] font-bold text-outline tracking-widest uppercase italic">Received {new Date(req.createdAt).toLocaleDateString()}</span>
+                        {req.status === 'CANCELLED' && (
+                          <button 
+                            onClick={async (e) => { e.stopPropagation(); if(confirm('Permanently delete this cancelled request?')) { await deleteCustomRequest(req.id); loadData(); } }}
+                            className="text-red-400 hover:text-red-700 transition-colors p-1"
+                            title="Delete Permanently"
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                          </button>
+                        )}
+                        {req.status !== 'PENDING' && req.status !== 'CANCELLED' && (
+                          <span className={`px-2 py-0.5 text-[8px] font-bold border uppercase tracking-widest ${getStatusColor(req.status)}`}>
+                            {req.status.replace('_', ' ')}
+                          </span>
+                        )}
                       </div>
                       <p className="text-xl font-headline text-primary font-bold uppercase mb-4 leading-tight">{req.material || 'Standard'} Custom {req.category}</p>
                       <p className="text-sm text-on-surface-variant italic mb-6 leading-relaxed">"{req.message || 'No description provided.'}"</p>
@@ -899,7 +908,7 @@ export default function VendorDashboard() {
                           <p className="text-xs font-bold uppercase">{req.material || 'Standard'}</p>
                         </div>
                         <div>
-                          <p className="text-[0.55rem] font-bold uppercase tracking-widest text-outline mb-1">Client</p>
+                          <p className="text-[0.55rem] font-bold uppercase tracking-widest text-outline mb-1">Customer</p>
                           <p className="text-xs font-bold">{req.customer.name}</p>
                           <p className="text-[0.6rem] opacity-60">{req.customer.email}</p>
                           {req.customer.phone && <p className="text-[0.6rem] opacity-60">{req.customer.phone}</p>}
@@ -907,13 +916,7 @@ export default function VendorDashboard() {
                       </div>
                     </div>
                     <div className="w-full md:w-auto flex flex-col gap-3 shrink-0">
-                      <button onClick={() => openRequest(req)} className="bg-primary text-on-primary px-8 py-4 text-[0.7rem] font-bold uppercase tracking-[0.2em] hover:bg-black/80 transition-all">VIEW DETAILS & CONTACT</button>
-                      <button 
-                        onClick={async () => { if(confirm('Scrap this request?')) { await deleteCustomRequest(req.id); loadData(); } }} 
-                        className="border border-red-200 text-red-500 px-8 py-2 text-[0.6rem] font-bold uppercase tracking-widest hover:bg-red-50 transition-all"
-                      >
-                        SCRAP
-                      </button>
+                      <button onClick={() => openRequest(req)} className="bg-primary text-on-primary px-8 py-4 text-[0.7rem] font-bold uppercase tracking-[0.2em] hover:bg-black/80 transition-all font-bold">VIEW DETAILS & START</button>
                     </div>
                   </div>
                 ))}
