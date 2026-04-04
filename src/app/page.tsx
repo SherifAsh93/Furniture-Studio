@@ -156,7 +156,6 @@ export default function Home() {
                   alt={item.title}
                 />
                 
-                {/* Overlay Thumbnails for Card */}
                 {item.images?.length > 1 && (
                   <div className="absolute bottom-2 left-2 right-2 flex gap-1.5 overflow-x-auto pb-1 scrollbar-none z-10">
                     {item.images.slice(0, 4).map((img: string, idx: number) => (
