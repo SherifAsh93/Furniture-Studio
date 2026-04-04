@@ -3,16 +3,27 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useEcommerce } from '@/context/EcommerceContext';
+import { useSearchParams } from 'next/navigation';
 import { getMarketplaceData, getVendors, createCustomRequest } from '@/app/actions/data';
 
 export default function Home() {
   const { user, openModal } = useAuth();
   const { addToCart, toggleWishlist, isInWishlist } = useEcommerce();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [products, setProducts] = useState<any[]>([]);
   const [vendors, setVendors] = useState<any[]>([]);
+  
+  // Marketplace Filter State
+  const [selectedCategory, setSelectedCategory] = useState('ALL');
+  const marketplaceCategories = ['ALL', 'Dressing room', 'Master bedroom', 'Kids room', 'Sofas tables', 'Sofas', 'Dining', 'Lighting', 'Decor'];
+
+  React.useEffect(() => {
+    const cat = searchParams.get('category');
+    if (cat) setSelectedCategory(cat.replace('+', ' '));
+  }, [searchParams]);
 
   React.useEffect(() => {
     async function loadData() {
@@ -108,14 +119,30 @@ export default function Home() {
   return (
     <main className="pt-20 pb-32 bg-[#faf9f6] min-h-screen">
       {/* PART 1: Ready Made Products in Grid */}
-      <section className="px-4 mb-20">
-        <div className="flex flex-col gap-1 mb-8 px-2">
-          <span className="text-[#a1824a] font-label text-[9px] tracking-[0.4em] uppercase font-bold">The Catalog</span>
-          <h1 className="font-headline text-3xl font-bold uppercase tracking-tight">Ready Made</h1>
+      <section className="px-4 mb-20" id="marketplace">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 px-2">
+          <div className="flex flex-col gap-1">
+            <span className="text-[#a1824a] font-label text-[9px] tracking-[0.4em] uppercase font-bold">The Catalog</span>
+            <h1 className="font-headline text-4xl font-bold uppercase tracking-tight">Ready Made</h1>
+          </div>
+          
+          <div className="flex gap-2 overflow-x-auto pb-4 md:pb-0 scrollbar-none">
+            {marketplaceCategories.map(cat => (
+              <button 
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all border ${selectedCategory === cat ? 'bg-black text-white border-black shadow-lg shadow-black/10' : 'bg-white text-black/40 border-black/5 hover:border-black/20'}`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {products.map((item) => (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+          {products
+            .filter(p => selectedCategory === 'ALL' || p.category === selectedCategory)
+            .map((item) => (
             <div 
               key={item.id} 
               className="bg-white rounded-3xl overflow-hidden shadow-sm border border-black/5 flex flex-col group active:scale-95 transition-transform"

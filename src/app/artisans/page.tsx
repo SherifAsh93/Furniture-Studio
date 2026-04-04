@@ -27,7 +27,7 @@ export default async function ArtisansPage() {
 
   return (
     <main className="pt-24 md:pt-32 pb-32 px-6 md:px-12 max-w-[1400px] mx-auto min-h-screen cursor-default">
-      <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12 border-b border-black/5 pb-16">
+      <div className="flex flex-col lg:flex-row justify-between items-end mb-32 gap-16 border-b border-black/5 pb-20">
         <div className="max-w-3xl">
           <span className="font-label text-[10px] font-bold tracking-[0.4em] text-[#a1824a] uppercase mb-8 block animate-fade-up opacity-0" style={{ animationDelay: '0.1s' }}>THE COLLECTIVE</span>
           <h1 className="font-headline text-5xl md:text-8xl font-extrabold uppercase tracking-tighter leading-[0.85] mb-10 animate-fade-up opacity-0" style={{ animationDelay: '0.2s' }}>
@@ -37,17 +37,17 @@ export default async function ArtisansPage() {
             A global circle of master craftspeople. We don't just manufacture; we curate a lineage of expertise that translates raw earth into architectural punctuation.
           </p>
         </div>
-        <div className="flex gap-4 animate-fade-up opacity-0" style={{ animationDelay: '0.4s' }}>
-          <div className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center text-black/40">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-          </div>
-          <div className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center text-black/40">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path><path d="m9 12 2 2 4-4"></path></svg>
-          </div>
+        <div className="w-full lg:w-96 aspect-video rounded-3xl overflow-hidden shadow-2xl animate-fade-up opacity-0 relative group" style={{ animationDelay: '0.4s' }}>
+           <img 
+              src="https://images.unsplash.com/photo-1581428982868-e410dd047a90?q=80&w=1000&auto=format&fit=crop"
+              className="w-full h-full object-cover transition-transform duration-[3s] group-hover:scale-110"
+              alt="Artisan Workspace"
+           />
+           <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
         </div>
       </div>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-24">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-16 gap-y-32">
         {vendors.map(vendor => {
           const name = vendor.companyName || vendor.name || 'Artisan Studio';
           const location = vendor.city || 'Global';
@@ -59,7 +59,7 @@ export default async function ArtisansPage() {
           
           return (
             <div key={vendor.id} className="group animate-fade-up opacity-0" style={{ animationDelay: '0.5s' }}>
-              <div className="aspect-[3/4] overflow-hidden bg-[#e5e2dd] mb-8 relative rounded-2xl shadow-sm premium-shadow">
+              <div className="aspect-[3/4] overflow-hidden bg-[#e5e2dd] mb-10 relative rounded-2xl shadow-sm premium-shadow">
                 <img 
                   alt={name} 
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110" 
@@ -69,31 +69,31 @@ export default async function ArtisansPage() {
                   {getIcon('box')}
                 </div>
               </div>
-              <div className="space-y-4 px-2">
+              <div className="space-y-6 px-2">
                 <div className="flex justify-between items-start">
-                  <h3 className="font-headline text-2xl font-bold uppercase tracking-tight group-hover:text-[#a1824a] transition-colors">{name}</h3>
+                  <h3 className="font-headline text-3xl font-bold uppercase tracking-tight group-hover:text-[#a1824a] transition-colors leading-none">{name}</h3>
                   <span className="font-label text-[10px] font-bold tracking-[0.3em] text-[#a1824a] uppercase pt-1 shrink-0">{location}</span>
                 </div>
-                <p className="font-label text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase border-b border-black/5 pb-4">{specialty}</p>
-                <div className="grid grid-cols-3 gap-3 pt-4">
+                <p className="font-label text-[10px] font-bold tracking-[0.2em] text-black/40 uppercase border-b border-black/5 pb-6">{specialty}</p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4">
                   {vendor.products.slice(0, 6).map(product => (
-                    <div key={product.id} className="group/card relative aspect-square overflow-hidden bg-[#f6f3ee] border border-black/5 rounded-xl">
+                    <Link key={product.id} href={`/?category=${product.category?.replace(' ', '+')}#marketplace`} className="group/card relative aspect-square overflow-hidden bg-[#f6f3ee] border border-black/5 rounded-xl">
                       <img 
                         src={product.images?.[0] || 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=200&q=60'} 
                         alt={product.title}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110"
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover/card:bg-black/60 transition-all duration-300 flex items-end">
-                        <div className="w-full p-2 translate-y-full group-hover/card:translate-y-0 transition-transform duration-300 backdrop-blur-sm bg-black/20">
+                        <div className="w-full p-2 translate-y-full group-hover/card:translate-y-0 transition-transform duration-300 backdrop-blur-sm bg-black/10">
                           <p className="text-white text-[9px] font-label font-bold uppercase tracking-widest truncate">{product.title}</p>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
-                <div className="pt-6">
-                  <Link href={`#`} className="inline-block font-label text-[10px] font-bold tracking-[0.3em] text-black border-b border-black/10 pb-2 hover:border-[#a1824a] hover:text-[#a1824a] transition-all uppercase group/link">
-                    View Portfolio
+                <div className="pt-8">
+                  <Link href={`/?category=ALL#marketplace`} className="inline-block font-label text-[10px] font-bold tracking-[0.3em] text-black border-b-2 border-black/10 pb-2 hover:border-[#a1824a] hover:text-[#a1824a] transition-all uppercase group/link">
+                    View Collective Works
                     <span className="inline-block ml-2 group-hover/link:translate-x-1 transition-transform">→</span>
                   </Link>
                 </div>

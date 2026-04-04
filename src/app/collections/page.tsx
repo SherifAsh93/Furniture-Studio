@@ -1,9 +1,11 @@
 'use client';
+import Link from 'next/link';
 
 export default function CollectionsPage() {
   const collections = [
     {
       id: 1,
+      category: "Dressing room",
       title: "The Obsidian Series",
       subtitle: "Material Alchemy",
       description: "A meditation on shadow and surface. Hand-charred timber and antique brass hardware create a presence that is felt before it is seen.",
@@ -12,6 +14,7 @@ export default function CollectionsPage() {
     },
     {
       id: 2,
+      category: "Master bedroom",
       title: "The Nocturne Suite",
       subtitle: "Intimate Geometry",
       description: "Sculptural forms for the private residence. Deep walnut and brushed limestone combine to offer a tactile refuge from the external world.",
@@ -20,6 +23,7 @@ export default function CollectionsPage() {
     },
     {
       id: 3,
+      category: "Sofas",
       title: "Alabaster Halls",
       subtitle: "Light & Proportion",
       description: "A celebration of transparency. Fluted glass and light-washed ash highlight the mathematical purity of contemporary living spaces.",
@@ -53,18 +57,10 @@ export default function CollectionsPage() {
             Every series is a cohesive architectural statement. Curated by typological function and material intent, these collections represent our definitive vision for contemporary living.
           </p>
         </div>
-        <div className="flex gap-4 animate-fade-up opacity-0" style={{ animationDelay: '0.4s' }}>
-          <div className="text-black/10">
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3z"></path><path d="M9 3v18"></path><path d="M3 15h6"></path><path d="M15 3v18"></path><path d="M15 9h6"></path></svg>
-          </div>
-          <div className="text-black/10">
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20"></path><path d="M2 12h20"></path><path d="M12 12 2.1 21.9"></path><path d="m12 12 9.9 9.9"></path><path d="m12 12-9.9-9.9"></path><path d="m12 12 9.9-9.9"></path></svg>
-          </div>
-        </div>
       </div>
 
       <div className="space-y-32 md:space-y-48">
-        {collections.map((collection, index) => (
+        {(typeof collections !== 'undefined' ? collections : []).map((collection: any, index: number) => (
           <section key={collection.id} className={`flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} gap-12 lg:gap-24 items-center group animate-fade-up opacity-0`} style={{ animationDelay: `${0.2 + index * 0.1}s` }}>
             <div className="w-full md:w-3/5 aspect-[16/10] overflow-hidden bg-[#e5e2dd] relative rounded-2xl shadow-sm premium-shadow">
               <img 
@@ -86,11 +82,14 @@ export default function CollectionsPage() {
                 {collection.description}
               </p>
               <div className="pt-8 flex flex-col sm:flex-row gap-8 items-center border-t border-black/5">
-                <button className="bg-black text-white px-10 py-5 font-label text-[10px] font-bold tracking-[0.3em] hover:bg-[#a1824a] transition-all uppercase w-full sm:w-auto text-center active:scale-[0.98]">
+                <Link 
+                  href={`/?category=${collection.category?.replace(' ', '+')}#marketplace`}
+                  className="bg-black text-white px-10 py-5 font-label text-[10px] font-bold tracking-[0.3em] hover:bg-[#a1824a] transition-all uppercase w-full sm:w-auto text-center active:scale-[0.98] rounded-xl"
+                >
                   Explore Series
-                </button>
+                </Link>
                 <button className="font-label text-[10px] font-bold tracking-[0.3em] border-b border-black/20 pb-1 hover:text-[#a1824a] hover:border-[#a1824a] transition-colors uppercase h-max self-center sm:self-auto text-black text-center">
-                  Download Catalog
+                  Share Collective
                 </button>
               </div>
             </div>

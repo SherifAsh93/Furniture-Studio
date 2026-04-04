@@ -615,7 +615,7 @@ export default function VendorDashboard() {
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2 group cursor-pointer">
             <div className="bg-white overflow-hidden w-9 h-9 rounded-xl flex items-center justify-center border border-black/5 shadow-sm">
-              <img alt="Furniture Studio Logo" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYzwpRTmQxUU1zbZR1afOETDBbBv0B_OTy3uSZi1M-zr3D4OJhAdZ0rdtuJJVMreSJlhnXVbub7ICKPYtOIzIlBG9k9G0KaWgp5bzWDrziAUAXbS75sIc3Sa16PXvXkieA209VMEJWQLh75Mx7kidMOOdwBqHjOv2WfUJmMX9ythFYjuEt9oemiO96XkY7XFbPGpzOadEvAVB0kaJ83HKjGXKjarlpsAFZuyYWNGqW9BTJorDxFA9LYqQLpix6hr6C5-ehOtP7Soa7" />
+              <img alt="Furniture Studio Logo" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=100&auto=format&fit=crop" />
             </div>
             <span className="font-headline text-xl tracking-tight font-bold text-black uppercase hidden sm:block">FURNITURE</span>
           </Link>

@@ -1,33 +1,36 @@
-'use client';
+import Link from 'next/link';
 
 export default function JournalPage() {
   const articles = [
     {
       id: 1,
       category: "ESSAY",
+      shopCategory: "Dressing room",
       title: "The Weight of Silence: Minimalism in 2024",
       excerpt: "Exploring why high-end residential spaces are moving toward monolithic forms and rejecting ornamentation in favor of absolute material presence.",
       date: "MARCH 20, 2024",
       icon: "menu_book",
-      image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1000&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?q=80&w=1000&auto=format&fit=crop"
     },
     {
       id: 2,
       category: "CRAFT",
+      shopCategory: "Master bedroom",
       title: "The Alchemy of Hand-Charred Oak",
       excerpt: "A look into the ancient techniques used in the Obsidian collection, translating fire into a permanent architectural finish that is as durable as it is beautiful.",
       date: "MARCH 15, 2024",
       icon: "local_fire_department",
-      image: "https://images.unsplash.com/photo-1541123437809-9fd12bd01057?q=80&w=1000&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1517594422361-5eeb8ae275a9?q=80&w=1000&auto=format&fit=crop"
     },
     {
       id: 3,
       category: "INTERIOR",
+      shopCategory: "Sofas",
       title: "Curating the Master Suite",
       excerpt: "Five principles for balancing luxury and intimacy in private spaces, featuring selecting pieces from the newly launched Nocturne series for maximum impact.",
       date: "MARCH 10, 2024",
       icon: "bedroom_parent",
-      image: "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?q=80&w=1000&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1505691938895-1758d7eaa511?q=80&w=1000&auto=format&fit=crop"
     }
   ];
 
@@ -46,7 +49,7 @@ export default function JournalPage() {
 
   return (
     <main className="pt-24 md:pt-32 pb-32 px-6 md:px-12 max-w-[1400px] mx-auto min-h-screen">
-      <div className="mb-24 flex flex-col md:flex-row justify-between items-end gap-12 border-b border-black/5 pb-16">
+      <div className="mb-24 flex flex-col lg:flex-row justify-between items-end gap-12 border-b border-black/5 pb-16">
         <div className="max-w-3xl">
           <span className="font-label text-[10px] font-bold tracking-[0.4em] text-[#a1824a] uppercase mb-8 block animate-fade-up opacity-0" style={{ animationDelay: '0.1s' }}>EDITORIAL ARTIFACTS</span>
           <h1 className="font-headline text-5xl md:text-8xl font-extrabold uppercase tracking-tighter leading-[0.85] mb-10 animate-fade-up opacity-0" style={{ animationDelay: '0.2s' }}>
@@ -56,13 +59,13 @@ export default function JournalPage() {
             Exploring the intersection of material, form, and philosophy. Our editorial platform provides a deeper look into the architectural intent behind everything we curate.
           </p>
         </div>
-        <div className="flex gap-4">
-          <button className="text-black/10 hover:text-[#cf6317] transition-colors" aria-label="Feed">
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M12 11h5"></path><path d="M12 15h5"></path><path d="M7 11h1"></path><path d="M7 15h1"></path></svg>
-          </button>
-          <button className="text-black/10 hover:text-[#cf6317] transition-colors" aria-label="Stories">
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-          </button>
+        <div className="w-full lg:w-72 aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl animate-fade-up opacity-0 relative group" style={{ animationDelay: '0.4s' }}>
+          <img 
+             src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=1000&auto=format&fit=crop"
+             className="w-full h-full object-cover transition-transform duration-[3s] group-hover:scale-110"
+             alt="Featured Narrative"
+          />
+          <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
         </div>
       </div>
 
@@ -92,10 +95,13 @@ export default function JournalPage() {
               <p className="font-body text-sm text-on-surface-variant leading-relaxed line-clamp-3 italic opacity-80">
                 {article.excerpt}
               </p>
-              <button className="font-label text-[10px] font-bold tracking-[0.3em] text-black border-b border-black/10 pb-2 hover:border-[#a1824a] hover:text-[#a1824a] transition-all uppercase pt-6 inline-flex items-center gap-3 group/btn">
+              <Link 
+                href={`/?category=${article.shopCategory?.replace(' ', '+')}#marketplace`}
+                className="font-label text-[10px] font-bold tracking-[0.3em] text-black border-b border-black/10 pb-2 hover:border-[#a1824a] hover:text-[#a1824a] transition-all uppercase pt-6 inline-flex items-center gap-3 group/btn"
+              >
                 Read Narrative
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="group-hover/btn:translate-x-2 transition-all"><polyline points="9 18 15 12 9 6"></polyline></svg>
-              </button>
+              </Link>
             </div>
           </article>
         ))}

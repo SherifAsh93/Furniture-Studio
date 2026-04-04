@@ -79,11 +79,11 @@ export default function AuthModal() {
           <img
             className="absolute inset-0 w-full h-full object-cover opacity-60"
             alt="High-end leather sofa in a concrete loft"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBH4NdqW3bCb7VslahwtLJwCGO02H4IpBI4oBGLpUaEFuIJIbEwjmUkBLSDFbiamkbEgUakA2D4AW4zzAeIVxvZEXs7RnsxndMJcV99mYgMUqk3gG4_W5CowMIVanjzit6XU-LuHJOh6kTgIOLK-RbyjmKkMs94pGWSV04fwZylvISGoX9XaUEI--TpZvFyenZVETh2MuDZLXjBKqDvISuwv6FTG2jpownitF6QoQDlYQ3T3qtr6GQ1JvNewCedykrPNPSbzK5BO7f6"
+            src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1000&auto=format&fit=crop"
           />
-          <div className="absolute inset-0 flex flex-col justify-end p-8 bg-gradient-to-t from-primary to-transparent">
-            <span className="font-label text-[10px] tracking-[0.2em] text-on-primary/60 uppercase mb-2">Curated Spaces</span>
-            <h2 className="font-headline text-2xl text-on-primary leading-tight font-bold">Elevate your living narrative.</h2>
+          <div className="absolute inset-0 flex flex-col justify-end p-8 bg-gradient-to-t from-black/80 to-transparent">
+            <span className="font-label text-[10px] tracking-[0.2em] text-white/60 uppercase mb-2">Curated Spaces</span>
+            <h2 className="font-headline text-2xl text-white leading-tight font-bold">Elevate your living narrative.</h2>
           </div>
         </div>
 
@@ -92,8 +92,8 @@ export default function AuthModal() {
           {/* Branding Header */}
           <div className="flex flex-col mb-6">
             <Link href="/" onClick={closeModal} className="flex items-center gap-3 group cursor-pointer mb-2">
-              <div className="bg-white overflow-hidden w-10 h-10 rounded-lg flex items-center justify-center border border-outline-variant/30">
-                <img alt="Furniture Studio Logo" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYzwpRTmQxUU1zbZR1afOETDBbBv0B_OTy3uSZi1M-zr3D4OJhAdZ0rdtuJJVMreSJlhnXVbub7ICKPYtOIzIlBG9k9G0KaWgp5bzWDrziAUAXbS75sIc3Sa16PXvXkieA209VMEJWQLh75Mx7kidMOOdwBqHjOv2WfUJmMX9ythFYjuEt9oemiO96XkY7XFbPGpzOadEvAVB0kaJ83HKjGXKjarlpsAFZuyYWNGqW9BTJorDxFA9LYqQLpix6hr6C5-ehOtP7Soa7" />
+              <div className="bg-white overflow-hidden w-10 h-10 rounded-lg flex items-center justify-center border border-black/5 shadow-sm">
+                <img alt="Furniture Studio Logo" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=100&auto=format&fit=crop" />
               </div>
               <div className="flex flex-col leading-none text-left">
                 <span className="font-headline text-xl tracking-tight font-bold text-black uppercase">FURNITURE</span>
