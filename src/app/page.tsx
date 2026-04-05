@@ -5,8 +5,9 @@ import { useAuth } from '@/context/AuthContext';
 import { useEcommerce } from '@/context/EcommerceContext';
 import { useSearchParams } from 'next/navigation';
 import { getMarketplaceData, getVendors, createCustomRequest } from '@/app/actions/data';
+import { Suspense } from 'react';
 
-export default function Home() {
+function HomePageContent() {
   const { user, openModal } = useAuth();
   const { addToCart, toggleWishlist, isInWishlist } = useEcommerce();
   const searchParams = useSearchParams();
@@ -407,5 +408,17 @@ export default function Home() {
         </div>
       )}
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#faf9f6] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black"></div>
+      </div>
+    }>
+      <HomePageContent />
+    </Suspense>
   );
 }
