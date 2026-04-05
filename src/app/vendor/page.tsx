@@ -98,12 +98,10 @@ function ProductFormModal({
     'Kids room',
     'Sofas tables',
     'Sofas',
-    'Dining room (Buffet + 6 chairs)',
-    'Dining room (Buffet + 8 chairs)',
-    'Side tables',
-    'Doors',
-    'Cladding',
-    'Kitchens'
+    'Dining',
+    'Lighting',
+    'Decor',
+    'Kitchen'
   ];
 
   return (
