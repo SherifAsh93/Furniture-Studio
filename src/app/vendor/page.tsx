@@ -96,11 +96,12 @@ function ProductFormModal({
     'Dressing room',
     'Master bedroom',
     'Kids room',
-    'Sofas tables',
+    'Dinning room with buffet and 6 or 8 chairs',
     'Sofas',
-    'Dining',
-    'Lighting',
-    'Decor',
+    'Sofas tables',
+    'Side tabels',
+    'Doors',
+    'Cladding',
     'Kitchen'
   ];
 
