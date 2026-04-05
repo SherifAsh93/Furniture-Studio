@@ -102,7 +102,8 @@ function ProductFormModal({
     'Dining room (Buffet + 8 chairs)',
     'Side tables',
     'Doors',
-    'Cladding'
+    'Cladding',
+    'Kitchens'
   ];
 
   return (

@@ -18,7 +18,7 @@ export default function Home() {
   
   // Marketplace Filter State
   const [selectedCategory, setSelectedCategory] = useState('ALL');
-  const marketplaceCategories = ['ALL', 'Dressing room', 'Master bedroom', 'Kids room', 'Sofas tables', 'Sofas', 'Dining', 'Lighting', 'Decor'];
+  const marketplaceCategories = ['ALL', 'Dressing room', 'Master bedroom', 'Kids room', 'Sofas tables', 'Sofas', 'Dining', 'Lighting', 'Decor', 'Kitchens'];
 
   React.useEffect(() => {
     const cat = searchParams.get('category');
@@ -236,7 +236,7 @@ export default function Home() {
               <div className="flex flex-col gap-4">
                 <label className="font-label text-[9px] uppercase text-black/40 font-bold tracking-widest">Category</label>
                 <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-none">
-                  {['Dressing room', 'Master bedroom', 'Kids room', 'Sofas tables', 'Sofas'].map((cat) => (
+                  {['Dressing room', 'Master bedroom', 'Kids room', 'Sofas tables', 'Sofas', 'Kitchens'].map((cat) => (
                     <button
                       key={cat}
                       type="button"
