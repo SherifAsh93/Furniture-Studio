@@ -959,7 +959,7 @@ export default function VendorDashboard() {
       {vendorData?.debugCount !== undefined && (
         <div className="bg-black text-[#a1824a] py-3 text-center text-[9px] font-bold uppercase tracking-[0.3em] border-t border-[#a1824a]/10">
           {vendorData.debugCount === -1 
-            ? '⚠ Database Heartbeat: OFFLINE' 
+            ? `⚠ Heartbeat Error: ${vendorData.debugError || 'Connection Blocked'}` 
             : `✔ Database Heartbeat: ${vendorData.debugCount} Pieces in Global DB`}
         </div>
       )}

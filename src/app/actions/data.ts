@@ -58,8 +58,10 @@ export async function getVendorData(vendorId: string) {
       }
     });
 
+    const totalSystemProducts = await prisma.product.count();
+
     if (!fullData) {
-      return { user: null, products: [], negotiations: [], customRequests: [], orders: [] };
+      return { user: null, products: [], negotiations: [], customRequests: [], orders: [], debugCount: totalSystemProducts };
     }
 
     const orders = await prisma.orderItem.findMany({
@@ -81,8 +83,6 @@ export async function getVendorData(vendorId: string) {
       }
     });
 
-    const totalSystemProducts = await prisma.product.count();
-
     return { 
       user: {
         id: fullData.id,
@@ -98,9 +98,17 @@ export async function getVendorData(vendorId: string) {
       orders,
       debugCount: totalSystemProducts
     };
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error fetching vendor data:", error);
-    return { user: null, products: [], negotiations: [], customRequests: [], orders: [], debugCount: -1 };
+    return { 
+      user: null, 
+      products: [], 
+      negotiations: [], 
+      customRequests: [], 
+      orders: [], 
+      debugCount: -1,
+      debugError: error.message || 'Unknown Connection Error'
+    };
   }
 }
 
