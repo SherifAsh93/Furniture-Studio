@@ -38,8 +38,6 @@ model User {
   orders                 Order[]         // For Customers
   customRequestsSent     CustomRequest[] @relation("SentCustomRequests")
   customRequestsReceived CustomRequest[] @relation("ReceivedCustomRequests")
-  sentMessages           Negotiation[]   @relation("CustomerMessages")
-  receivedMessages       Negotiation[]   @relation("VendorMessages")
   wishlist               Wishlist[]
 }
 
@@ -58,23 +56,8 @@ model Product {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   vendor       User          @relation(fields: [vendorId], references: [id])
-  negotiations Negotiation[]
   orderItems   OrderItem[]
   wishlists    Wishlist[]
-}
-
-model Negotiation {
-  id         String   @id @default(cuid())
-  productId  String
-  customerId String
-  vendorId   String
-  message    String
-  status     String   @default("OPEN")
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  product    Product  @relation(fields: [productId], references: [id])
-  customer   User     @relation("CustomerMessages", fields: [customerId], references: [id])
-  vendor     User     @relation("VendorMessages", fields: [vendorId], references: [id])
 }
 
 model Order {

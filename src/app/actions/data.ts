@@ -38,15 +38,6 @@ export async function getVendorData(vendorId: string) {
         products: {
           orderBy: { createdAt: 'desc' }
         },
-        receivedMessages: { 
-          include: {
-            product: true,
-            customer: {
-              select: { name: true, email: true, phone: true, address: true }
-            }
-          },
-          orderBy: { createdAt: 'desc' }
-        },
         customRequestsReceived: {
           include: {
             customer: {
@@ -64,7 +55,6 @@ export async function getVendorData(vendorId: string) {
       return { 
         user: null, 
         products: [], 
-        negotiations: [], 
         customRequests: [], 
         orders: [], 
         debugCount: totalSystemCount,
@@ -101,7 +91,6 @@ export async function getVendorData(vendorId: string) {
         status: fullData.status
       },
       products: fullData.products, 
-      negotiations: fullData.receivedMessages, 
       customRequests: fullData.customRequestsReceived, 
       orders,
       debugCount: totalSystemCount

@@ -647,10 +647,6 @@ export default function VendorDashboard() {
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></svg>
               <span className="text-[0.75rem] font-bold tracking-widest uppercase">My Catalog</span>
             </button>
-            <button onClick={() => setActiveTab('inbox')} className={`flex items-center gap-3 py-2 transition-colors ${activeTab === 'inbox' ? 'text-primary' : 'text-on-surface-variant hover:text-primary'}`}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
-              <span className="text-[0.75rem] font-bold tracking-widest uppercase">Inbox <span className="ml-auto bg-primary text-on-primary text-[10px] px-2 py-0.5">{vendorData?.negotiations?.length || 0}</span></span>
-            </button>
             <button onClick={() => setActiveTab('orders')} className={`flex items-center gap-3 py-2 transition-colors ${activeTab === 'orders' ? 'text-primary' : 'text-on-surface-variant hover:text-primary'}`}>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 0 1-8 0" /></svg>
               <span className="text-[0.75rem] font-bold tracking-widest uppercase">Orders <span className="ml-1 opacity-40">{vendorData?.orders?.length || 0}</span></span>
@@ -954,15 +950,6 @@ export default function VendorDashboard() {
 
         </div>
       </main>
-
-      {/* Database Debug Pulse */}
-      {vendorData?.debugCount !== undefined && (
-        <div className="bg-black text-[#a1824a] py-3 text-center text-[9px] font-bold uppercase tracking-[0.3em] border-t border-[#a1824a]/10">
-          {vendorData.debugCount === -1 
-            ? `⚠ Heartbeat Error: ${vendorData.debugError || 'Connection Blocked'}` 
-            : `✔ Database Heartbeat: ${vendorData.debugCount} Pieces in Global DB`}
-        </div>
-      )}
 
       {/* Footer */}
       <footer className="bg-[#1c1c19] text-[#fcf9f4] w-full py-16 px-8 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-white/5">

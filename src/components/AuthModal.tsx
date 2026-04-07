@@ -53,9 +53,9 @@ export default function AuthModal() {
       closeModal();
 
       if (data.role === 'VENDOR') {
-        router.push('/vendor');
+        window.location.href = '/vendor';
       } else if (data.role === 'ADMIN') {
-        router.push('/admin');
+        window.location.href = '/admin';
       }
     } catch (err: any) {
       setError(err.message);
