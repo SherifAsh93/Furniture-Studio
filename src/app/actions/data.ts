@@ -31,34 +31,38 @@ export async function getProduct(id: string) {
 // --- Vendor Actions ---
 
 export async function getVendorData(vendorId: string) {
-  const [user, products, negotiations, customRequests, orders] = await Promise.all([
-    prisma.user.findUnique({
+  try {
+    const user = await prisma.user.findUnique({
       where: { id: vendorId },
-    }),
-    prisma.product.findMany({
+    });
+    
+    const products = await prisma.product.findMany({
       where: { vendorId },
-      orderBy: { createdAt: 'desc' },
-    }),
-    prisma.negotiation.findMany({
+      orderBy: { createdAt: 'desc' }
+    });
+
+    const negotiations = await prisma.negotiation.findMany({
       where: { vendorId },
       include: {
         product: true,
         customer: {
-          select: { name: true, email: true, phone: true, address: true },
+          select: { name: true, email: true, phone: true, address: true }
         },
       },
-      orderBy: { createdAt: 'desc' },
-    }),
-    prisma.customRequest.findMany({
+      orderBy: { createdAt: 'desc' }
+    });
+
+    const customRequests = await prisma.customRequest.findMany({
       where: { vendorId },
       include: {
         customer: {
-          select: { name: true, email: true, phone: true, address: true },
-        },
+          select: { name: true, email: true, phone: true, address: true }
+        }
       },
-      orderBy: { createdAt: 'desc' },
-    }),
-    prisma.orderItem.findMany({
+      orderBy: { createdAt: 'desc' }
+    });
+
+    const orders = await prisma.orderItem.findMany({
       where: { 
         product: { vendorId }
       },
@@ -66,17 +70,20 @@ export async function getVendorData(vendorId: string) {
         order: {
           include: {
             customer: {
-              select: { name: true, email: true, phone: true, address: true },
-            },
-          },
+              select: { name: true, email: true, phone: true, address: true }
+            }
+          }
         },
-        product: true,
+        product: true
       },
-      orderBy: { order: { createdAt: 'desc' } },
-    })
-  ]);
+      orderBy: { order: { createdAt: 'desc' } }
+    });
 
-  return { user, products, negotiations, customRequests, orders };
+    return { user, products, negotiations, customRequests, orders };
+  } catch (error) {
+    console.error("Error fetching vendor data:", error);
+    return { user: null, products: [], negotiations: [], customRequests: [], orders: [] };
+  }
 }
 
 export async function createProduct(data: any) {
