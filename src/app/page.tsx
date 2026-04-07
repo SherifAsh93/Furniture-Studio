@@ -69,6 +69,19 @@ function HomePageContent() {
 
   const filteredSamples = products.filter(p => p.category === category);
 
+  React.useEffect(() => {
+    if (filteredSamples.length > 0) {
+      const first = filteredSamples[0];
+      setSampleProductId(first.id);
+      setLength(first.length?.toString() || '');
+      setWidth(first.width?.toString() || '');
+      setHeight(first.height?.toString() || '');
+    } else {
+      setSampleProductId('');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category, products]);
+
   const handleSampleChange = (id: string) => {
     setSampleProductId(id);
     const sample = filteredSamples.find(p => p.id === id);
@@ -86,8 +99,10 @@ function HomePageContent() {
       return;
     }
 
-    if (!vendorId) {
-      alert('Please select an exclusive artisan first.');
+    const targetVendorId = vendorId || vendors[0]?.id;
+
+    if (!targetVendorId) {
+      alert('System is currently configuring the artisan connection. Please try again later.');
       return;
     }
 
@@ -95,7 +110,7 @@ function HomePageContent() {
     try {
       const res = await createCustomRequest({
         customerId: user.id,
-        vendorId,
+        vendorId: targetVendorId,
         category,
         length,
         width,
@@ -146,7 +161,7 @@ function HomePageContent() {
             .map((item) => (
             <div 
               key={item.id} 
-              className="bg-white rounded-3xl overflow-hidden shadow-sm border border-black/5 flex flex-col group active:scale-95 transition-transform"
+              className="bg-white rounded-3xl overflow-hidden shadow-sm border border-black/5 flex flex-col group active:scale-95 transition-all duration-300 cursor-pointer hover:shadow-2xl hover:-translate-y-1"
               onClick={() => setSelectedProduct(item)}
             >
               <div className="relative aspect-[1/1] overflow-hidden">
@@ -219,97 +234,100 @@ function HomePageContent() {
               </div>
             )}
             
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col gap-2">
-                <label className="font-label text-[9px] uppercase text-black/40 font-bold tracking-widest">Artisan Hub</label>
-                <select 
-                  value={vendorId}
-                  onChange={(e) => setVendorId(e.target.value)}
-                  className="bg-[#faf9f6] border-b border-black/10 py-3 font-body text-base focus:outline-none focus:border-[#a1824a] transition-colors"
-                >
-                  <option value="">Select Atelier</option>
-                  {vendors.map(v => (
-                    <option key={v.id} value={v.id}>{v.companyName || v.name}</option>
-                  ))}
-                </select>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+              {/* Left Column: Form Fields */}
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-2">
+                  <label className="font-label text-[9px] uppercase text-black/40 font-bold tracking-widest">Category</label>
+                  <select
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="bg-[#faf9f6] border-b border-black/10 py-3 font-body text-base focus:outline-none focus:border-black transition-colors"
+                  >
+                    <option value="" disabled>Select Category</option>
+                    {['Dressing room', 'Master bedroom', 'Kids room', 'Dinning room with buffet and 6 or 8 chairs', 'Sofas', 'Sofas tables', 'Side tabels', 'Doors', 'Cladding', 'Kitchen'].map((cat) => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                </div>
 
-              <div className="flex flex-col gap-4">
-                <label className="font-label text-[9px] uppercase text-black/40 font-bold tracking-widest">Category</label>
-                <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-none">
-                  {['Dressing room', 'Master bedroom', 'Kids room', 'Dinning room with buffet and 6 or 8 chairs', 'Sofas', 'Sofas tables', 'Side tabels', 'Doors', 'Cladding', 'Kitchen'].map((cat) => (
-                    <button
-                      key={cat}
-                      type="button"
-                      onClick={() => setCategory(cat)}
-                      className={`px-4 md:px-8 py-2 md:py-3 rounded-full font-label text-[8px] md:text-[10px] uppercase tracking-widest font-bold whitespace-nowrap transition-all border-2 ${category === cat ? 'bg-black text-white border-black shadow-lg scale-105' : 'bg-[#faf9f6] text-black border-black/5 hover:border-black/20'}`}
-                    >
-                      {cat}
-                    </button>
-                  ))}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-1 text-center">
+                    <label className="font-label text-[8px] uppercase text-black/40 font-bold">L (cm)</label>
+                    <input type="number" placeholder="0" value={length} onChange={(e) => setLength(e.target.value)} className="bg-[#faf9f6] border-b border-black/10 py-2 text-center text-base focus:outline-none focus:border-black" />
+                  </div>
+                  <div className="flex flex-col gap-1 text-center">
+                    <label className="font-label text-[8px] uppercase text-black/40 font-bold">W (cm)</label>
+                    <input type="number" placeholder="0" value={width} onChange={(e) => setWidth(e.target.value)} className="bg-[#faf9f6] border-b border-black/10 py-2 text-center text-base focus:outline-none focus:border-black" />
+                  </div>
+                  <div className="flex flex-col gap-1 text-center">
+                    <label className="font-label text-[8px] uppercase text-black/40 font-bold">H (cm)</label>
+                    <input type="number" placeholder="0" value={height} onChange={(e) => setHeight(e.target.value)} className="bg-[#faf9f6] border-b border-black/10 py-2 text-center text-base focus:outline-none focus:border-black" />
+                  </div>
+                  <div className="flex flex-col gap-1 text-center">
+                    <label className="font-label text-[8px] uppercase text-black/40 font-bold">QTY</label>
+                    <input type="number" min="1" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="bg-[#bcaf6a]/10 border-b border-black/10 py-2 text-center text-base font-bold focus:outline-none focus:border-black" />
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <label className="font-label text-[9px] uppercase text-black/40 font-bold tracking-widest">Spatial Specificities</label>
+                  <textarea 
+                    placeholder="Describe your vision..." 
+                    className="bg-[#faf9f6] border-b border-black/10 py-3 font-body text-base min-h-[120px] focus:outline-none focus:border-black resize-y"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  ></textarea>
                 </div>
               </div>
 
-              {filteredSamples.length > 0 && (
-                <div className="flex flex-col gap-4">
-                  <label className="font-label text-[9px] uppercase text-black/40 font-bold tracking-widest">Reference Sample (Visual Selection)</label>
-                  <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-none snap-x h-[120px] md:h-[180px]">
-                    {/* "None" Option Card */}
+              {/* Right Column: Visual Preview */}
+              <div className="flex flex-col gap-4">
+                <label className="font-label text-[9px] uppercase text-black/40 font-bold tracking-widest">Reference Sample</label>
+                
+                {/* Large Preview */}
+                <div 
+                  className={`w-full aspect-[4/3] bg-[#f6f3ee] rounded-2xl overflow-hidden border border-black/5 flex items-center justify-center transition-all ${sampleProductId ? 'cursor-pointer hover:shadow-lg hover:scale-[1.01]' : ''}`}
+                  onClick={() => {
+                    const prod = filteredSamples.find(p => p.id === sampleProductId);
+                    if (prod) setSelectedProduct(prod);
+                  }}
+                >
+                  {sampleProductId && filteredSamples.find(p => p.id === sampleProductId) ? (
+                    <img 
+                      src={filteredSamples.find(p => p.id === sampleProductId)?.images?.[0] || filteredSamples.find(p => p.id === sampleProductId)?.imageUrl} 
+                      className="w-full h-full object-cover" 
+                      alt="Selected Reference"
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center gap-2 text-black/30">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                      <span className="font-label text-[10px] uppercase font-bold tracking-widest">No Selection / From Scratch</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Thumbnails to choose from */}
+                {filteredSamples.length > 0 && (
+                  <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-none snap-x">
                     <div 
                       onClick={() => handleSampleChange('')}
-                      className={`flex-shrink-0 w-24 md:w-40 h-full rounded-2xl border-2 flex flex-col items-center justify-center cursor-pointer transition-all snap-start ${sampleProductId === '' ? 'border-[#735c00] bg-[#bcaf6a]/5' : 'border-black/5 bg-white'}`}
+                      className={`flex-shrink-0 w-20 h-20 rounded-xl border flex flex-col items-center justify-center cursor-pointer transition-all snap-start ${sampleProductId === '' ? 'border-black bg-black/5' : 'border-black/10 bg-white hover:border-black/40'}`}
                     >
-                      <div className="w-10 h-10 md:w-16 md:h-16 rounded-full border-2 border-dashed border-black/10 flex items-center justify-center mb-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="md:w-8 md:h-8"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                      </div>
-                      <span className="font-label text-[8px] md:text-[10px] uppercase font-bold text-center">Scratch</span>
+                      <span className="font-label text-[8px] uppercase font-bold text-center">Scratch</span>
                     </div>
 
                     {filteredSamples.map(p => (
                       <div 
                         key={p.id}
                         onClick={() => handleSampleChange(p.id)}
-                        className={`flex-shrink-0 w-24 md:w-40 h-full rounded-2xl border-2 overflow-hidden flex flex-col cursor-pointer transition-all snap-start shadow-sm ${sampleProductId === p.id ? 'border-[#735c00] bg-[#bcaf6a]/5 scale-105' : 'border-black/5 bg-white opacity-60 hover:opacity-100'}`}
+                        className={`flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden cursor-pointer transition-all snap-start shadow-sm border ${sampleProductId === p.id ? 'border-black opacity-100 ring-2 ring-black/20 ring-offset-1' : 'border-black/5 opacity-60 hover:opacity-100 hover:border-black/40'}`}
                       >
-                        <div className="h-14 md:h-24 w-full bg-surface-variant overflow-hidden">
-                          <img src={p.images?.[0] || p.imageUrl} className="w-full h-full object-cover" />
-                        </div>
-                        <div className="p-2 md:p-4 flex-1 flex items-center justify-center">
-                          <span className="font-label text-[8px] md:text-[10px] uppercase font-bold text-center leading-tight line-clamp-2">{p.title}</span>
-                        </div>
+                        <img src={p.images?.[0] || p.imageUrl} className="w-full h-full object-cover" />
                       </div>
                     ))}
                   </div>
-                </div>
-              )}
-
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="flex flex-col gap-1 text-center">
-                  <label className="font-label text-[8px] uppercase text-black/40 font-bold">L</label>
-                  <input type="number" placeholder="0" value={length} onChange={(e) => setLength(e.target.value)} className="bg-[#faf9f6] border-b border-black/10 py-2 text-center text-base" />
-                </div>
-                <div className="flex flex-col gap-1 text-center">
-                  <label className="font-label text-[8px] uppercase text-black/40 font-bold">W</label>
-                  <input type="number" placeholder="0" value={width} onChange={(e) => setWidth(e.target.value)} className="bg-[#faf9f6] border-b border-black/10 py-2 text-center text-base" />
-                </div>
-                <div className="flex flex-col gap-1 text-center">
-                  <label className="font-label text-[8px] uppercase text-black/40 font-bold">H</label>
-                  <input type="number" placeholder="0" value={height} onChange={(e) => setHeight(e.target.value)} className="bg-[#faf9f6] border-b border-black/10 py-2 text-center text-base" />
-                </div>
-                <div className="flex flex-col gap-1 text-center">
-                  <label className="font-label text-[8px] uppercase text-black/40 font-bold">QTY</label>
-                  <input type="number" min="1" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="bg-[#bcaf6a]/10 border-b border-black/10 py-2 text-center text-base font-bold" />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <label className="font-label text-[9px] uppercase text-black/40 font-bold tracking-widest">Spatial Specificities</label>
-                <textarea 
-                  placeholder="Describe your vision..." 
-                  className="bg-[#faf9f6] border-b border-black/10 py-3 font-body text-base min-h-[100px]"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                ></textarea>
+                )}
               </div>
             </div>
 

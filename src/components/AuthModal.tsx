@@ -131,26 +131,6 @@ export default function AuthModal() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
               {view === 'register' && (
                 <>
-                  <div className="col-span-full">
-                    <label className="font-label text-[10px] uppercase text-black/40 tracking-widest mb-4 block font-bold">Registration Identity</label>
-                    <div className="flex gap-4 p-1 bg-[#fcf9f4] rounded-xl border border-black/5">
-                      <button 
-                        type="button"
-                        onClick={() => setIsVendor(false)}
-                        className={`flex-1 py-4 text-[10px] font-bold uppercase tracking-widest rounded-lg transition-all ${!isVendor ? 'bg-black text-white shadow-lg' : 'text-black/60 hover:text-black'}`}
-                      >
-                        Client / Curator
-                      </button>
-                      <button 
-                        type="button"
-                        onClick={() => setIsVendor(true)}
-                        className={`flex-1 py-4 text-[10px] font-bold uppercase tracking-widest rounded-lg transition-all ${isVendor ? 'bg-[#735c00] text-white shadow-lg' : 'text-black/60 hover:text-black'}`}
-                      >
-                        Business Artisan
-                      </button>
-                    </div>
-                  </div>
-                  
                   <div className="group">
                     <label className="font-label text-[10px] uppercase text-black/40 tracking-widest mb-1 block font-bold">Full Name</label>
                     <input

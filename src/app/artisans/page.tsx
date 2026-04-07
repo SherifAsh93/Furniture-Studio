@@ -102,19 +102,6 @@ export default async function ArtisansPage() {
           );
         })}
       </div>
-
-      <section className="mt-48 bg-black text-white p-12 md:p-24 relative overflow-hidden rounded-3xl premium-shadow">
-        <div className="absolute top-0 right-0 p-12 opacity-5 translate-x-1/4 -translate-y-1/4 text-white">
-          <svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
-        </div>
-        <div className="relative z-10 max-w-2xl px-4 md:px-0">
-          <h2 className="font-headline text-3xl md:text-6xl font-extrabold uppercase mb-8 leading-none tracking-tighter">Apply to the<br className="hidden md:block"/>Artisan Circle</h2>
-          <p className="font-body text-sm md:text-base text-white/60 mb-12 italic border-l-2 border-[#a1824a] pl-6">
-            Are you a master of your craft? Join our global directory and showcase your work to the world's most discerning architectural visionaries.
-          </p>
-          <RegisterArtisanButton />
-        </div>
-      </section>
     </main>
   );
 }
