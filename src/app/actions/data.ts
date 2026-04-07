@@ -38,7 +38,7 @@ export async function getVendorData(vendorId: string) {
         products: {
           orderBy: { createdAt: 'desc' }
         },
-        receivedMessages: { // These are the negotiations
+        receivedMessages: { 
           include: {
             product: true,
             customer: {
@@ -58,10 +58,18 @@ export async function getVendorData(vendorId: string) {
       }
     });
 
-    const totalSystemProducts = await prisma.product.count();
+    const totalSystemCount = await prisma.product.count();
 
     if (!fullData) {
-      return { user: null, products: [], negotiations: [], customRequests: [], orders: [], debugCount: totalSystemProducts };
+      return { 
+        user: null, 
+        products: [], 
+        negotiations: [], 
+        customRequests: [], 
+        orders: [], 
+        debugCount: totalSystemCount,
+        debugError: 'User profile not found in database'
+      };
     }
 
     const orders = await prisma.orderItem.findMany({
@@ -96,7 +104,7 @@ export async function getVendorData(vendorId: string) {
       negotiations: fullData.receivedMessages, 
       customRequests: fullData.customRequestsReceived, 
       orders,
-      debugCount: totalSystemProducts
+      debugCount: totalSystemCount
     };
   } catch (error: any) {
     console.error("Error fetching vendor data:", error);
@@ -107,7 +115,7 @@ export async function getVendorData(vendorId: string) {
       customRequests: [], 
       orders: [], 
       debugCount: -1,
-      debugError: error.message || 'Unknown Connection Error'
+      debugError: error.message || 'Database Connection Failure'
     };
   }
 }

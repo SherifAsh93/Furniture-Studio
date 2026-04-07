@@ -3,14 +3,21 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useEcommerce } from '@/context/EcommerceContext';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { getMarketplaceData, getVendors, createCustomRequest } from '@/app/actions/data';
 import { Suspense } from 'react';
 
 function HomePageContent() {
   const { user, openModal } = useAuth();
+  const router = useRouter();
   const { addToCart, toggleWishlist, isInWishlist } = useEcommerce();
   const searchParams = useSearchParams();
+
+  React.useEffect(() => {
+    if (user?.role === 'VENDOR') {
+      router.push('/vendor');
+    }
+  }, [user, router]);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
