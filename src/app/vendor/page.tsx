@@ -956,11 +956,12 @@ export default function VendorDashboard() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-[#1c1b1b] text-[#fcf9f4] w-full py-16 px-8 flex justify-between items-center border-t border-white/5">
-        <div className="flex flex-col items-start gap-4">
-          <span className="font-headline text-[#fcf9f4] italic text-2xl tracking-tighter font-bold uppercase">THE EDITORIAL COLLECTIVE</span>
-          <p className="font-body text-[0.7rem] tracking-widest uppercase text-[#c4c7c7] font-bold">© 2024 THE EDITORIAL COLLECTIVE. ALL RIGHTS RESERVED.</p>
+      <footer className="bg-[#1c1c19] text-[#fcf9f4] w-full py-16 px-8 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-white/5">
+        <div className="flex flex-col items-start gap-2">
+          <span className="font-headline text-[#fcf9f4] italic text-2xl tracking-tighter font-bold uppercase">FURNITURE STUDIO</span>
+          <p className="font-body text-[0.7rem] tracking-widest uppercase text-[#c4c7c7] font-bold">© 2025 FURNITURE STUDIO. ALL RIGHTS RESERVED.</p>
         </div>
+        <p className="font-label text-[9px] font-bold tracking-[0.2em] text-white/30 uppercase">Based in Damietta, Shipping Globally.</p>
       </footer>
     </div>
   );

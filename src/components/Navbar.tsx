@@ -134,6 +134,16 @@ export default function Navbar() {
                  AUTHENTICATE IDENTITY
                </button>
             )}
+            <div className="pt-8 flex justify-center animate-fade-up opacity-0" style={{ animationDelay: '0.4s' }}>
+               <a href="https://www.instagram.com/furniturestudiio?igsh=eWdlbnBmamUzdng=" target="_blank" rel="noopener noreferrer" className="text-on-surface-variant hover:text-black transition-colors flex items-center gap-3">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                 </svg>
+                 <span className="font-label text-[10px] tracking-[0.3em] font-bold uppercase">Follow on Instagram</span>
+               </a>
+            </div>
          </nav>
       </div>
 
@@ -240,6 +250,18 @@ export default function Navbar() {
           </div>
         </nav>
 
+        <div className="mt-auto pt-12">
+           <a href="https://www.instagram.com/furniturestudiio?igsh=eWdlbnBmamUzdng=" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group transition-colors text-on-surface-variant hover:text-black">
+              <span className="w-8 h-8 rounded-lg flex items-center justify-center transition-all bg-[#fcf9f4] group-hover:bg-black group-hover:text-white shrink-0">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                 </svg>
+              </span>
+              <span className="font-label text-[10px] tracking-widest font-bold uppercase">Instagram</span>
+           </a>
+        </div>
       </aside>
 
       {/* Mobile Bottom Navigation */}

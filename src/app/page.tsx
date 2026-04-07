@@ -283,7 +283,7 @@ function HomePageContent() {
                 </div>
               )}
 
-              <div className="grid grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="flex flex-col gap-1 text-center">
                   <label className="font-label text-[8px] uppercase text-black/40 font-bold">L</label>
                   <input type="number" placeholder="0" value={length} onChange={(e) => setLength(e.target.value)} className="bg-[#faf9f6] border-b border-black/10 py-2 text-center text-base" />
