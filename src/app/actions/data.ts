@@ -207,37 +207,6 @@ export async function updateOrderStatus(id: string, status: string) {
   }
 }
 
-// --- Negotiation Actions ---
-
-export async function createNegotiation(data: any) {
-  try {
-    const negotiation = await prisma.negotiation.create({
-      data: {
-        productId: data.productId,
-        customerId: data.customerId,
-        vendorId: data.vendorId,
-        message: data.message,
-        status: 'OPEN',
-      },
-    });
-    return { success: true, negotiation };
-  } catch (error) {
-    return { error: 'Failed to start negotiation' };
-  }
-}
-
-export async function updateNegotiationStatus(id: string, status: string) {
-  try {
-    const negotiation = await prisma.negotiation.update({
-      where: { id },
-      data: { status },
-    });
-    return { success: true, negotiation };
-  } catch (error) {
-    return { error: 'Failed to update negotiation status' };
-  }
-}
-
 // --- Admin Actions ---
 
 export async function getAdminData() {
