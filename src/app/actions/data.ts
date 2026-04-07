@@ -32,35 +32,35 @@ export async function getProduct(id: string) {
 
 export async function getVendorData(vendorId: string) {
   try {
-    const user = await prisma.user.findUnique({
+    const fullData = await prisma.user.findUnique({
       where: { id: vendorId },
-    });
-    
-    const products = await prisma.product.findMany({
-      where: { vendorId },
-      orderBy: { createdAt: 'desc' }
-    });
-
-    const negotiations = await prisma.negotiation.findMany({
-      where: { vendorId },
       include: {
-        product: true,
-        customer: {
-          select: { name: true, email: true, phone: true, address: true }
+        products: {
+          orderBy: { createdAt: 'desc' }
         },
-      },
-      orderBy: { createdAt: 'desc' }
+        receivedMessages: { // These are the negotiations
+          include: {
+            product: true,
+            customer: {
+              select: { name: true, email: true, phone: true, address: true }
+            }
+          },
+          orderBy: { createdAt: 'desc' }
+        },
+        customRequestsReceived: {
+          include: {
+            customer: {
+              select: { name: true, email: true, phone: true, address: true }
+            }
+          },
+          orderBy: { createdAt: 'desc' }
+        }
+      }
     });
 
-    const customRequests = await prisma.customRequest.findMany({
-      where: { vendorId },
-      include: {
-        customer: {
-          select: { name: true, email: true, phone: true, address: true }
-        }
-      },
-      orderBy: { createdAt: 'desc' }
-    });
+    if (!fullData) {
+      return { user: null, products: [], negotiations: [], customRequests: [], orders: [] };
+    }
 
     const orders = await prisma.orderItem.findMany({
       where: { 
@@ -79,7 +79,20 @@ export async function getVendorData(vendorId: string) {
       orderBy: { order: { createdAt: 'desc' } }
     });
 
-    return { user, products, negotiations, customRequests, orders };
+    return { 
+      user: {
+        id: fullData.id,
+        name: fullData.name,
+        email: fullData.email,
+        role: fullData.role,
+        companyName: fullData.companyName,
+        status: fullData.status
+      },
+      products: fullData.products, 
+      negotiations: fullData.receivedMessages, 
+      customRequests: fullData.customRequestsReceived, 
+      orders 
+    };
   } catch (error) {
     console.error("Error fetching vendor data:", error);
     return { user: null, products: [], negotiations: [], customRequests: [], orders: [] };
