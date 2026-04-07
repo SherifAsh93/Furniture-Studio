@@ -76,8 +76,12 @@ export async function getVendorData(vendorId: string) {
         },
         product: true
       },
-      orderBy: { order: { createdAt: 'desc' } }
+      orderBy: { 
+        order: { createdAt: 'desc' } 
+      }
     });
+
+    const totalSystemProducts = await prisma.product.count();
 
     return { 
       user: {
@@ -91,11 +95,12 @@ export async function getVendorData(vendorId: string) {
       products: fullData.products, 
       negotiations: fullData.receivedMessages, 
       customRequests: fullData.customRequestsReceived, 
-      orders 
+      orders,
+      debugCount: totalSystemProducts
     };
   } catch (error) {
     console.error("Error fetching vendor data:", error);
-    return { user: null, products: [], negotiations: [], customRequests: [], orders: [] };
+    return { user: null, products: [], negotiations: [], customRequests: [], orders: [], debugCount: -1 };
   }
 }
 

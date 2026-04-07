@@ -955,6 +955,15 @@ export default function VendorDashboard() {
         </div>
       </main>
 
+      {/* Database Debug Pulse */}
+      {vendorData?.debugCount !== undefined && (
+        <div className="bg-black text-[#a1824a] py-3 text-center text-[9px] font-bold uppercase tracking-[0.3em] border-t border-[#a1824a]/10">
+          {vendorData.debugCount === -1 
+            ? '⚠ Database Heartbeat: OFFLINE' 
+            : `✔ Database Heartbeat: ${vendorData.debugCount} Pieces in Global DB`}
+        </div>
+      )}
+
       {/* Footer */}
       <footer className="bg-[#1c1c19] text-[#fcf9f4] w-full py-16 px-8 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-white/5">
         <div className="flex flex-col items-start gap-2">
