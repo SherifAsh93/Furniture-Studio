@@ -100,7 +100,6 @@ export async function getVendorData(vendorId: string) {
     return { 
       user: null, 
       products: [], 
-      negotiations: [], 
       customRequests: [], 
       orders: [], 
       debugCount: -1,
@@ -270,9 +269,6 @@ export async function deleteUser(id: string) {
     }
     await prisma.order.deleteMany({ where: { customerId: id } });
     
-    await prisma.negotiation.deleteMany({
-      where: { OR: [{ customerId: id }, { vendorId: id }] }
-    });
     await prisma.product.deleteMany({ where: { vendorId: id } });
     
     await prisma.user.delete({ where: { id } });
