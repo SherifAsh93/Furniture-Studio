@@ -31,52 +31,50 @@ export async function getProduct(id: string) {
 // --- Vendor Actions ---
 
 export async function getVendorData(vendorId: string) {
-  const user = await prisma.user.findUnique({
-    where: { id: vendorId },
-  });
-  
-  const products = await prisma.product.findMany({
-    where: { vendorId },
-    orderBy: { createdAt: 'desc' }
-  });
-
-  const negotiations = await prisma.negotiation.findMany({
-    where: { vendorId },
-    include: {
-      product: true,
-      customer: {
-        select: { name: true, email: true, phone: true, address: true }
+  const [user, products, negotiations, customRequests, orders] = await Promise.all([
+    prisma.user.findUnique({
+      where: { id: vendorId },
+    }),
+    prisma.product.findMany({
+      where: { vendorId },
+      orderBy: { createdAt: 'desc' },
+    }),
+    prisma.negotiation.findMany({
+      where: { vendorId },
+      include: {
+        product: true,
+        customer: {
+          select: { name: true, email: true, phone: true, address: true },
+        },
       },
-    },
-    orderBy: { createdAt: 'desc' }
-  });
-
-  const customRequests = await prisma.customRequest.findMany({
-    where: { vendorId },
-    include: {
-      customer: {
-        select: { name: true, email: true, phone: true, address: true }
-      }
-    },
-    orderBy: { createdAt: 'desc' }
-  });
-
-  const orders = await prisma.orderItem.findMany({
-    where: { 
-      product: { vendorId }
-    },
-    include: {
-      order: {
-        include: {
-          customer: {
-            select: { name: true, email: true, phone: true, address: true }
-          }
-        }
+      orderBy: { createdAt: 'desc' },
+    }),
+    prisma.customRequest.findMany({
+      where: { vendorId },
+      include: {
+        customer: {
+          select: { name: true, email: true, phone: true, address: true },
+        },
       },
-      product: true
-    },
-    orderBy: { order: { createdAt: 'desc' } }
-  });
+      orderBy: { createdAt: 'desc' },
+    }),
+    prisma.orderItem.findMany({
+      where: { 
+        product: { vendorId }
+      },
+      include: {
+        order: {
+          include: {
+            customer: {
+              select: { name: true, email: true, phone: true, address: true },
+            },
+          },
+        },
+        product: true,
+      },
+      orderBy: { order: { createdAt: 'desc' } },
+    })
+  ]);
 
   return { user, products, negotiations, customRequests, orders };
 }
