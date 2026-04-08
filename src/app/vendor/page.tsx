@@ -500,7 +500,7 @@ function OrderDetailModal({
 
 // ─── Main Vendor Dashboard ───────────────────────────────────────────────────
 export default function VendorDashboard() {
-  const { user, loading: authLoading, openModal } = useAuth();
+  const { user, loading: authLoading, openModal, logout } = useAuth();
   const [vendorData, setVendorData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'overview' | 'catalog' | 'inbox' | 'custom-orders' | 'orders'>('overview');
@@ -626,9 +626,19 @@ export default function VendorDashboard() {
           <button onClick={() => setActiveTab('orders')} className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-all px-4 py-2 rounded-full whitespace-nowrap ${activeTab === 'orders' ? 'bg-black text-white shadow-lg' : 'text-black/40 hover:text-black'}`}>Orders</button>
           <button onClick={() => setActiveTab('custom-orders')} className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-all px-4 py-2 rounded-full whitespace-nowrap ${activeTab === 'custom-orders' ? 'bg-black text-white shadow-lg' : 'text-black/40 hover:text-black'}`}>Custom Orders</button>
         </nav>
-        <div className="flex items-center gap-4">
-          <button onClick={async () => { await loadData(); }} className="w-10 h-10 flex items-center justify-center border border-black/5 rounded-xl hover:bg-black hover:text-white transition-all shadow-sm">
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={async () => { await loadData(); }} 
+            className="w-10 h-10 flex items-center justify-center border border-black/5 rounded-xl hover:bg-black hover:text-white transition-all shadow-sm"
+            title="Refresh Data"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" /><path d="M16 16h5v5" /></svg>
+          </button>
+          <button 
+            onClick={logout}
+            className="px-6 py-2.5 bg-red-50 text-red-600 border border-red-100 rounded-xl font-bold text-[10px] uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all shadow-sm"
+          >
+            Logout
           </button>
         </div>
       </header>

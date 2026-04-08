@@ -13,11 +13,14 @@ function HomePageContent() {
   const { addToCart, toggleWishlist, isInWishlist } = useEcommerce();
   const searchParams = useSearchParams();
 
+  // Removed automatic redirection to vendor hub to allow vendors to browse the home page
+  /*
   React.useEffect(() => {
     if (user?.role === 'VENDOR') {
       router.push('/vendor');
     }
   }, [user, router]);
+  */
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
