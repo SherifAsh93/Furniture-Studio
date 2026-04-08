@@ -93,6 +93,7 @@ function ProductFormModal({
   };
 
   const categories = [
+    'Living room',
     'Dressing room',
     'Master bedroom',
     'Kids room',

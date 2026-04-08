@@ -29,7 +29,7 @@ function HomePageContent() {
   
   // Marketplace Filter State
   const [selectedCategory, setSelectedCategory] = useState('ALL');
-  const marketplaceCategories = ['ALL', 'Dressing room', 'Master bedroom', 'Kids room', 'Dinning room with buffet and 6 chairs', 'Dinning room with buffet and 8 chairs', 'Sofas', 'Sofas tables', 'Side tabels', 'Doors', 'Cladding', 'Kitchen'];
+  const marketplaceCategories = ['ALL', 'Living room', 'Dressing room', 'Master bedroom', 'Kids room', 'Dinning room with buffet and 6 chairs', 'Dinning room with buffet and 8 chairs', 'Sofas', 'Sofas tables', 'Side tabels', 'Doors', 'Cladding', 'Kitchen'];
 
   React.useEffect(() => {
     const cat = searchParams.get('category');
@@ -146,18 +146,20 @@ function HomePageContent() {
     <main className="pt-20 pb-32 bg-[#faf9f6] min-h-screen">
       {/* PART 1: Ready Made Products in Grid */}
       <section className="px-4 mb-20" id="marketplace">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 px-2">
-          <div className="flex flex-col gap-1">
-            <span className="text-[#a1824a] font-label text-[9px] tracking-[0.4em] uppercase font-bold">The Catalog</span>
-            <h1 className="font-headline text-4xl font-bold uppercase tracking-tight">Ready Made</h1>
+        <div className="flex flex-col gap-4 mb-8 px-2">
+          <div className="flex justify-between items-end">
+            <div className="flex flex-col gap-1">
+              <span className="text-[#a1824a] font-label text-[9px] tracking-[0.4em] uppercase font-bold">The Catalog</span>
+              <h1 className="font-headline text-3xl md:text-4xl font-bold uppercase tracking-tight">Ready Made</h1>
+            </div>
           </div>
           
-          <div className="flex gap-2 overflow-x-auto pb-4 md:pb-0 scrollbar-none">
+          <div className="flex gap-2 overflow-x-auto pb-3 scrollbar-none -mx-4 px-4">
             {marketplaceCategories.map(cat => (
               <button 
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all border ${selectedCategory === cat ? 'bg-black text-white border-black shadow-lg shadow-black/10' : 'bg-white text-black/40 border-black/5 hover:border-black/20'}`}
+                className={`flex-shrink-0 px-4 md:px-6 py-2 md:py-2.5 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-all border ${selectedCategory === cat ? 'bg-black text-white border-black shadow-lg shadow-black/10' : 'bg-white text-black/40 border-black/5 hover:border-black/20'}`}
               >
                 {cat}
               </button>
@@ -255,7 +257,7 @@ function HomePageContent() {
                     className="bg-[#faf9f6] border-b border-black/10 py-3 font-body text-base focus:outline-none focus:border-black transition-colors"
                   >
                     <option value="" disabled>Select Category</option>
-                    {['Dressing room', 'Master bedroom', 'Kids room', 'Dinning room with buffet and 6 chairs', 'Dinning room with buffet and 8 chairs', 'Sofas', 'Sofas tables', 'Side tabels', 'Doors', 'Cladding', 'Kitchen'].map((cat) => (
+                    {['Living room', 'Dressing room', 'Master bedroom', 'Kids room', 'Dinning room with buffet and 6 chairs', 'Dinning room with buffet and 8 chairs', 'Sofas', 'Sofas tables', 'Side tabels', 'Doors', 'Cladding', 'Kitchen'].map((cat) => (
                       <option key={cat} value={cat}>{cat}</option>
                     ))}
                   </select>

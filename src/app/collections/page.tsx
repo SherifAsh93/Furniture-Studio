@@ -5,6 +5,15 @@ export default function CollectionsPage() {
   const collections = [
     {
       id: 1,
+      category: "Living room",
+      title: "The Atelier Lounge",
+      subtitle: "Curated Comfort",
+      description: "A masterclass in layered living. Bespoke upholstery, aged brass accents, and natural stone surfaces converge to create a space that breathes with warmth and architectural intent.",
+      icon: "lounge",
+      image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1000&auto=format&fit=crop"
+    },
+    {
+      id: 2,
       category: "Dressing room",
       title: "The Obsidian Series",
       subtitle: "Material Alchemy",
@@ -13,7 +22,7 @@ export default function CollectionsPage() {
       image: "https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?q=80&w=1000&auto=format&fit=crop"
     },
     {
-      id: 2,
+      id: 3,
       category: "Master bedroom",
       title: "The Nocturne Suite",
       subtitle: "Intimate Geometry",
@@ -22,7 +31,7 @@ export default function CollectionsPage() {
       image: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?q=80&w=1000&auto=format&fit=crop"
     },
     {
-      id: 3,
+      id: 4,
       category: "Sofas",
       title: "Alabaster Halls",
       subtitle: "Light & Proportion",
