@@ -29,7 +29,7 @@ function HomePageContent() {
   
   // Marketplace Filter State
   const [selectedCategory, setSelectedCategory] = useState('ALL');
-  const marketplaceCategories = ['ALL', 'Dressing room', 'Master bedroom', 'Kids room', 'Dinning room with buffet and 6 or 8 chairs', 'Sofas', 'Sofas tables', 'Side tabels', 'Doors', 'Cladding', 'Kitchen'];
+  const marketplaceCategories = ['ALL', 'Dressing room', 'Master bedroom', 'Kids room', 'Dinning room with buffet and 6 chairs', 'Dinning room with buffet and 8 chairs', 'Sofas', 'Sofas tables', 'Side tabels', 'Doors', 'Cladding', 'Kitchen'];
 
   React.useEffect(() => {
     const cat = searchParams.get('category');
@@ -255,7 +255,7 @@ function HomePageContent() {
                     className="bg-[#faf9f6] border-b border-black/10 py-3 font-body text-base focus:outline-none focus:border-black transition-colors"
                   >
                     <option value="" disabled>Select Category</option>
-                    {['Dressing room', 'Master bedroom', 'Kids room', 'Dinning room with buffet and 6 or 8 chairs', 'Sofas', 'Sofas tables', 'Side tabels', 'Doors', 'Cladding', 'Kitchen'].map((cat) => (
+                    {['Dressing room', 'Master bedroom', 'Kids room', 'Dinning room with buffet and 6 chairs', 'Dinning room with buffet and 8 chairs', 'Sofas', 'Sofas tables', 'Side tabels', 'Doors', 'Cladding', 'Kitchen'].map((cat) => (
                       <option key={cat} value={cat}>{cat}</option>
                     ))}
                   </select>
